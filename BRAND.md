@@ -27,7 +27,7 @@ This is the identity for my personal portfolio and anything else that carries my
 - **Density against emptiness.** Packed rows of small uppercase labels and repeated upright print strips beside open fields of ground.
 - **Extreme scale contrast.** A huge headline next to 13px labels, anchored by clean rules.
 - **Hard edges.** Square corners (`radius-0`), solid 2–3px frames, boxed labels, hard offset shadows with no blur.
-- **Printed precision & subtle photocopy wear.** Crop marks, registration swatches, restrained photocopy lid shadow on Paper edges, and one subtle off-register `second-ink` ghost on the lead headline (or clean zero-effect H1 via `.pb-h1--clean`).
+- **Printed precision & subtle photocopy wear.** Crop marks, registration swatches, restrained photocopy lid shadow on Paper edges, one subtle off-register `second-ink` ghost on the lead headline (Variant A), and a flat `.pb-plate-tag` on hardware terminal cases (no embossed notched `.pb-dymo` plate on terminals).
 - **Crisp hardware terminal.** Framed screen panels with typed mono text, blinking block cursor, tabular readouts, subtle static scanlines, and light inner vignette — sharp and legible, never blurred or flickering.
 - **Aligned editorial grid.** Straight index cards (`pb-card`) with `Fig.` numbers and crop-mark corners.
 

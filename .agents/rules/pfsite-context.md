@@ -14,7 +14,7 @@ trigger: always_on
 - **Locked Design Language ("Two Clean Worlds"):**
   - Printed zine/dossier for the page + crisp hardware terminal strictly inside framed screen panels.
   - **Retired:** Do NOT use sci-fi glitch (`pb-glitch`), character scramble (`data-decode`), ransom-note cut-up (`data-cutup`), giant stray type (`pb-stray`), oscilloscope trace (`pb-trace`), upside-down band words (`is-flip`), crooked Dymo letter jitter, masking tape (`pb-tape`), torn edges (`pb-torn`), staggered/tilted cards, CRT sync-tear/flicker/rolling bar/burn-in/chromatic blur, halftone dots, or fake screws/rivets.
-  - **Typography:** Keep Bahnschrift and Cascadia Mono crisp and straight. Only the lead H1 carries at most one subtle `second-ink` print ghost (`.pb-h1--clean` omits it).
+  - **Typography:** Keep Bahnschrift and Cascadia Mono crisp and straight. Locked choice: Variant A lead `pb-h1` (subtle `second-ink` print ghost) paired with flat `.pb-plate-tag` on hardware terminal cases (no embossed notched `.pb-dymo` plate on terminals).
   - **Motion:** Photocopy & stamp physics — stepped printer-feed reveals (`pb-feed`), crisp 1–2 frame hard-snap hover states (`steps(2, end)` / instant stamp shift, two-plate print registration snap on figure wells), static upright print bands (`.pb-band`), and typed terminal lines / blinking cursor inside crisp hardware panels. Respect `prefers-reduced-motion`.
   - **Chrome:** Sticky `.pb-toolbar` with cleanly framed `Karaya` wordmark (never clipped/bleeding); bottom-left `.pb-console` collapsed by default.
 - **Hard Content & Privacy Rules:**
