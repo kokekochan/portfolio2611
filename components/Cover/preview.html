@@ -1,0 +1,35 @@
+<!-- @dsCard height=320 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css"><script src="../bundle.js"></script><meta charset="utf-8"><title>Cover</title>
+<style>
+  html, body { margin: 0; }
+  body { width: 960px; height: 320px; position: relative; overflow: hidden; background: var(--ground); font-family: var(--font-sans); }
+  svg { position: absolute; left: 0; top: 0; }
+  .signal { fill: var(--signal); }
+  .ghost { fill: var(--second-ink); }
+  .text { fill: var(--text); }
+  .rule { fill: var(--rule); }
+  .cut { fill: var(--ground); }
+  .tile { rx: var(--radius-0); }
+  .name { position: absolute; left: 40px; top: 152px; margin: 0; font-size: 64px; line-height: .95; font-weight: 700; color: var(--text); }
+  .tagline { position: absolute; left: 40px; top: 284px; margin: 0; font-size: 14px; color: var(--text-muted); max-width: 440px; }
+</style></head>
+<body>
+<!--
+  blocks: signal 448x112 (7 x space-6), text 256x112 (4 x space-6), rule 256x112 (4 x space-6, bleeds off the right edge), second-ink 448x8 offset by space-2 under signal.
+  arrangement: a strip of unequal bands across the top (top-band skeleton; the name is too wide for the 440px zone at 64px).
+  pattern: 40 character cells (10x16, pitch space-4) cut in ground out of the text block, rows of unequal length ending in one signal block cursor - "precise, technical, mono, a grid" row, because the screens in this brand are live terminals.
+  scales: space-2, space-4, space-6; radius-0 on every block.
+-->
+<svg width="960" height="120" viewBox="0 0 960 120" aria-hidden="true">
+  <rect class="ghost tile" x="8" y="8" width="448" height="112"/>
+  <rect class="signal tile" x="0" y="0" width="448" height="112"/>
+  <rect class="text tile" x="448" y="0" width="256" height="112"/>
+  <rect class="rule tile" x="704" y="0" width="256" height="112"/>
+  <rect class="cut tile" x="460" y="12" width="10" height="16"/><rect class="cut tile" x="484" y="12" width="10" height="16"/><rect class="cut tile" x="508" y="12" width="10" height="16"/><rect class="cut tile" x="532" y="12" width="10" height="16"/><rect class="cut tile" x="556" y="12" width="10" height="16"/><rect class="cut tile" x="580" y="12" width="10" height="16"/><rect class="cut tile" x="604" y="12" width="10" height="16"/><rect class="cut tile" x="628" y="12" width="10" height="16"/><rect class="cut tile" x="652" y="12" width="10" height="16"/><rect class="cut tile" x="676" y="12" width="10" height="16"/><rect class="cut tile" x="460" y="36" width="10" height="16"/><rect class="cut tile" x="484" y="36" width="10" height="16"/><rect class="cut tile" x="508" y="36" width="10" height="16"/><rect class="cut tile" x="532" y="36" width="10" height="16"/><rect class="cut tile" x="556" y="36" width="10" height="16"/><rect class="cut tile" x="580" y="36" width="10" height="16"/><rect class="cut tile" x="604" y="36" width="10" height="16"/><rect class="cut tile" x="460" y="60" width="10" height="16"/><rect class="cut tile" x="484" y="60" width="10" height="16"/><rect class="cut tile" x="508" y="60" width="10" height="16"/><rect class="cut tile" x="532" y="60" width="10" height="16"/><rect class="cut tile" x="556" y="60" width="10" height="16"/><rect class="cut tile" x="580" y="60" width="10" height="16"/><rect class="cut tile" x="604" y="60" width="10" height="16"/><rect class="cut tile" x="628" y="60" width="10" height="16"/><rect class="cut tile" x="652" y="60" width="10" height="16"/><rect class="cut tile" x="460" y="84" width="10" height="16"/><rect class="cut tile" x="484" y="84" width="10" height="16"/><rect class="cut tile" x="508" y="84" width="10" height="16"/><rect class="cut tile" x="532" y="84" width="10" height="16"/><rect class="signal tile" x="556" y="84" width="10" height="16"/>
+</svg>
+<h1 class="name">Personal Brand<br>Design System</h1>
+<p class="tagline">Printed matter and live screens, held in line by industrial type.</p>
+</body>
+</html>

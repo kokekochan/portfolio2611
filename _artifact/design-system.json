@@ -1,0 +1,25 @@
+{
+  "v": 3,
+  "layout": "files",
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-24T18:41:50Z"
+  },
+  "title": "Personal Brand Design System",
+  "namespace": "PB",
+  "libraries": [],
+  "sections": {},
+  "groups": [],
+  "assetGroups": {},
+  "blobs": {},
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
+  "lastChange": {
+    "by": "Juno Henseler",
+    "at": "2026-11-25T00:45:00Z",
+    "via": "Claude Code",
+    "note": "Name shown twice per page at most; screws removed; Dada layer: Cutup headings, Stray type, flipped band words."
+  }
+}

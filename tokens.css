@@ -1,0 +1,59 @@
+/* Generated from tokens.json by tools/build_tokens.py. Do not edit by hand. */
+:root, [data-theme="ink"] {
+  --ground: #0d0c0b;
+  --panel: #181513;
+  --text: #ece6da;
+  --text-muted: #9b948a;
+  --rule: #3a3530;
+  --frame: var(--text);
+  --signal: #ff1f2d;
+  --on-signal: #0d0c0b;
+  --second-ink: #522981;
+  --swatch-yellow: #e8b923;
+  --swatch-magenta: #d1297a;
+  --phosphor: rgba(255, 31, 45, 0.62);
+  --scan: rgba(0, 0, 0, 0.42);
+  --trace-grid: #2a2522;
+  --tape: rgba(214, 204, 168, 0.78);
+  --redact: #050505;
+  --shadow-window: 8px 8px 0 #ff1f2d;
+  --shadow-tag: 4px 4px 0 #ece6da;
+  --shadow-sticker: 3px 3px 0 #0d0c0b;
+}
+[data-theme="paper"] {
+  --ground: #ece4d3;
+  --panel: #e2d8c3;
+  --text: #1a1714;
+  --text-muted: #5e574e;
+  --rule: #b9ae99;
+  --signal: #b8001f;
+  --on-signal: #ece4d3;
+  --phosphor: rgba(184, 0, 31, 0.30);
+  --scan: rgba(26, 23, 20, 0.12);
+  --trace-grid: #cfc4ae;
+  --tape: rgba(196, 186, 150, 0.70);
+  --redact: #141210;
+  --shadow-window: 8px 8px 0 #b8001f;
+  --shadow-tag: 4px 4px 0 #1a1714;
+  --shadow-sticker: 3px 3px 0 #1a1714;
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 64px;
+  --space-7: 112px;
+  --radius-0: 0;
+  --stroke-hair: 1px;
+  --stroke-frame: 2px;
+  --stroke-heavy: 3px;
+  --stroke-art: 6px;
+  --tilt-tag: -2deg;
+  --tilt-sticker: 3deg;
+  --tilt-band: -1.6deg;
+  --tilt-band-alt: 1.2deg;
+  --font-sans: "Bahnschrift", "DIN Alternate", "D-DIN", "Barlow", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "Cascadia Code", Consolas, "IBM Plex Mono", ui-monospace, monospace;
+}
