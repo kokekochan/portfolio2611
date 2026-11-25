@@ -11,6 +11,32 @@
 .pb-page :focus-visible { outline: var(--stroke-frame) solid var(--signal); outline-offset: 3px; }
 [data-theme] { background: var(--ground); color: var(--text); }
 
+/* Section color coding (contrast-checked >= 4.5:1 on Ink and Paper) */
+[data-accent="emerald"] {
+  --signal: #10d48e;
+  --on-signal: #0d0c0b;
+  --phosphor: rgba(16, 212, 142, 0.55);
+  --shadow-window: 8px 8px 0 #10d48e;
+}
+[data-accent="cyan"] {
+  --signal: #38bdf8;
+  --on-signal: #0d0c0b;
+  --phosphor: rgba(56, 189, 248, 0.55);
+  --shadow-window: 8px 8px 0 #38bdf8;
+}
+[data-accent="paper-red"] {
+  --signal: #b8001f;
+  --on-signal: #ece4d3;
+  --phosphor: rgba(184, 0, 31, 0.30);
+  --shadow-window: 8px 8px 0 #b8001f;
+}
+[data-accent="red"] {
+  --signal: #ff1f2d;
+  --on-signal: #0d0c0b;
+  --phosphor: rgba(255, 31, 45, 0.62);
+  --shadow-window: 8px 8px 0 #ff1f2d;
+}
+
 /* Type helpers (sizes come from the type-style classes) */
 .pb-label { font-size: 13px; line-height: 18px; letter-spacing: .16em; text-transform: uppercase; font-weight: 400; color: var(--text-muted); }
 .pb-h1 { margin: 0; font-weight: 700; text-transform: uppercase; line-height: .98; letter-spacing: .005em; text-wrap: balance;
@@ -292,6 +318,11 @@
 .pb-toolbar .pb-tabs a, .pb-toolbar .pb-btn { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
   border: var(--stroke-frame) solid var(--ground); padding: 7px 12px 6px; color: var(--ground); background: transparent; cursor: pointer; min-height: 36px; display: inline-flex; align-items: center; }
 .pb-toolbar .pb-tabs a[aria-current], .pb-toolbar .pb-tabs a:hover { background: var(--ground); color: var(--frame); }
+.pb-toolbar .pb-tabs a[data-tab-accent]::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 7px; background: var(--tab-dot, var(--signal)); }
+.pb-toolbar .pb-tabs a[data-tab-accent="emerald"] { --tab-dot: #10d48e; }
+.pb-toolbar .pb-tabs a[data-tab-accent="paper-red"] { --tab-dot: #b8001f; }
+.pb-toolbar .pb-tabs a[data-tab-accent="cyan"] { --tab-dot: #38bdf8; }
+.pb-toolbar .pb-tabs a[data-tab-accent="red"] { --tab-dot: #ff1f2d; }
 .pb-toolbar .pb-btn--go { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
 .pb-toolbar .pb-btn--go:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ground); color: var(--on-signal); }
 .pb-toolbar .pb-btn--go:active { transform: translate(1px, 1px); box-shadow: none; }

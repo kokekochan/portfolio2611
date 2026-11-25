@@ -19,7 +19,16 @@
     .sheet-pad { padding-block: clamp(52px, 7.5vw, 104px); }
     .sheet-lead { padding-block: clamp(44px, 6vw, 80px) clamp(52px, 7.5vw, 104px); }
     .dossier-stack { display: grid; gap: var(--space-5); }
-    .lead-head { display: grid; gap: var(--space-3); }
+    .lead-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, auto);
+      gap: clamp(20px, 3vw, 48px);
+      align-items: end;
+      border-bottom: var(--stroke-frame) solid var(--signal);
+    }
+    .lead-head { display: grid; gap: var(--space-3); padding-bottom: var(--space-4); }
+    .lead-mascot { margin: 0; justify-self: end; align-self: end; }
+    .lead-mascot img { display: block; width: clamp(170px, 22vw, 270px); height: auto; }
     .wide { aspect-ratio: 16 / 10; width: 100%; }
     .shot { margin: 0; display: grid; gap: var(--space-3); }
     .shot figcaption { max-width: 70ch; font-size: 15px; line-height: 22px; color: var(--text-muted); }
@@ -51,18 +60,21 @@
     }
     @media (max-width: 760px) {
       .pb-page { font-size: 16px; }
+      .lead-grid { grid-template-columns: minmax(0, 1fr); }
+      .lead-mascot { justify-self: start; }
+      .lead-mascot img { width: clamp(150px, 46vw, 220px); }
       .about { grid-template-columns: minmax(0, 1fr); }
     }
   </style>
 </head>
 <body class="pb-page">
-  <header class="pb-toolbar">
+  <header class="pb-toolbar" data-accent="emerald">
     <a class="pb-wordmark" href="#scheda">Karaya</a>
     <nav class="pb-tabs" aria-label="Bereiche">
-      <a href="#scheda" aria-current="page">Scheda</a>
-      <a href="#garden">Garden of Despair</a>
-      <a href="#reverse">Reverse Engineering</a>
-      <a href="#about">Über</a>
+      <a href="#scheda" data-tab-accent="emerald" aria-current="page">Scheda</a>
+      <a href="#garden" data-tab-accent="paper-red">Garden of Despair</a>
+      <a href="#reverse" data-tab-accent="cyan">Reverse Engineering</a>
+      <a href="#about" data-tab-accent="red">Über</a>
     </nav>
     <span class="pb-tally"><span data-folio-now>01 / 03</span> · Dossiers</span>
     <a class="pb-btn pb-btn--go" href="#about">Kontakt</a>
@@ -70,13 +82,18 @@
   </header>
 
   <main>
-    <!-- ═══════════ SHEET 1: SCHEDA (INK) ═══════════ -->
-    <section class="pb-sheet pb-sheet--stack sheet-lead" id="scheda" data-log="scheda" data-folio="01 / 03" style="--sheet-z:1">
+    <!-- ═══════════ SHEET 1: SCHEDA (INK · EMERALD) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack sheet-lead" id="scheda" data-accent="emerald" data-log="scheda" data-folio="01 / 03" style="--sheet-z:1">
       <div class="wrap dossier-stack">
-        <div class="lead-head">
-          <p class="pb-label" style="margin:0">Fig. 01 · Werkzeug / Software <span class="pb-cursor" aria-hidden="true"></span></p>
-          <h1 class="pb-h1">SCHEDA</h1>
-          <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was SCHEDA jemandem ermöglicht.]</span></p>
+        <div class="lead-grid">
+          <div class="lead-head">
+            <p class="pb-label" style="margin:0">Fig. 01 · Werkzeug / Software <span class="pb-cursor" aria-hidden="true"></span></p>
+            <h1 class="pb-h1">SCHEDA</h1>
+            <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was SCHEDA jemandem ermöglicht.]</span></p>
+          </div>
+          <figure class="lead-mascot">
+            <img src="assets/scheda-francesca.png" alt="Francesca, das Maskottchen von SCHEDA, mit Baskenmütze, Brille und Aktenordner" width="732" height="794">
+          </figure>
         </div>
 
         <div class="pb-case">
@@ -144,8 +161,8 @@
       </div>
     </section>
 
-    <!-- ═══════════ SHEET 2: GARDEN OF DESPAIR (PAPER) ═══════════ -->
-    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="garden" data-theme="paper" data-log="garden of despair" data-folio="02 / 03" style="--sheet-z:2">
+    <!-- ═══════════ SHEET 2: GARDEN OF DESPAIR (PAPER · RED) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="garden" data-theme="paper" data-accent="paper-red" data-log="garden of despair" data-folio="02 / 03" style="--sheet-z:2">
       <div class="pb-band" aria-hidden="true">
         <div class="pb-band__run" data-words="SCHEDA|Garden of Despair|Reverse Engineering|Dossier"></div>
       </div>
@@ -263,8 +280,8 @@
       </div>
     </section>
 
-    <!-- ═══════════ SHEET 3: REVERSE ENGINEERING (INK) ═══════════ -->
-    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="reverse" data-log="reverse engineering" data-folio="03 / 03" style="--sheet-z:3">
+    <!-- ═══════════ SHEET 3: REVERSE ENGINEERING (INK · CYAN) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="reverse" data-accent="cyan" data-log="reverse engineering" data-folio="03 / 03" style="--sheet-z:3">
       <div class="pb-band pb-band--alt" aria-hidden="true">
         <div class="pb-band__run" data-words="Analyse|Befund|Methode|Protokoll"></div>
       </div>
@@ -336,8 +353,8 @@
       </div>
     </section>
 
-    <!-- ═══════════ SHEET 4: ÜBER & FOOTER (INK) ═══════════ -->
-    <div class="pb-sheet pb-sheet--over" id="about" data-log="ueber" data-folio="ÜBER" style="--sheet-z:4">
+    <!-- ═══════════ SHEET 4: ÜBER & FOOTER (INK · RED) ═══════════ -->
+    <div class="pb-sheet pb-sheet--over" id="about" data-accent="red" data-log="ueber" data-folio="ÜBER" style="--sheet-z:4">
       <section class="wrap dossier-stack sheet-pad">
         <div class="pb-sectionhead">
           <h2 class="pb-h2">Über</h2>
@@ -384,7 +401,7 @@
     </div>
   </main>
 
-  <details class="pb-console">
+  <details class="pb-console" data-accent="emerald">
     <summary>Index · <span data-log-now>start</span></summary>
     <div class="pb-console__body">
       <ul class="pb-console__log"><li class="is-dim"><b>open</b>start</li></ul>

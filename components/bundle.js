@@ -367,6 +367,11 @@
             var code = chosen.getAttribute('data-folio');
             if (code) folio.textContent = code;
           }
+          var accent = chosen.getAttribute('data-accent');
+          if (accent) {
+            if (bar) bar.setAttribute('data-accent', accent);
+            if (consoleEl) consoleEl.setAttribute('data-accent', accent);
+          }
           var logName = chosen.getAttribute('data-log');
           if (consoleEl && consoleNow && logName && consoleNow.textContent !== logName) {
             consoleNow.textContent = logName;
