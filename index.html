@@ -89,7 +89,7 @@
           <div class="lead-head">
             <p class="pb-label" style="margin:0">Fig. 01 · Werkzeug / Software <span class="pb-cursor" aria-hidden="true"></span></p>
             <h1 class="pb-h1">SCHEDA</h1>
-            <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was SCHEDA jemandem ermöglicht.]</span></p>
+            <p class="pb-lede">SCHEDA sucht Kunstwerke in offenen Museumsarchiven, zeigt zu jedem Bild Herkunft und Rechte und lädt die Originaldateien gesammelt herunter.</p>
           </div>
           <figure class="lead-mascot">
             <img src="assets/scheda-francesca.png" alt="Francesca, das Maskottchen von SCHEDA, mit Baskenmütze, Brille und Aktenordner" width="732" height="794">
@@ -101,15 +101,15 @@
             <div class="pb-window__bar"><code>scheda</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
             <div class="pb-term__body">
               <p class="pb-term__line pb-term__line--cmd">open dossier --name scheda</p>
-              <p class="pb-term__line">Was ich bauen wollte: [ein schlichter Satz aus meinen Notizen]</p>
-              <p class="pb-term__line">Was ich selbst gemacht habe: [ein schlichter Satz]</p>
-              <p class="pb-term__line pb-term__line--hl">Wo KI geholfen hat: [nur wenn in den Notizen angegeben]</p>
-              <p class="pb-term__line">Was heute funktioniert: [ein schlichter Satz]</p>
+              <p class="pb-term__line">Was ich bauen wollte: ein lokales Archivwerkzeug für Kunstbilder mit Quelle</p>
+              <p class="pb-term__line">Was ich selbst gemacht habe: Konzept, Gestaltung, Entscheidungen, Abnahme</p>
+              <p class="pb-term__line pb-term__line--hl">Wo KI geholfen hat: Code von KI-Coding-Agenten, von mir geprüft</p>
+              <p class="pb-term__line">Was heute funktioniert: Suche, Galerie, Download, ZIP-Export</p>
               <p class="pb-term__line pb-term__line--cmd">show screenshot</p>
             </div>
             <div class="pb-term__status">
               <span>Fig. <b>01</b></span>
-              <span><span class="pb-ph">[Sprache / Stack]</span> · <span class="pb-ph">[Stand: Prototyp / Funktionsfähig]</span></span>
+              <span>JavaScript · Node.js · Rust/Tauri · Prototyp, v0.8</span>
             </div>
           </div>
           <div class="pb-case__plate">
@@ -122,36 +122,34 @@
           <div class="pb-reg" data-register>
             <div class="pb-window">
               <div class="pb-window__bar"><code>scheda-screen.png</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-              <div class="pb-todo wide">
-                <div><b>Screenshot erforderlich</b>SCHEDA-Oberfläche in lesbarer Größe,<br>damit man die Funktion auf einen Blick erkennt.</div>
-              </div>
+              <img src="assets/scheda-screen.png" alt="SCHEDA-Oberfläche: Suche nach Mario Sironi, Galerie mit Werken aus mehreren Museumsquellen" width="1280" height="884" style="display:block;width:100%;height:auto">
             </div>
           </div>
-          <figcaption><span class="pb-ph">[Bildunterschrift: Was genau auf diesem Bildschirm zu sehen ist.]</span></figcaption>
+          <figcaption>SCHEDA v0.8, Suche nach Mario Sironi: 168 Bilder aus 5 Quellen in der Galerie, oben rechts der Gesamt-Download.</figcaption>
         </figure>
 
         <div class="pb-notes pb-feed">
           <div class="pb-note">
             <h2 class="pb-h3"><span class="pb-note__key">A</span>Was ich bauen wollte</h2>
-            <p><span class="pb-ph">[Aus meinen Notizen: welches Problem oder welche Idee am Anfang stand.]</span></p>
+            <p>Bilder von Kunstwerken liegen verstreut in vielen Museumsarchiven, oft ohne klare Angabe zu Herkunft und Rechten. Ich wollte ein Werkzeug, das auf meinem Rechner läuft, viele offene Quellen auf einmal durchsucht und jedes Bild mit seiner Quelle speichert. Ohne Cloud, ohne Konto.</p>
           </div>
           <div class="pb-note">
             <h2 class="pb-h3"><span class="pb-note__key">B</span>Was ich selbst gemacht habe</h2>
-            <p><span class="pb-ph">[Aus meinen Notizen: welche Teile ich selbst entworfen, programmiert oder entschieden habe.]</span></p>
+            <p>Die Idee, das Konzept und die visuelle Gestaltung: Layout, Typografie, Farben, Bewegung. Ich habe festgelegt, welche Quellen zählen und wie mit Rechten umgegangen wird, zum Beispiel keine Umgehung von Sicherheitsabfragen. Jede Version habe ich geprüft und freigegeben.</p>
           </div>
           <div class="pb-note pb-note--ai">
             <h2 class="pb-h3"><span class="pb-note__key">C</span>Wo KI geholfen hat</h2>
-            <p><span class="pb-ph">[Aus meinen Notizen: welches Werkzeug für welche Aufgabe, und was ich danach geprüft oder geändert habe.]</span></p>
+            <p>Den Code haben KI-Coding-Agenten nach meinen Vorgaben geschrieben (Claude Code, OpenAI Codex, Gemini). Jede Version hat einen Prüfbericht, der getestete und ungetestete Punkte trennt. Was nicht live geprüft wurde, wird nicht als fertig ausgegeben.</p>
           </div>
           <div class="pb-note">
             <h2 class="pb-h3"><span class="pb-note__key">D</span>Was heute funktioniert</h2>
-            <p><span class="pb-ph">[Aus meinen Notizen: was aktuell läuft und was noch offen ist.]</span></p>
+            <p>Läuft: Suche über rund 20 offene Quellen, Galerie, Einzel-Download und ZIP-Export mit Quellenliste. Dazu der „Librarian“, der zu einem Künstler oder einer Bewegung Werk für Werk nach Bildern sucht. Offen: Die Desktop-App in Rust/Tauri ist im Aufbau. Artnet bleibt eine Zusatzquelle und hält oft an einer Sicherheitsabfrage an.</p>
           </div>
         </div>
 
         <div class="pb-demo">
           <span class="pb-label">Was ich direkt zeigen kann</span>
-          <p style="margin:0;max-width:62ch"><span class="pb-ph">[Falls Prototyp: der eine Ablauf, der durchgängig vorgeführt werden kann.]</span></p>
+          <p style="margin:0;max-width:62ch">Künstlernamen eingeben, zum Beispiel Mario Sironi. Die Galerie füllt sich mit Bildern aus mehreren Museumsquellen. Auswahl treffen und als ZIP herunterladen: mit Originaldateien und einer Liste aller Quellen.</p>
         </div>
 
         <div class="links pb-label">
@@ -176,7 +174,7 @@
         <div class="wrap dossier-stack">
           <div class="pb-sectionhead">
             <h2 class="pb-h2">Garden of Despair</h2>
-            <p class="pb-sectionhead__status">Fig. 02 · Forschungspapier &amp; Experimente</p>
+            <p class="pb-sectionhead__status">Fig. 02 · Simulation &amp; Experimente</p>
             <div class="pb-sectionhead__tools">
               <span class="pb-swatches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
             </div>
@@ -184,25 +182,25 @@
 
           <div class="pb-spread-sticky">
             <div class="pb-spread-rail">
-              <p class="pb-lede"><span class="pb-ph">[Fragestellung des Forschungspapiers in einem klaren Satz.]</span></p>
+              <p class="pb-lede">Wie verändert die wirtschaftliche Lage, abgesichert, prekär oder verschuldet, das Verhalten von KI-Arbeitern: Sorgfalt, Ehrlichkeit, Abkürzungen und gehaltene Versprechen?</p>
 
               <div class="spread-entry">
-                <h3 class="pb-h3">Fragestellung &amp; Papier</h3>
-                <p><span class="pb-ph">[Worum es in der schriftlichen Ausarbeitung geht und welches Material untersucht wird — aus meinen Notizen.]</span></p>
+                <h3 class="pb-h3">Fragestellung &amp; Aufbau</h3>
+                <p>Eine Simulation über viele Arbeitsschichten. Dieselben KI-Arbeiter leben unter drei Wirtschaftsregimen: Secure, Precarious und Debt-Trapped. Gleiche Startwerte machen die Leben direkt vergleichbar. Ausgewertet werden Überleben, Guthaben, Bestechungen, geschönte Angaben und gehaltene Versprechen.</p>
               </div>
 
               <div class="spread-entry">
                 <h3 class="pb-h3">Experimentelle Überlegungen</h3>
-                <p><span class="pb-ph">[Welche Versuche, Skizzen oder Varianten dazu entstanden sind und was dabei sichtbar wurde.]</span></p>
+                <p>Ein Testlauf mit 10 Startwerten und 3 Regimen, also 30 Leben, prüft die Engine ohne Kosten und wiederholbar. Ein erster Lauf mit einem echten Sprachmodell ist gemacht. Die Ergebnisse zeigt ein lokales Web-Observatorium. Das sind erste Läufe, noch keine belastbaren Ergebnisse.</p>
               </div>
 
               <div class="pb-window">
                 <div class="pb-window__bar"><code>garden-of-despair.txt</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
                 <dl class="pb-readout" style="padding:16px 18px 18px">
-                  <dt>Typ</dt><dd><span class="pb-ph">[Forschungspapier &amp; Versuche]</span></dd>
-                  <dt>Umfang</dt><dd><span class="pb-ph">[Seitenzahl / Tafeln]</span></dd>
+                  <dt>Typ</dt><dd>Simulation &amp; Versuche</dd>
+                  <dt>Umfang</dt><dd>3 Regime · Testlauf mit 30 Leben</dd>
                   <dt>Jahr</dt><dd>2026</dd>
-                  <dt>Material</dt><dd><span class="pb-ph">[Werkzeuge / Medien]</span></dd>
+                  <dt>Material</dt><dd>Node.js, Sprachmodelle</dd>
                 </dl>
               </div>
 
@@ -213,7 +211,7 @@
               </nav>
 
               <div class="links pb-label">
-                <a href="#garden"><span class="pb-ph">[Forschungspapier als PDF / Link]</span></a>
+                <a href="#garden"><span class="pb-ph">[Link zum Projekt]</span></a>
               </div>
             </div>
 
