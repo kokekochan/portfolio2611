@@ -16,21 +16,14 @@
       padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
       padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
     }
-    section { padding-block: clamp(52px, 7.5vw, 104px); }
-    .lead { padding-top: clamp(44px, 6vw, 80px); }
+    .sheet-pad { padding-block: clamp(52px, 7.5vw, 104px); }
+    .sheet-lead { padding-block: clamp(44px, 6vw, 80px) clamp(52px, 7.5vw, 104px); }
     .dossier-stack { display: grid; gap: var(--space-5); }
     .lead-head { display: grid; gap: var(--space-3); }
     .wide { aspect-ratio: 16 / 10; width: 100%; }
     .shot { margin: 0; display: grid; gap: var(--space-3); }
     .shot figcaption { max-width: 70ch; font-size: 15px; line-height: 22px; color: var(--text-muted); }
     .links { display: flex; flex-wrap: wrap; gap: 10px 24px; }
-    .spread {
-      display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-      gap: clamp(24px, 4vw, 56px);
-      align-items: start;
-    }
-    .spread-text { display: grid; gap: var(--space-4); min-width: 0; }
     .spread-entry {
       padding-top: var(--space-3);
       border-top: var(--stroke-hair) solid var(--rule);
@@ -48,7 +41,7 @@
     .about-text p { margin: 0; }
     .dots { border: 0; border-top: var(--stroke-heavy) dotted var(--rule); margin: 0; }
     .contact { display: grid; gap: var(--space-2); }
-    .foot { border-top: var(--stroke-heavy) solid var(--frame); }
+    .foot { border-top: var(--stroke-heavy) solid var(--frame); padding-bottom: 52px; }
     .foot .wrap {
       padding-block: 22px;
       display: flex;
@@ -58,7 +51,7 @@
     }
     @media (max-width: 760px) {
       .pb-page { font-size: 16px; }
-      .spread, .about { grid-template-columns: minmax(0, 1fr); }
+      .about { grid-template-columns: minmax(0, 1fr); }
     }
   </style>
 </head>
@@ -71,298 +64,325 @@
       <a href="#reverse">Reverse Engineering</a>
       <a href="#about">Über</a>
     </nav>
-    <span class="pb-tally">03 Dossiers</span>
+    <span class="pb-tally"><span data-folio-now>01 / 03</span> · Dossiers</span>
     <a class="pb-btn pb-btn--go" href="#about">Kontakt</a>
+    <span class="pb-toolbar__progress" aria-hidden="true"></span>
   </header>
 
   <main>
-    <!-- ═══════════ 01. SCHEDA (INK) ═══════════ -->
-    <section class="wrap lead dossier-stack" id="scheda" data-log="scheda">
-      <div class="lead-head">
-        <p class="pb-label" style="margin:0">Fig. 01 · Werkzeug / Software <span class="pb-cursor" aria-hidden="true"></span></p>
-        <h1 class="pb-h1">SCHEDA</h1>
-        <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was SCHEDA jemandem ermöglicht.]</span></p>
-      </div>
-
-      <div class="pb-case">
-        <div class="pb-window pb-term pb-crt">
-          <div class="pb-window__bar"><code>scheda</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-          <div class="pb-term__body">
-            <p class="pb-term__line pb-term__line--cmd">open dossier --name scheda</p>
-            <p class="pb-term__line">Was ich bauen wollte: [ein schlichter Satz aus meinen Notizen]</p>
-            <p class="pb-term__line">Was ich selbst gemacht habe: [ein schlichter Satz]</p>
-            <p class="pb-term__line pb-term__line--hl">Wo KI geholfen hat: [nur wenn in den Notizen angegeben]</p>
-            <p class="pb-term__line">Was heute funktioniert: [ein schlichter Satz]</p>
-            <p class="pb-term__line pb-term__line--cmd">show screenshot</p>
-          </div>
-          <div class="pb-term__status">
-            <span>Fig. <b>01</b></span>
-            <span><span class="pb-ph">[Sprache / Stack]</span> · <span class="pb-ph">[Stand: Prototyp / Funktionsfähig]</span></span>
-          </div>
-        </div>
-        <div class="pb-case__plate">
-          <span class="pb-case__vent" aria-hidden="true"></span>
-          <span class="pb-plate-tag">Fig. 01</span>
-        </div>
-      </div>
-
-      <figure class="shot pb-plate">
-        <div class="pb-window">
-          <div class="pb-window__bar"><code>scheda-screen.png</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-          <div class="pb-todo wide">
-            <div><b>Screenshot erforderlich</b>SCHEDA-Oberfläche in lesbarer Größe,<br>damit man die Funktion auf einen Blick erkennt.</div>
-          </div>
-        </div>
-        <figcaption><span class="pb-ph">[Bildunterschrift: Was genau auf diesem Bildschirm zu sehen ist.]</span></figcaption>
-      </figure>
-
-      <div class="pb-notes">
-        <div class="pb-note">
-          <h2 class="pb-h3"><span class="pb-note__key">A</span>Was ich bauen wollte</h2>
-          <p><span class="pb-ph">[Aus meinen Notizen: welches Problem oder welche Idee am Anfang stand.]</span></p>
-        </div>
-        <div class="pb-note">
-          <h2 class="pb-h3"><span class="pb-note__key">B</span>Was ich selbst gemacht habe</h2>
-          <p><span class="pb-ph">[Aus meinen Notizen: welche Teile ich selbst entworfen, programmiert oder entschieden habe.]</span></p>
-        </div>
-        <div class="pb-note pb-note--ai">
-          <h2 class="pb-h3"><span class="pb-note__key">C</span>Wo KI geholfen hat</h2>
-          <p><span class="pb-ph">[Aus meinen Notizen: welches Werkzeug für welche Aufgabe, und was ich danach geprüft oder geändert habe.]</span></p>
-        </div>
-        <div class="pb-note">
-          <h2 class="pb-h3"><span class="pb-note__key">D</span>Was heute funktioniert</h2>
-          <p><span class="pb-ph">[Aus meinen Notizen: was aktuell läuft und was noch offen ist.]</span></p>
-        </div>
-      </div>
-
-      <div class="pb-demo">
-        <span class="pb-label">Was ich direkt zeigen kann</span>
-        <p style="margin:0;max-width:62ch"><span class="pb-ph">[Falls Prototyp: der eine Ablauf, der durchgängig vorgeführt werden kann.]</span></p>
-      </div>
-
-      <div class="links pb-label">
-        <a href="#scheda"><span class="pb-ph">[Code-Link]</span></a>
-        <a href="#scheda"><span class="pb-ph">[Demo-Link, falls vorhanden]</span></a>
-      </div>
-    </section>
-
-    <div class="pb-band" aria-hidden="true">
-      <div class="pb-band__run" data-words="SCHEDA|Garden of Despair|Reverse Engineering|Dossier"></div>
-    </div>
-
-    <!-- ═══════════ 02. GARDEN OF DESPAIR (PAPER) ═══════════ -->
-    <section class="pb-print pb-xerox" id="garden" data-theme="paper" data-log="garden of despair">
-      <span class="pb-crop pb-crop--tl" aria-hidden="true"></span>
-      <span class="pb-crop pb-crop--tr" aria-hidden="true"></span>
-      <span class="pb-crop pb-crop--bl" aria-hidden="true"></span>
-      <span class="pb-crop pb-crop--br" aria-hidden="true"></span>
-
+    <!-- ═══════════ SHEET 1: SCHEDA (INK) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack sheet-lead" id="scheda" data-log="scheda" data-folio="01 / 03" style="--sheet-z:1">
       <div class="wrap dossier-stack">
+        <div class="lead-head">
+          <p class="pb-label" style="margin:0">Fig. 01 · Werkzeug / Software <span class="pb-cursor" aria-hidden="true"></span></p>
+          <h1 class="pb-h1">SCHEDA</h1>
+          <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was SCHEDA jemandem ermöglicht.]</span></p>
+        </div>
+
+        <div class="pb-case">
+          <div class="pb-window pb-term pb-crt">
+            <div class="pb-window__bar"><code>scheda</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+            <div class="pb-term__body">
+              <p class="pb-term__line pb-term__line--cmd">open dossier --name scheda</p>
+              <p class="pb-term__line">Was ich bauen wollte: [ein schlichter Satz aus meinen Notizen]</p>
+              <p class="pb-term__line">Was ich selbst gemacht habe: [ein schlichter Satz]</p>
+              <p class="pb-term__line pb-term__line--hl">Wo KI geholfen hat: [nur wenn in den Notizen angegeben]</p>
+              <p class="pb-term__line">Was heute funktioniert: [ein schlichter Satz]</p>
+              <p class="pb-term__line pb-term__line--cmd">show screenshot</p>
+            </div>
+            <div class="pb-term__status">
+              <span>Fig. <b>01</b></span>
+              <span><span class="pb-ph">[Sprache / Stack]</span> · <span class="pb-ph">[Stand: Prototyp / Funktionsfähig]</span></span>
+            </div>
+          </div>
+          <div class="pb-case__plate">
+            <span class="pb-case__vent" aria-hidden="true"></span>
+            <span class="pb-plate-tag">Fig. 01</span>
+          </div>
+        </div>
+
+        <figure class="shot pb-plate">
+          <div class="pb-reg" data-register>
+            <div class="pb-window">
+              <div class="pb-window__bar"><code>scheda-screen.png</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+              <div class="pb-todo wide">
+                <div><b>Screenshot erforderlich</b>SCHEDA-Oberfläche in lesbarer Größe,<br>damit man die Funktion auf einen Blick erkennt.</div>
+              </div>
+            </div>
+          </div>
+          <figcaption><span class="pb-ph">[Bildunterschrift: Was genau auf diesem Bildschirm zu sehen ist.]</span></figcaption>
+        </figure>
+
+        <div class="pb-notes pb-feed">
+          <div class="pb-note">
+            <h2 class="pb-h3"><span class="pb-note__key">A</span>Was ich bauen wollte</h2>
+            <p><span class="pb-ph">[Aus meinen Notizen: welches Problem oder welche Idee am Anfang stand.]</span></p>
+          </div>
+          <div class="pb-note">
+            <h2 class="pb-h3"><span class="pb-note__key">B</span>Was ich selbst gemacht habe</h2>
+            <p><span class="pb-ph">[Aus meinen Notizen: welche Teile ich selbst entworfen, programmiert oder entschieden habe.]</span></p>
+          </div>
+          <div class="pb-note pb-note--ai">
+            <h2 class="pb-h3"><span class="pb-note__key">C</span>Wo KI geholfen hat</h2>
+            <p><span class="pb-ph">[Aus meinen Notizen: welches Werkzeug für welche Aufgabe, und was ich danach geprüft oder geändert habe.]</span></p>
+          </div>
+          <div class="pb-note">
+            <h2 class="pb-h3"><span class="pb-note__key">D</span>Was heute funktioniert</h2>
+            <p><span class="pb-ph">[Aus meinen Notizen: was aktuell läuft und was noch offen ist.]</span></p>
+          </div>
+        </div>
+
+        <div class="pb-demo">
+          <span class="pb-label">Was ich direkt zeigen kann</span>
+          <p style="margin:0;max-width:62ch"><span class="pb-ph">[Falls Prototyp: der eine Ablauf, der durchgängig vorgeführt werden kann.]</span></p>
+        </div>
+
+        <div class="links pb-label">
+          <a href="#scheda"><span class="pb-ph">[Code-Link]</span></a>
+          <a href="#scheda"><span class="pb-ph">[Demo-Link, falls vorhanden]</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ SHEET 2: GARDEN OF DESPAIR (PAPER) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="garden" data-theme="paper" data-log="garden of despair" data-folio="02 / 03" style="--sheet-z:2">
+      <div class="pb-band" aria-hidden="true">
+        <div class="pb-band__run" data-words="SCHEDA|Garden of Despair|Reverse Engineering|Dossier"></div>
+      </div>
+
+      <div class="pb-print pb-xerox sheet-pad">
+        <span class="pb-crop pb-crop--tl" aria-hidden="true"></span>
+        <span class="pb-crop pb-crop--tr" aria-hidden="true"></span>
+        <span class="pb-crop pb-crop--bl" aria-hidden="true"></span>
+        <span class="pb-crop pb-crop--br" aria-hidden="true"></span>
+
+        <div class="wrap dossier-stack">
+          <div class="pb-sectionhead">
+            <h2 class="pb-h2">Garden of Despair</h2>
+            <p class="pb-sectionhead__status">Fig. 02 · Forschungspapier &amp; Experimente</p>
+            <div class="pb-sectionhead__tools">
+              <span class="pb-swatches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </div>
+          </div>
+
+          <div class="pb-spread-sticky">
+            <div class="pb-spread-rail">
+              <p class="pb-lede"><span class="pb-ph">[Fragestellung des Forschungspapiers in einem klaren Satz.]</span></p>
+
+              <div class="spread-entry">
+                <h3 class="pb-h3">Fragestellung &amp; Papier</h3>
+                <p><span class="pb-ph">[Worum es in der schriftlichen Ausarbeitung geht und welches Material untersucht wird — aus meinen Notizen.]</span></p>
+              </div>
+
+              <div class="spread-entry">
+                <h3 class="pb-h3">Experimentelle Überlegungen</h3>
+                <p><span class="pb-ph">[Welche Versuche, Skizzen oder Varianten dazu entstanden sind und was dabei sichtbar wurde.]</span></p>
+              </div>
+
+              <div class="pb-window">
+                <div class="pb-window__bar"><code>garden-of-despair.txt</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+                <dl class="pb-readout" style="padding:16px 18px 18px">
+                  <dt>Typ</dt><dd><span class="pb-ph">[Forschungspapier &amp; Versuche]</span></dd>
+                  <dt>Umfang</dt><dd><span class="pb-ph">[Seitenzahl / Tafeln]</span></dd>
+                  <dt>Jahr</dt><dd><span class="pb-ph">[Jahr]</span></dd>
+                  <dt>Material</dt><dd><span class="pb-ph">[Werkzeuge / Medien]</span></dd>
+                </dl>
+              </div>
+
+              <nav class="pb-fig-index" aria-label="Tafeln">
+                <a href="#fig-02-1" data-fig-link="02.1" class="is-active" aria-current="true">Fig. 02.1</a>
+                <a href="#fig-02-2" data-fig-link="02.2">Fig. 02.2</a>
+                <a href="#fig-02-3" data-fig-link="02.3">Fig. 02.3</a>
+              </nav>
+
+              <div class="links pb-label">
+                <a href="#garden"><span class="pb-ph">[Forschungspapier als PDF / Link]</span></a>
+              </div>
+            </div>
+
+            <div class="pb-spread-plates pb-feed">
+              <div class="pb-reg" data-register>
+                <article class="pb-card is-selected" id="fig-02-1" data-fig="02.1">
+                  <div class="pb-card__top">
+                    <span class="pb-fig">Fig. 02.1</span>
+                    <div class="pb-card__actions">
+                      <button class="pb-iconbtn" type="button" aria-label="Tafel 02.1 öffnen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></button>
+                    </div>
+                  </div>
+                  <div class="pb-card__well">
+                    <div class="pb-todo" style="aspect-ratio:3/4"><div><b>Tafel / Bild nötig</b>Unbeschnitten</div></div>
+                  </div>
+                  <div class="pb-card__note">
+                    <h3 class="pb-card__name"><span class="pb-ph">[Titel Tafel 1]</span></h3>
+                    <p class="pb-card__sub"><span class="pb-ph">[Medium]</span> · <span class="pb-ph">[Jahr]</span></p>
+                    <p class="pb-card__tech"><span class="pb-ph">[Ein Satz: wie es gemacht wurde.]</span></p>
+                  </div>
+                </article>
+              </div>
+
+              <div class="pb-reg" data-register>
+                <article class="pb-card" id="fig-02-2" data-fig="02.2">
+                  <div class="pb-card__top">
+                    <span class="pb-fig">Fig. 02.2</span>
+                    <div class="pb-card__actions">
+                      <button class="pb-iconbtn" type="button" aria-label="Tafel 02.2 öffnen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></button>
+                    </div>
+                  </div>
+                  <div class="pb-card__well">
+                    <div class="pb-todo" style="aspect-ratio:4/3"><div><b>Tafel / Bild nötig</b>Unbeschnitten</div></div>
+                  </div>
+                  <div class="pb-card__note">
+                    <h3 class="pb-card__name"><span class="pb-ph">[Titel Tafel 2]</span></h3>
+                    <p class="pb-card__sub"><span class="pb-ph">[Medium]</span> · <span class="pb-ph">[Jahr]</span></p>
+                    <p class="pb-card__tech"><span class="pb-ph">[Ein Satz: wie es gemacht wurde.]</span></p>
+                  </div>
+                </article>
+              </div>
+
+              <div class="pb-reg" data-register>
+                <article class="pb-card" id="fig-02-3" data-fig="02.3">
+                  <div class="pb-card__top">
+                    <span class="pb-fig">Fig. 02.3</span>
+                    <div class="pb-card__actions">
+                      <button class="pb-iconbtn" type="button" aria-label="Tafel 02.3 öffnen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></button>
+                    </div>
+                  </div>
+                  <div class="pb-card__well">
+                    <div class="pb-todo" style="aspect-ratio:1/1"><div><b>Tafel / Bild nötig</b>Unbeschnitten</div></div>
+                  </div>
+                  <div class="pb-card__note">
+                    <h3 class="pb-card__name"><span class="pb-ph">[Titel Tafel 3]</span></h3>
+                    <p class="pb-card__sub"><span class="pb-ph">[Medium]</span> · <span class="pb-ph">[Jahr]</span></p>
+                    <p class="pb-card__tech"><span class="pb-ph">[Ein Satz: wie es gemacht wurde.]</span></p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ SHEET 3: REVERSE ENGINEERING (INK) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="reverse" data-log="reverse engineering" data-folio="03 / 03" style="--sheet-z:3">
+      <div class="pb-band pb-band--alt" aria-hidden="true">
+        <div class="pb-band__run" data-words="Analyse|Befund|Methode|Protokoll"></div>
+      </div>
+
+      <div class="wrap dossier-stack sheet-pad">
         <div class="pb-sectionhead">
-          <h2 class="pb-h2">Garden of Despair</h2>
-          <p class="pb-sectionhead__status">Fig. 02 · Forschungspapier &amp; Experimente</p>
+          <h2 class="pb-h2"><span class="pb-ph">[Reverse-Engineering-Projekt]</span></h2>
+          <p class="pb-sectionhead__status">Fig. 03 · Analyse / Zerlegung</p>
+        </div>
+
+        <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was untersucht wurde und welches Ergebnis die Analyse liefert.]</span></p>
+
+        <div class="pb-window pb-crt" style="max-width:640px">
+          <div class="pb-window__bar"><code>reverse-spec</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+          <dl class="pb-readout" style="padding:18px 20px 20px">
+            <dt>Zielsystem</dt><dd><span class="pb-ph">[Dateiformat / Programm / Hardware]</span></dd>
+            <dt>Methode</dt><dd><span class="pb-ph">[Vorgehen]</span></dd>
+            <dt>Werkzeuge</dt><dd><span class="pb-ph">[eingesetzte Tools]</span></dd>
+            <dt>Stand</dt><dd class="is-hl"><span class="pb-ph">[dokumentiert / reproduzierbar]</span></dd>
+          </dl>
+        </div>
+
+        <div class="pb-pair" aria-label="Ausgangsmaterial und Befund">
+          <figure class="pb-plate">
+            <span class="pb-label">Ausgangsmaterial</span>
+            <div class="pb-reg" data-register>
+              <div class="pb-window">
+                <div class="pb-window__bar"><code>input</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+                <div class="pb-todo" style="aspect-ratio:4/3"><div><b>Beleg nötig</b>Untersuchte Datei oder Ausgangszustand</div></div>
+              </div>
+            </div>
+            <figcaption><span class="pb-ph">[Was am Anfang vorlag.]</span></figcaption>
+          </figure>
+          <span class="pb-pair__arrow" aria-hidden="true">→</span>
+          <figure class="pb-plate">
+            <span class="pb-label">Befund / Ergebnis</span>
+            <div class="pb-reg" data-register>
+              <div class="pb-window">
+                <div class="pb-window__bar"><code>output</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+                <div class="pb-todo" style="aspect-ratio:4/3"><div><b>Befund nötig</b>Struktur, Schema oder Nachbau</div></div>
+              </div>
+            </div>
+            <figcaption><span class="pb-ph">[Was die Zerlegung gezeigt hat.]</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="pb-notes pb-feed">
+          <div class="pb-note">
+            <h3 class="pb-h3"><span class="pb-note__key">A</span>Was ich bauen wollte</h3>
+            <p><span class="pb-ph">[Aus meinen Notizen: welche Frage oder Aufgabe die Analyse ausgelöst hat.]</span></p>
+          </div>
+          <div class="pb-note">
+            <h3 class="pb-h3"><span class="pb-note__key">B</span>Was ich selbst gemacht habe</h3>
+            <p><span class="pb-ph">[Aus meinen Notizen: welche Schritte ich selbst untersucht, dokumentiert oder nachgebaut habe.]</span></p>
+          </div>
+          <div class="pb-note pb-note--ai">
+            <h3 class="pb-h3"><span class="pb-note__key">C</span>Wo KI geholfen hat</h3>
+            <p><span class="pb-ph">[Nur ausfüllen, wenn KI laut Notizen genutzt wurde; sonst weglassen.]</span></p>
+          </div>
+          <div class="pb-note">
+            <h3 class="pb-h3"><span class="pb-note__key">D</span>Was heute funktioniert</h3>
+            <p><span class="pb-ph">[Aus meinen Notizen: was sicher belegt ist und welche Punkte noch offen sind.]</span></p>
+          </div>
+        </div>
+
+        <div class="links pb-label">
+          <a href="#reverse"><span class="pb-ph">[Dokumentation / Code-Link]</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ SHEET 4: ÜBER & FOOTER (INK) ═══════════ -->
+    <div class="pb-sheet pb-sheet--over" id="about" data-log="ueber" data-folio="ÜBER" style="--sheet-z:4">
+      <section class="wrap dossier-stack sheet-pad">
+        <div class="pb-sectionhead">
+          <h2 class="pb-h2">Über</h2>
           <div class="pb-sectionhead__tools">
-            <span class="pb-swatches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            <span class="pb-relabel">
+              <span class="pb-redact" style="--len:10" aria-hidden="true"></span>
+              <span class="pb-dymo">Karaya</span>
+            </span>
           </div>
         </div>
 
-        <div class="spread">
-          <div class="spread-text">
-            <p class="pb-lede"><span class="pb-ph">[Fragestellung des Forschungspapiers in einem klaren Satz.]</span></p>
+        <div class="about">
+          <div class="pb-mark" data-seed="Karaya" aria-hidden="true"></div>
+          <div class="about-text">
+            <p class="pb-lede"><span class="pb-ph">[Zwei bis drei schlichte Sätze über mich und meine Arbeitsweise.]</span></p>
 
-            <div class="spread-entry">
-              <h3 class="pb-h3">Fragestellung &amp; Papier</h3>
-              <p><span class="pb-ph">[Worum es in der schriftlichen Ausarbeitung geht und welches Material untersucht wird — aus meinen Notizen.]</span></p>
+            <div class="pb-window pb-crt" style="max-width:440px">
+              <div class="pb-window__bar"><code>status</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+              <dl class="pb-readout" style="padding:16px 18px 18px">
+                <dt>Standort</dt><dd><span class="pb-ph">[Stadt]</span></dd>
+                <dt>Werkzeuge</dt><dd><span class="pb-ph">[Werkzeuge]</span></dd>
+                <dt>Ortszeit</dt><dd data-clock>--:--:--</dd>
+              </dl>
             </div>
 
-            <div class="spread-entry">
-              <h3 class="pb-h3">Experimentelle Überlegungen</h3>
-              <p><span class="pb-ph">[Welche Versuche, Skizzen oder Varianten dazu entstanden sind und was dabei sichtbar wurde.]</span></p>
-            </div>
+            <hr class="dots">
 
-            <div class="links pb-label">
-              <a href="#garden"><span class="pb-ph">[Forschungspapier als PDF / Link]</span></a>
+            <div class="contact">
+              <span class="pb-label">Kontakt &amp; Links</span>
+              <span><span class="pb-ph">[E-Mail-Adresse]</span></span>
+              <span><span class="pb-ph">[GitHub oder Code-Link]</span></span>
+              <span><span class="pb-ph">[Weiterer öffentlicher Link]</span></span>
             </div>
           </div>
-
-          <div class="pb-window">
-            <div class="pb-window__bar"><code>garden-of-despair.txt</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-            <dl class="pb-readout" style="padding:18px 20px 20px">
-              <dt>Typ</dt><dd><span class="pb-ph">[Forschungspapier &amp; Versuche]</span></dd>
-              <dt>Umfang</dt><dd><span class="pb-ph">[Seitenzahl / Tafeln]</span></dd>
-              <dt>Jahr</dt><dd><span class="pb-ph">[Jahr]</span></dd>
-              <dt>Material</dt><dd><span class="pb-ph">[Werkzeuge / Medien]</span></dd>
-            </dl>
-          </div>
         </div>
+      </section>
 
-        <div class="pb-catalogue pb-feed">
-          <article class="pb-card">
-            <div class="pb-card__top">
-              <span class="pb-fig">Fig. 02.1</span>
-              <div class="pb-card__actions">
-                <button class="pb-iconbtn" type="button" aria-label="Tafel 02.1 öffnen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></button>
-              </div>
-            </div>
-            <div class="pb-card__well">
-              <div class="pb-todo" style="aspect-ratio:3/4"><div><b>Tafel / Bild nötig</b>Unbeschnitten</div></div>
-            </div>
-            <div class="pb-card__note">
-              <h3 class="pb-card__name"><span class="pb-ph">[Titel Tafel 1]</span></h3>
-              <p class="pb-card__sub"><span class="pb-ph">[Medium]</span> · <span class="pb-ph">[Jahr]</span></p>
-              <p class="pb-card__tech"><span class="pb-ph">[Ein Satz: wie es gemacht wurde.]</span></p>
-            </div>
-          </article>
-
-          <article class="pb-card">
-            <div class="pb-card__top">
-              <span class="pb-fig">Fig. 02.2</span>
-              <div class="pb-card__actions">
-                <button class="pb-iconbtn" type="button" aria-label="Tafel 02.2 öffnen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></button>
-              </div>
-            </div>
-            <div class="pb-card__well">
-              <div class="pb-todo" style="aspect-ratio:4/3"><div><b>Tafel / Bild nötig</b>Unbeschnitten</div></div>
-            </div>
-            <div class="pb-card__note">
-              <h3 class="pb-card__name"><span class="pb-ph">[Titel Tafel 2]</span></h3>
-              <p class="pb-card__sub"><span class="pb-ph">[Medium]</span> · <span class="pb-ph">[Jahr]</span></p>
-              <p class="pb-card__tech"><span class="pb-ph">[Ein Satz: wie es gemacht wurde.]</span></p>
-            </div>
-          </article>
-
-          <article class="pb-card">
-            <div class="pb-card__top">
-              <span class="pb-fig">Fig. 02.3</span>
-              <div class="pb-card__actions">
-                <button class="pb-iconbtn" type="button" aria-label="Tafel 02.3 öffnen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></button>
-              </div>
-            </div>
-            <div class="pb-card__well">
-              <div class="pb-todo" style="aspect-ratio:1/1"><div><b>Tafel / Bild nötig</b>Unbeschnitten</div></div>
-            </div>
-            <div class="pb-card__note">
-              <h3 class="pb-card__name"><span class="pb-ph">[Titel Tafel 3]</span></h3>
-              <p class="pb-card__sub"><span class="pb-ph">[Medium]</span> · <span class="pb-ph">[Jahr]</span></p>
-              <p class="pb-card__tech"><span class="pb-ph">[Ein Satz: wie es gemacht wurde.]</span></p>
-            </div>
-          </article>
+      <footer class="foot">
+        <div class="wrap pb-label">
+          <span>© 2026 · Dossier</span>
+          <a href="#scheda">Nach oben</a>
         </div>
-      </div>
-    </section>
-
-    <div class="pb-band pb-band--alt" aria-hidden="true">
-      <div class="pb-band__run" data-words="Analyse|Befund|Methode|Protokoll"></div>
+      </footer>
     </div>
-
-    <!-- ═══════════ 03. REVERSE ENGINEERING (INK) ═══════════ -->
-    <section class="wrap dossier-stack" id="reverse" data-log="reverse engineering">
-      <div class="pb-sectionhead">
-        <h2 class="pb-h2"><span class="pb-ph">[Reverse-Engineering-Projekt]</span></h2>
-        <p class="pb-sectionhead__status">Fig. 03 · Analyse / Zerlegung</p>
-      </div>
-
-      <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was untersucht wurde und welches Ergebnis die Analyse liefert.]</span></p>
-
-      <div class="pb-window pb-crt" style="max-width:640px">
-        <div class="pb-window__bar"><code>reverse-spec</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-        <dl class="pb-readout" style="padding:18px 20px 20px">
-          <dt>Zielsystem</dt><dd><span class="pb-ph">[Dateiformat / Programm / Hardware]</span></dd>
-          <dt>Methode</dt><dd><span class="pb-ph">[Vorgehen]</span></dd>
-          <dt>Werkzeuge</dt><dd><span class="pb-ph">[eingesetzte Tools]</span></dd>
-          <dt>Stand</dt><dd class="is-hl"><span class="pb-ph">[dokumentiert / reproduzierbar]</span></dd>
-        </dl>
-      </div>
-
-      <div class="pb-pair" aria-label="Ausgangsmaterial und Befund">
-        <figure class="pb-plate">
-          <span class="pb-label">Ausgangsmaterial</span>
-          <div class="pb-window">
-            <div class="pb-window__bar"><code>input</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-            <div class="pb-todo" style="aspect-ratio:4/3"><div><b>Beleg nötig</b>Untersuchte Datei oder Ausgangszustand</div></div>
-          </div>
-          <figcaption><span class="pb-ph">[Was am Anfang vorlag.]</span></figcaption>
-        </figure>
-        <span class="pb-pair__arrow" aria-hidden="true">→</span>
-        <figure class="pb-plate">
-          <span class="pb-label">Befund / Ergebnis</span>
-          <div class="pb-window">
-            <div class="pb-window__bar"><code>output</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-            <div class="pb-todo" style="aspect-ratio:4/3"><div><b>Befund nötig</b>Struktur, Schema oder Nachbau</div></div>
-          </div>
-          <figcaption><span class="pb-ph">[Was die Zerlegung gezeigt hat.]</span></figcaption>
-        </figure>
-      </div>
-
-      <div class="pb-notes">
-        <div class="pb-note">
-          <h3 class="pb-h3"><span class="pb-note__key">A</span>Was ich bauen wollte</h3>
-          <p><span class="pb-ph">[Aus meinen Notizen: welche Frage oder Aufgabe die Analyse ausgelöst hat.]</span></p>
-        </div>
-        <div class="pb-note">
-          <h3 class="pb-h3"><span class="pb-note__key">B</span>Was ich selbst gemacht habe</h3>
-          <p><span class="pb-ph">[Aus meinen Notizen: welche Schritte ich selbst untersucht, dokumentiert oder nachgebaut habe.]</span></p>
-        </div>
-        <div class="pb-note pb-note--ai">
-          <h3 class="pb-h3"><span class="pb-note__key">C</span>Wo KI geholfen hat</h3>
-          <p><span class="pb-ph">[Nur ausfüllen, wenn KI laut Notizen genutzt wurde; sonst weglassen.]</span></p>
-        </div>
-        <div class="pb-note">
-          <h3 class="pb-h3"><span class="pb-note__key">D</span>Was heute funktioniert</h3>
-          <p><span class="pb-ph">[Aus meinen Notizen: was sicher belegt ist und welche Punkte noch offen sind.]</span></p>
-        </div>
-      </div>
-
-      <div class="links pb-label">
-        <a href="#reverse"><span class="pb-ph">[Dokumentation / Code-Link]</span></a>
-      </div>
-    </section>
-
-    <!-- ═══════════ 04. ÜBER (INK) ═══════════ -->
-    <section class="wrap dossier-stack" id="about" data-log="ueber">
-      <div class="pb-sectionhead">
-        <h2 class="pb-h2">Über</h2>
-        <div class="pb-sectionhead__tools">
-          <span class="pb-relabel">
-            <span class="pb-redact" style="--len:10" aria-hidden="true"></span>
-            <span class="pb-dymo">Karaya</span>
-          </span>
-        </div>
-      </div>
-
-      <div class="about">
-        <div class="pb-mark" data-seed="Karaya" aria-hidden="true"></div>
-        <div class="about-text">
-          <p class="pb-lede"><span class="pb-ph">[Zwei bis drei schlichte Sätze über mich und meine Arbeitsweise.]</span></p>
-
-          <div class="pb-window pb-crt" style="max-width:440px">
-            <div class="pb-window__bar"><code>status</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-            <dl class="pb-readout" style="padding:16px 18px 18px">
-              <dt>Standort</dt><dd><span class="pb-ph">[Stadt]</span></dd>
-              <dt>Werkzeuge</dt><dd><span class="pb-ph">[Werkzeuge]</span></dd>
-              <dt>Ortszeit</dt><dd data-clock>--:--:--</dd>
-            </dl>
-          </div>
-
-          <hr class="dots">
-
-          <div class="contact">
-            <span class="pb-label">Kontakt &amp; Links</span>
-            <span><span class="pb-ph">[E-Mail-Adresse]</span></span>
-            <span><span class="pb-ph">[GitHub oder Code-Link]</span></span>
-            <span><span class="pb-ph">[Weiterer öffentlicher Link]</span></span>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
-
-  <footer class="foot">
-    <div class="wrap pb-label">
-      <span>© 2026 · Dossier</span>
-      <a href="#scheda">Nach oben</a>
-    </div>
-  </footer>
 
   <details class="pb-console">
     <summary>Index · <span data-log-now>start</span></summary>
@@ -373,20 +393,6 @@
 
   <script>
     window.PB && PB.init();
-    (function () {
-      var c = document.querySelector('.pb-console'), now = document.querySelector('[data-log-now]');
-      if (!window.PB || !c || !('IntersectionObserver' in window)) return;
-      var io = new IntersectionObserver(function (es) {
-        es.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          var name = e.target.getAttribute('data-log');
-          if (!name || now.textContent === name) return;
-          now.textContent = name;
-          PB.log(c, 'open', name, { max: 6 });
-        });
-      }, { threshold: 0.35 });
-      document.querySelectorAll('[data-log]').forEach(function (s) { io.observe(s); });
-    })();
   </script>
 </body>
 </html>

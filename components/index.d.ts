@@ -19,6 +19,12 @@ declare namespace PB {
   function trace(canvas: HTMLCanvasElement, opts?: { sweep?: number }): void;
   function dymo(el: HTMLElement): void;
   function cutup(el: HTMLElement): void;
+  /** Wire sticky Ink/Paper sheet stacking so tall sheets scroll cleanly to their bottom before holding. */
+  function sheets(root?: ParentNode): void;
+  /** Scrub `[data-register]` two-plate press frames into 0px lock as they enter the reading center. */
+  function register(root?: ParentNode): void;
+  /** Sync sticky toolbar progress, active section tab, folio counter, figure index, and docked console on scroll. */
+  function scrollSpy(root?: ParentNode): void;
   /** Run every active helper on every matching element under `root` (default: document). */
   function init(root?: ParentNode): void;
 }

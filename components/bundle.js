@@ -238,6 +238,165 @@
   function dymo() {}
   function cutup() {}
 
+
+  /* ---------- Scroll choreography ---------- */
+  /* Measure stacked sheets and keep --pb-sheet-top synced so tall sheets scroll to their bottom before sticking. */
+  function sheets(root) {
+    root = root || document;
+    var list = Array.prototype.slice.call(root.querySelectorAll('.pb-sheet--stack'));
+    var bar = document.querySelector('.pb-toolbar');
+    function update() {
+      var barH = bar ? Math.round(bar.getBoundingClientRect().height) : 0;
+      document.documentElement.style.setProperty('--pb-toolbar-h', barH + 'px');
+      var active = !reduced() && window.innerWidth > 760;
+      list.forEach(function (el) {
+        if (!active) { el.style.removeProperty('--pb-sheet-top'); return; }
+        var top = Math.min(barH, window.innerHeight - el.offsetHeight);
+        el.style.setProperty('--pb-sheet-top', Math.round(top) + 'px');
+      });
+    }
+    update();
+    window.addEventListener('resize', update);
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(update);
+      if (bar) ro.observe(bar);
+      list.forEach(function (el) { ro.observe(el); });
+    }
+  }
+
+  /* Two-plate press registration lock: snaps discrete --pb-reg steps 4..0 as elements reach center reading band. */
+  function register(root) {
+    root = root || document;
+    var items = Array.prototype.slice.call(root.querySelectorAll('[data-register]'));
+    if (!items.length) return;
+    if (reduced()) {
+      items.forEach(function (el) { el.style.setProperty('--pb-reg', '0'); el.classList.add('is-locked'); });
+      return;
+    }
+    var raf = 0;
+    function update() {
+      raf = 0;
+      var vh = window.innerHeight || 800, mid = vh * 0.5, band = vh * 0.24, stepSpan = Math.max(40, vh * 0.11);
+      items.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        var dist = Math.abs((r.top + r.height * 0.5) - mid);
+        var step = dist <= band ? 0 : Math.min(4, Math.ceil((dist - band) / stepSpan));
+        el.style.setProperty('--pb-reg', String(step));
+        el.classList.toggle('is-locked', step === 0);
+      });
+    }
+    function schedule() { if (!raf) raf = requestAnimationFrame(update); }
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+  }
+
+  /* Live scroll spy: stepped toolbar progress, natural-offset anchor nav, active tab/folio, figure index, console log. */
+  function scrollSpy(root) {
+    root = root || document;
+    var bar = document.querySelector('.pb-toolbar');
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.pb-toolbar .pb-tabs a[href^="#"]'));
+    var folio = document.querySelector('[data-folio-now]');
+    var secList = Array.prototype.slice.call(root.querySelectorAll('[data-log][id]'));
+    var figCards = Array.prototype.slice.call(root.querySelectorAll('.pb-spread-plates [data-fig]'));
+    var figLinks = Array.prototype.slice.call(root.querySelectorAll('.pb-fig-index [data-fig-link]'));
+    var consoleEl = document.querySelector('.pb-console');
+    var consoleNow = document.querySelector('[data-log-now]');
+    var currentSec = '';
+
+    function sheetNaturalTop(sheet) {
+      var parent = sheet.parentElement, sum = parent ? parent.offsetTop : 0;
+      if (!parent) return sheet.offsetTop;
+      for (var i = 0; i < parent.children.length; i++) {
+        var ch = parent.children[i];
+        if (ch === sheet) return sum;
+        if (ch.classList.contains('pb-sheet')) sum += ch.offsetHeight;
+      }
+      return sum;
+    }
+
+    function naturalTop(el) {
+      if (el.classList.contains('pb-sheet')) return sheetNaturalTop(el);
+      var sheet = el.closest && el.closest('.pb-sheet');
+      if (sheet) return sheetNaturalTop(sheet) + (el.getBoundingClientRect().top - sheet.getBoundingClientRect().top);
+      var y = 0, cur = el;
+      while (cur) { y += cur.offsetTop || 0; cur = cur.offsetParent; }
+      return y;
+    }
+
+    /* Fix anchor navigation across sticky sheets by scrolling to the sheet's true natural offset. */
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="#"]'), function (a) {
+      a.addEventListener('click', function (ev) {
+        var id = a.getAttribute('href').slice(1);
+        if (!id) return;
+        var target = document.getElementById(id);
+        if (!target) return;
+        ev.preventDefault();
+        var barH = bar ? Math.round(bar.getBoundingClientRect().height) : 0;
+        var y = Math.max(0, naturalTop(target) - (window.innerWidth > 760 ? barH : 0));
+        window.scrollTo({ top: y, behavior: 'auto' });
+        update();
+        if (history.replaceState) history.replaceState(null, '', '#' + id);
+      });
+    });
+
+    var raf = 0;
+    function update() {
+      raf = 0;
+      var doc = document.documentElement;
+      var maxScroll = Math.max(1, doc.scrollHeight - window.innerHeight);
+      var pct = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+      var stepped = Math.round(pct * 50) / 50;
+      if (bar) bar.style.setProperty('--pb-progress', String(stepped));
+
+      if (secList.length) {
+        var barH = bar ? Math.round(bar.getBoundingClientRect().height) : 0;
+        var probe = window.scrollY + barH + window.innerHeight * 0.28;
+        var chosen = secList[0];
+        for (var i = 0; i < secList.length; i++) {
+          if (naturalTop(secList[i]) <= probe) chosen = secList[i];
+        }
+        var id = chosen.getAttribute('id');
+        if (id && id !== currentSec) {
+          currentSec = id;
+          tabs.forEach(function (t) {
+            if (t.getAttribute('href') === '#' + id) t.setAttribute('aria-current', 'page');
+            else t.removeAttribute('aria-current');
+          });
+          if (folio) {
+            var code = chosen.getAttribute('data-folio');
+            if (code) folio.textContent = code;
+          }
+          var logName = chosen.getAttribute('data-log');
+          if (consoleEl && consoleNow && logName && consoleNow.textContent !== logName) {
+            consoleNow.textContent = logName;
+            log(consoleEl, 'open', logName, { max: 6 });
+          }
+        }
+      }
+
+      if (figCards.length) {
+        var mid = (window.innerHeight || 800) * 0.5, best = figCards[0], bestDist = Infinity;
+        figCards.forEach(function (card) {
+          var r = card.getBoundingClientRect();
+          var d = Math.abs((r.top + r.height * 0.5) - mid);
+          if (d < bestDist) { bestDist = d; best = card; }
+        });
+        var activeFig = best.getAttribute('data-fig');
+        figCards.forEach(function (card) { card.classList.toggle('is-selected', card === best); });
+        figLinks.forEach(function (lnk) {
+          var on = lnk.getAttribute('data-fig-link') === activeFig;
+          lnk.classList.toggle('is-active', on);
+          if (on) lnk.setAttribute('aria-current', 'true'); else lnk.removeAttribute('aria-current');
+        });
+      }
+    }
+    function schedule() { if (!raf) raf = requestAnimationFrame(update); }
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+  }
+
   /* Wire up every active zine & terminal helper found in a root. */
   function init(root) {
     root = root || document;
@@ -246,9 +405,12 @@
     Array.prototype.forEach.call(root.querySelectorAll('.pb-term'), function (t) { terminal(t); });
     Array.prototype.forEach.call(root.querySelectorAll('.pb-readout'), function (d) { readout(d); });
     Array.prototype.forEach.call(root.querySelectorAll('.pb-feed'), function (f) { feed(f); });
+    sheets(root);
+    register(root);
+    scrollSpy(root);
   }
 
   window.PB = { runningBand: runningBand, stitchMark: stitchMark, dymo: dymo, cutup: cutup,
     terminal: terminal, decode: decode, glitch: glitch, readout: readout, trace: trace,
-    feed: feed, log: log, init: init };
+    feed: feed, log: log, sheets: sheets, register: register, scrollSpy: scrollSpy, init: init };
 })();

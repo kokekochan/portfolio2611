@@ -157,6 +157,7 @@
 .pb-crop::before { width: 26px; height: var(--stroke-hair); } .pb-crop::after { width: var(--stroke-hair); height: 26px; }
 .pb-crop--tl { top: 14px; left: 14px; } .pb-crop--tr { top: 14px; right: 14px; transform: scaleX(-1); }
 .pb-crop--bl { bottom: 14px; left: 14px; transform: scaleY(-1); } .pb-crop--br { bottom: 14px; right: 14px; transform: scale(-1); }
+@media (max-width: 900px) { .pb-crop { display: none; } }
 .pb-swatches { display: inline-flex; }
 .pb-swatches i { width: 18px; height: 18px; display: block; }
 .pb-swatches i:nth-child(1) { background: var(--text); }
@@ -280,7 +281,9 @@
 /* Toolbar: sticky strip in frame colour, with the wordmark cleanly framed inside */
 .pb-toolbar { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center;
   padding: 12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left));
-  background: var(--frame); color: var(--ground); border-bottom: var(--stroke-heavy) solid var(--signal); }
+  background: var(--frame); color: var(--ground); border-bottom: var(--stroke-heavy) solid var(--rule); }
+.pb-toolbar__progress { position: absolute; left: 0; bottom: -3px; width: 100%; height: var(--stroke-heavy);
+  background: var(--signal); transform-origin: left center; transform: scaleX(var(--pb-progress, 0)); pointer-events: none; }
 .pb-wordmark { position: relative; z-index: 1; display: inline-flex; align-items: center; margin: 0 8px 0 0; text-decoration: none; color: var(--ground);
   font-weight: 700; text-transform: uppercase; font-size: clamp(20px, 2.4vw, 28px); line-height: 1; letter-spacing: .1em;
   white-space: nowrap; padding: 6px 12px 5px; border: var(--stroke-frame) solid var(--ground); }
@@ -393,3 +396,58 @@
 /* Retired Dada layer kept minimal/neutral */
 .pb-stray-host { position: relative; overflow: clip; }
 .pb-stray { display: none; }
+
+/* ===================== Scroll choreography =====================
+   Printed Ink/Paper sheet stacking, stepped two-plate press registration lock,
+   and pinned editorial spread for Garden of Despair. */
+
+/* Printed sheet stack: each incoming sheet slides physically over the previous one */
+.pb-sheet { position: relative; z-index: var(--sheet-z, 1); background: var(--ground); color: var(--text); }
+.pb-sheet--over { box-shadow: 0 -22px 44px rgba(0, 0, 0, .48), 0 -3px 0 var(--frame); }
+.pb-sheet--over > .pb-band { padding-block: 0; }
+@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+  .pb-sheet--stack { position: sticky; top: var(--pb-sheet-top, 0px); }
+}
+
+/* Two-plate press registration lock: outer signal + second-ink frames snap into 0px lock on scroll */
+.pb-reg { position: relative; min-width: 0; }
+.pb-reg > * { position: relative; z-index: 1; }
+.pb-reg::before, .pb-reg::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  border: var(--stroke-frame) solid var(--signal);
+  transform: translate(calc(var(--pb-reg, 0) * 2px), calc(var(--pb-reg, 0) * 2px));
+  opacity: .85;
+}
+.pb-reg::after {
+  border-color: var(--second-ink);
+  transform: translate(calc(var(--pb-reg, 0) * -2px), calc(var(--pb-reg, 0) * -1.5px));
+}
+.pb-reg.is-locked::before, .pb-reg.is-locked::after { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .pb-reg::before, .pb-reg::after { display: none; }
+}
+
+/* Pinned editorial spread (Garden of Despair) */
+.pb-spread-sticky {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(28px, 4.5vw, 64px);
+  align-items: start;
+}
+.pb-spread-rail { display: grid; gap: var(--space-4); min-width: 0; }
+@media (min-width: 901px) {
+  .pb-spread-rail { position: sticky; top: calc(var(--pb-toolbar-h, 70px) + 28px); }
+}
+.pb-spread-plates { display: grid; gap: var(--space-6); min-width: 0; }
+.pb-fig-index { display: flex; flex-wrap: wrap; gap: 8px; }
+.pb-fig-index a {
+  font-family: var(--font-mono); font-size: 13px; line-height: 16px; letter-spacing: .1em; text-transform: uppercase;
+  text-decoration: none; border: var(--stroke-frame) solid var(--frame); padding: 6px 10px;
+  color: var(--text); background: var(--ground);
+}
+.pb-fig-index a:hover, .pb-fig-index a.is-active {
+  background: var(--signal); color: var(--on-signal); border-color: var(--signal);
+}
+@media (max-width: 900px) {
+  .pb-spread-sticky { grid-template-columns: minmax(0, 1fr); }
+}

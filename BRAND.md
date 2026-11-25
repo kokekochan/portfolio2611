@@ -57,6 +57,9 @@ All motion is stepped (`steps()` or instant hard-snap), never smooth easing, and
 | Count-up and meters (`Readout`) | readout panels | 14 steps of 45ms; meter cells 70ms each |
 | Feed (`pb-feed`) | catalogue cards | 0.42s wipe in 7 steps, 80ms apart on view |
 | Stamp shift & registration snap | cards, buttons, plate frames | hard offset stamp shift + 0.12s `steps(2, end)` two-plate registration snap on hover |
+| Sheet stack (`.pb-sheet--stack`) | Ink / Paper sections | desktop sticky bottom-lock so incoming sheets slide cleanly over previous sheets |
+| Press registration lock (`data-register`) | screenshot & exhibit frames | 4 discrete steps (`±8px` → `0px`) locking into alignment at viewport center |
+| Toolbar progress & pinned spread | `.pb-toolbar`, `Garden of Despair` | quantized 2% red progress bar, active tab/folio sync, sticky research rail beside plates |
 | Print bands | between sections | static upright strips (no marquee scroll) |
 
 ### States
