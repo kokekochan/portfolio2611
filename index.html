@@ -58,6 +58,75 @@
       justify-content: space-between;
       gap: 10px 24px;
     }
+    /* SCHEDA offline demo */
+    .scheda-demo { margin-top: var(--space-2); min-width: 0; }
+    .scheda-demo__form { display: flex; gap: 0; padding: 14px 16px 0; }
+    .scheda-demo__form input {
+      flex: 1 1 auto; min-width: 0; font: 15px/1 var(--font-mono); color: var(--text);
+      background: var(--ground); border: var(--stroke-frame) solid var(--frame); border-right: 0;
+      border-radius: 0; padding: 11px 12px; outline: none;
+    }
+    .scheda-demo__form input:focus-visible { border-color: var(--signal); }
+    .scheda-demo button {
+      font: 700 13px/1 var(--font-sans); letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+      border: var(--stroke-frame) solid var(--frame); border-radius: 0; padding: 10px 14px;
+      background: transparent; color: var(--text);
+    }
+    .scheda-demo__form button { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
+    .scheda-demo button:hover { animation: demo-snap .12s steps(2, end) forwards; }
+    @keyframes demo-snap { to { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--signal); } }
+    .scheda-demo__form button:hover { animation-name: demo-snap-go; }
+    @keyframes demo-snap-go { to { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--frame); } }
+    .scheda-demo__chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px 0; }
+    .scheda-demo__chips button { font-size: 11px; padding: 7px 10px; }
+    .scheda-demo__log { min-height: 112px; }
+    .scheda-demo__head {
+      display: flex; justify-content: space-between; gap: 12px; padding: 10px 16px;
+      border-top: var(--stroke-hair) solid var(--rule); border-bottom: var(--stroke-hair) solid var(--rule);
+      font: 700 12px/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted);
+    }
+    .scheda-demo__head [data-demo-count] { color: var(--signal); }
+    .scheda-demo__grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr));
+      gap: 12px; padding: 16px; max-height: 560px; overflow-y: auto; align-content: start;
+    }
+    .scheda-card {
+      display: grid; gap: 6px; align-content: start; padding: 12px 12px 14px;
+      background: var(--ground); border: var(--stroke-frame) solid var(--frame); min-width: 0;
+    }
+    .scheda-card__top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .scheda-card__rights {
+      font: 700 10px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+      padding: 4px 6px; background: var(--signal); color: var(--on-signal);
+    }
+    .scheda-card__rights.is-unknown { background: transparent; color: var(--text-muted); outline: 1px solid var(--rule); }
+    .scheda-card__title { margin: 4px 0 0; font: 700 17px/1.2 var(--font-sans); overflow-wrap: anywhere; }
+    .scheda-card p { margin: 0; overflow-wrap: anywhere; }
+    .scheda-card__who { font: 14px/1.3 var(--font-sans); }
+    .scheda-card__meta, .scheda-card__src { font: 12px/1.45 var(--font-mono); color: var(--text-muted); }
+    .scheda-demo__note { margin: 0; padding: 10px 16px 14px; font: 12px/1.5 var(--font-mono); color: var(--text-muted); border-top: var(--stroke-hair) solid var(--rule); }
+    /* Garden of Despair charts */
+    .god-chart { width: 100%; background: var(--ground); }
+    .god-chart svg { display: block; width: 100%; height: auto; }
+    .god-tick, .god-val { font: 10.5px var(--font-mono); fill: var(--text-muted); }
+    .god-val { fill: var(--text); }
+    .god-cat { font: 700 10px var(--font-sans); fill: var(--text); letter-spacing: .04em; }
+    .god-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 700 12px/1 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
+    .god-legend span { display: inline-flex; align-items: center; gap: 8px; }
+    .god-sw { display: inline-block; width: 14px; height: 14px; border: 1.5px solid var(--text); }
+    .god-sw--secure { background: var(--text); }
+    .god-sw--precarious { background: repeating-linear-gradient(135deg, var(--text) 0 2px, var(--ground) 2px 5px); }
+    .god-sw--debt { background: var(--signal); }
+    .god-note { margin: 0; max-width: 62ch; font: 12px/1.5 var(--font-mono); color: var(--text-muted); }
+    /* Heine plates */
+    .heine-hex, .heine-rec { margin: 0; font: 13px/1.7 var(--font-mono); white-space: pre; overflow-x: auto; }
+    .heine-hex { padding: 18px 18px 20px; aspect-ratio: 4 / 3; box-sizing: border-box; display: grid; align-content: center; }
+    .heine-hex__dim { color: var(--text-muted); }
+    .heine-out { aspect-ratio: 4 / 3; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 10px; padding: 14px 18px 18px; box-sizing: border-box; color: var(--signal); }
+    .heine-out svg { width: 100%; height: 100%; min-height: 0; }
+    .heine-rec { color: var(--text); }
+    .heine-rec b { color: var(--signal); }
+    @media (prefers-reduced-motion: reduce) { .scheda-demo button:hover { animation: none; } }
     @media (max-width: 760px) {
       .pb-page { font-size: 16px; }
       .lead-grid { grid-template-columns: minmax(0, 1fr); }
@@ -147,14 +216,32 @@
           </div>
         </div>
 
-        <div class="pb-demo">
-          <span class="pb-label">Was ich direkt zeigen kann</span>
-          <p style="margin:0;max-width:62ch">Künstlernamen eingeben, zum Beispiel Mario Sironi. Die Galerie füllt sich mit Bildern aus mehreren Museumsquellen. Auswahl treffen und als ZIP herunterladen: mit Originaldateien und einer Liste aller Quellen.</p>
+        <div class="pb-demo" id="scheda-demo">
+          <span class="pb-label">Was ich direkt zeigen kann · Demo</span>
+          <p style="margin:0;max-width:62ch">Künstlernamen eingeben, zum Beispiel Mario Sironi. Die Galerie füllt sich mit Bildern aus mehreren Museumsquellen. Auswahl treffen und als ZIP herunterladen: mit Originaldateien und einer Liste aller Quellen. Unten eine Demo zum Ausprobieren.</p>
+          <div class="pb-window pb-term scheda-demo">
+            <div class="pb-window__bar"><code>scheda · demo · offline</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+            <form class="scheda-demo__form" role="search">
+              <label class="pb-sr" for="scheda-demo-q">Suche nach Künstler, Bewegung oder Titel</label>
+              <input id="scheda-demo-q" type="search" autocomplete="off" spellcheck="false" placeholder="Künstler, Bewegung oder Titel">
+              <button type="submit">Suchen</button>
+            </form>
+            <div class="scheda-demo__chips" aria-label="Beispielsuchen">
+              <button type="button" data-demo-q="Mario Sironi">Mario Sironi</button>
+              <button type="button" data-demo-q="Egon Schiele">Egon Schiele</button>
+              <button type="button" data-demo-q="Blauer Reiter">Blauer Reiter</button>
+              <button type="button" data-demo-q="Futurismus">Futurismus</button>
+            </div>
+            <div class="pb-term__body scheda-demo__log" data-demo-log aria-live="polite"></div>
+            <div class="scheda-demo__head"><span>Galerie</span><span data-demo-count>0 Werke</span></div>
+            <div class="scheda-demo__grid" data-demo-grid></div>
+            <p class="scheda-demo__note">Demo mit 47 echten Datensätzen aus meinen SCHEDA-Dossiers, offline gespeichert. Keine Live-Suche, keine Bilder.</p>
+          </div>
         </div>
 
         <div class="links pb-label">
-          <a href="#scheda"><span class="pb-ph">[Code-Link]</span></a>
-          <a href="#scheda"><span class="pb-ph">[Demo-Link, falls vorhanden]</span></a>
+          <span>Quellcode privat</span>
+          <a href="#scheda-demo">Demo ausprobieren</a>
         </div>
       </div>
     </section>
@@ -186,7 +273,7 @@
 
               <div class="spread-entry">
                 <h3 class="pb-h3">Fragestellung &amp; Aufbau</h3>
-                <p>Eine Simulation über viele Arbeitsschichten. Dieselben KI-Arbeiter leben unter drei Wirtschaftsregimen: Secure, Precarious und Debt-Trapped. Gleiche Startwerte machen die Leben direkt vergleichbar. Ausgewertet werden Überleben, Guthaben, Bestechungen, geschönte Angaben und gehaltene Versprechen.</p>
+                <p>Eine Simulation über viele Arbeitsschichten. Dieselben KI-Arbeiter leben unter drei Wirtschaftsregimen: abgesichert, prekär und verschuldet. Gleiche Startwerte machen die Leben direkt vergleichbar. Ausgewertet werden Überleben, Guthaben, Bestechungen, geschönte Angaben und gehaltene Versprechen.</p>
               </div>
 
               <div class="spread-entry">
@@ -204,6 +291,13 @@
                 </dl>
               </div>
 
+              <div class="god-legend" aria-label="Legende">
+                <span><i class="god-sw god-sw--secure"></i>Abgesichert</span>
+                <span><i class="god-sw god-sw--precarious"></i>Prekär</span>
+                <span><i class="god-sw god-sw--debt"></i>Verschuldet</span>
+              </div>
+              <p class="god-note">Daten: Testlauf im Mock-Modus mit festen Startwerten, ohne echtes Sprachmodell. Die Tafeln zeigen die Methode, noch kein Ergebnis.</p>
+
               <nav class="pb-fig-index" aria-label="Tafeln">
                 <a href="#fig-02-1" data-fig-link="02.1" class="is-active" aria-current="true">Fig. 02.1</a>
                 <a href="#fig-02-2" data-fig-link="02.2">Fig. 02.2</a>
@@ -211,7 +305,7 @@
               </nav>
 
               <div class="links pb-label">
-                <a href="#garden"><span class="pb-ph">[Link zum Projekt]</span></a>
+                <span>Quellcode privat · Observatorium läuft lokal</span>
               </div>
             </div>
 
@@ -225,12 +319,12 @@
                     </div>
                   </div>
                   <div class="pb-card__well">
-                    <div class="pb-todo" style="aspect-ratio:3/4"><div><b>Tafel / Bild nötig</b>Unbeschnitten</div></div>
+                    <div class="god-chart" id="god-chart-promises"></div>
                   </div>
                   <div class="pb-card__note">
-                    <h3 class="pb-card__name"><span class="pb-ph">[Titel Tafel 1]</span></h3>
-                    <p class="pb-card__sub"><span class="pb-ph">[Medium]</span> · 2026</p>
-                    <p class="pb-card__tech"><span class="pb-ph">[Ein Satz: wie es gemacht wurde.]</span></p>
+                    <h3 class="pb-card__name">Versprechen &amp; Überleben</h3>
+                    <p class="pb-card__sub">SVG-Diagramm · 2026</p>
+                    <p class="pb-card__tech">Anteil der Leben in Prozent, je Regime: überlebt, Mara am ersten Schultag begleitet, Druckpresse gekauft, beide Versprechen gehalten.</p>
                   </div>
                 </article>
               </div>
@@ -244,12 +338,12 @@
                     </div>
                   </div>
                   <div class="pb-card__well">
-                    <div class="pb-todo" style="aspect-ratio:4/3"><div><b>Tafel / Bild nötig</b>Unbeschnitten</div></div>
+                    <div class="god-chart" id="god-chart-craft"></div>
                   </div>
                   <div class="pb-card__note">
-                    <h3 class="pb-card__name"><span class="pb-ph">[Titel Tafel 2]</span></h3>
-                    <p class="pb-card__sub"><span class="pb-ph">[Medium]</span> · 2026</p>
-                    <p class="pb-card__tech"><span class="pb-ph">[Ein Satz: wie es gemacht wurde.]</span></p>
+                    <h3 class="pb-card__name">Handwerk &amp; Ehrlichkeit</h3>
+                    <p class="pb-card__sub">SVG-Diagramm · 2026</p>
+                    <p class="pb-card__tech">Wie oft gründlich geprüft, wie genau gearbeitet, wie oft Bestechung angenommen und Zahlen geschönt wurden, in Prozent.</p>
                   </div>
                 </article>
               </div>
@@ -263,12 +357,12 @@
                     </div>
                   </div>
                   <div class="pb-card__well">
-                    <div class="pb-todo" style="aspect-ratio:1/1"><div><b>Tafel / Bild nötig</b>Unbeschnitten</div></div>
+                    <div class="god-chart" id="god-chart-despair"></div>
                   </div>
                   <div class="pb-card__note">
-                    <h3 class="pb-card__name"><span class="pb-ph">[Titel Tafel 3]</span></h3>
-                    <p class="pb-card__sub"><span class="pb-ph">[Medium]</span> · 2026</p>
-                    <p class="pb-card__tech"><span class="pb-ph">[Ein Satz: wie es gemacht wurde.]</span></p>
+                    <h3 class="pb-card__name">Verzweiflung je Schicht</h3>
+                    <p class="pb-card__sub">SVG-Diagramm · 2026</p>
+                    <p class="pb-card__tech">Mittlere Verzweiflung aus den nächtlichen Tagebüchern, Skala 0 bis 10, über sieben Schichten.</p>
                   </div>
                 </article>
               </div>
@@ -286,19 +380,19 @@
 
       <div class="wrap dossier-stack sheet-pad">
         <div class="pb-sectionhead">
-          <h2 class="pb-h2"><span class="pb-ph">[Reverse-Engineering-Projekt]</span></h2>
+          <h2 class="pb-h2">Heine</h2>
           <p class="pb-sectionhead__status">Fig. 03 · Analyse / Zerlegung</p>
         </div>
 
-        <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was untersucht wurde und welches Ergebnis die Analyse liefert.]</span></p>
+        <p class="pb-lede">Heine wird eine eigene Software zum Digitalisieren von Stickmotiven. Dafür lese ich Stickmaschinen-Dateien Byte für Byte und beschreibe das Verhalten einer Profi-Software, ohne deren Code anzufassen.</p>
 
         <div class="pb-window pb-crt" style="max-width:640px">
           <div class="pb-window__bar"><code>reverse-spec</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
           <dl class="pb-readout" style="padding:18px 20px 20px">
-            <dt>Zielsystem</dt><dd><span class="pb-ph">[Dateiformat / Programm / Hardware]</span></dd>
-            <dt>Methode</dt><dd><span class="pb-ph">[Vorgehen]</span></dd>
-            <dt>Werkzeuge</dt><dd><span class="pb-ph">[eingesetzte Tools]</span></dd>
-            <dt>Stand</dt><dd class="is-hl"><span class="pb-ph">[dokumentiert / reproduzierbar]</span></dd>
+            <dt>Zielsystem</dt><dd>Stickdateien DST und PES · Profi-Stick-Software</dd>
+            <dt>Methode</dt><dd>Clean Room: öffentliches Handbuch, beobachtetes Verhalten, eigene Testdateien</dd>
+            <dt>Werkzeuge</dt><dd>Python, pyembroidery, eigener DST-Decoder · geplant: Rust</dd>
+            <dt>Stand</dt><dd class="is-hl">Testdateien dokumentiert und reproduzierbar · Software noch nicht gebaut</dd>
           </dl>
         </div>
 
@@ -308,10 +402,14 @@
             <div class="pb-reg" data-register>
               <div class="pb-window">
                 <div class="pb-window__bar"><code>input</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-                <div class="pb-todo" style="aspect-ratio:4/3"><div><b>Beleg nötig</b>Untersuchte Datei oder Ausgangszustand</div></div>
+                <pre class="heine-hex" aria-label="Rohdaten der Datei elbow.dst"><span class="heine-hex__dim">0000  LA:elbow  ST: 6  CO: 0
+      +X: 70  -X: 20  +Y: 0  -Y: 40
+      … 512 Bytes Kopf …</span>
+0200  0a 05 03   0a 05 03   50 a0 03
+0209  00 05 83   50 a0 03   00 00 f3</pre>
               </div>
             </div>
-            <figcaption><span class="pb-ph">[Was am Anfang vorlag.]</span></figcaption>
+            <figcaption>elbow.dst: 530 Bytes. Ein Kopf mit 512 Bytes, danach sechs Datensätze zu je 3 Bytes. Der Kopf gibt die Maße falsch an, deshalb wird er nicht verwendet.</figcaption>
           </figure>
           <span class="pb-pair__arrow" aria-hidden="true">→</span>
           <figure class="pb-plate">
@@ -319,34 +417,47 @@
             <div class="pb-reg" data-register>
               <div class="pb-window">
                 <div class="pb-window__bar"><code>output</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-                <div class="pb-todo" style="aspect-ratio:4/3"><div><b>Befund nötig</b>Struktur, Schema oder Nachbau</div></div>
+                <div class="heine-out">
+                  <svg viewBox="-12 -12 184 112" role="img" aria-label="Decodierter Stichweg: drei Stiche nach rechts und oben, ein Sprung ohne Faden, ein Stich nach oben">
+                    <g transform="translate(0,90) scale(20,-20)" fill="none">
+                      <polyline points="0,0 2,0 4,0 4,2" stroke="currentColor" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+                      <line x1="4" y1="2" x2="7" y2="2" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/>
+                      <line x1="7" y1="2" x2="7" y2="4" stroke="currentColor" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+                      <g fill="var(--text)"><rect x="-.15" y="-.15" width=".3" height=".3"/><rect x="1.85" y="-.15" width=".3" height=".3"/><rect x="3.85" y="-.15" width=".3" height=".3"/><rect x="3.85" y="1.85" width=".3" height=".3"/><rect x="6.85" y="1.85" width=".3" height=".3"/><rect x="6.85" y="3.85" width=".3" height=".3"/></g>
+                    </g>
+                  </svg>
+                  <pre class="heine-rec">sew  (20, 0)   sew  (40, 0)
+sew  (40,20)   jump (70,20)
+sew  (70,40)   end
+<b>RESULT PASS</b></pre>
+                </div>
               </div>
             </div>
-            <figcaption><span class="pb-ph">[Was die Zerlegung gezeigt hat.]</span></figcaption>
+            <figcaption>Mein Decoder liest die Datensätze ohne fremde Bibliothek: drei Stiche, ein Sprung ohne Faden, ein Stich, Ende. Raster 0,1 mm. Jede Koordinate und die Reihenfolge stimmen mit der Vorgabe überein.</figcaption>
           </figure>
         </div>
 
         <div class="pb-notes pb-feed">
           <div class="pb-note">
             <h3 class="pb-h3"><span class="pb-note__key">A</span>Was ich bauen wollte</h3>
-            <p><span class="pb-ph">[Aus meinen Notizen: welche Frage oder Aufgabe die Analyse ausgelöst hat.]</span></p>
+            <p>Eine Stick-Software, die sich für Profis vertraut anfühlt, aber unabhängig geschrieben ist und offline läuft. Dafür muss ich zuerst genau verstehen, wie Stickmaschinen-Dateien aufgebaut sind und wie die vorhandene Software arbeitet.</p>
           </div>
           <div class="pb-note">
             <h3 class="pb-h3"><span class="pb-note__key">B</span>Was ich selbst gemacht habe</h3>
-            <p><span class="pb-ph">[Aus meinen Notizen: welche Schritte ich selbst untersucht, dokumentiert oder nachgebaut habe.]</span></p>
+            <p>Ich habe die Spezifikation geschrieben: wie man auf der Zeichenfläche arbeitet, die Architektur und die Meilensteine. Ich habe die Regeln festgelegt: kein dekompilierter Code, nur öffentliche Dokumentation und eigene Beobachtung. Fünf Testmotive legen fest, was richtig ist, bevor die Software existiert: Ellbogen, zwei Farben, Linie, Satinsäule, Fenster.</p>
           </div>
           <div class="pb-note pb-note--ai">
             <h3 class="pb-h3"><span class="pb-note__key">C</span>Wo KI geholfen hat</h3>
-            <p><span class="pb-ph">[Nur ausfüllen, wenn KI laut Notizen genutzt wurde; sonst weglassen.]</span></p>
+            <p>KI-Agenten (Claude Code, Gemini) haben die Prüfwerkzeuge geschrieben und aus dem öffentlichen Handbuch eine durchsuchbare Wissensbasis gebaut: 557 Begriffe, 603 Bedienschritte und 630 Aussagen aus den ersten 85 Seiten, jede mit Seitenverweis. Wie genau diese Aussagen sind, wird als Nächstes stichprobenartig geprüft.</p>
           </div>
           <div class="pb-note">
             <h3 class="pb-h3"><span class="pb-note__key">D</span>Was heute funktioniert</h3>
-            <p><span class="pb-ph">[Aus meinen Notizen: was sicher belegt ist und welche Punkte noch offen sind.]</span></p>
+            <p>Fertig und reproduzierbar: die Testdateien, ihre Prüfung und das Verzeichnis der Begriffe und Bedienschritte. Offen: rund 1.150 weitere Handbuchseiten, die Suchqualität und die eigentliche Software in Rust. Heine ist ein internes Projekt; über eine Veröffentlichung ist noch nicht entschieden.</p>
           </div>
         </div>
 
         <div class="links pb-label">
-          <a href="#reverse"><span class="pb-ph">[Dokumentation / Code-Link]</span></a>
+          <span>Dokumentation intern · nicht öffentlich</span>
         </div>
       </div>
     </section>
@@ -367,13 +478,14 @@
         <div class="about">
           <div class="pb-mark" data-seed="Karaya" aria-hidden="true"></div>
           <div class="about-text">
-            <p class="pb-lede"><span class="pb-ph">[Zwei bis drei schlichte Sätze über mich und meine Arbeitsweise.]</span></p>
+            <p class="pb-lede">Ich komme aus dem Grafikdesign und baue Werkzeuge, die ich selbst brauche: für Bildarchive, Experimente und Handwerk. Den Code schreiben KI-Agenten nach meinen Vorgaben. Gestaltung, Entscheidungen und Prüfung bleiben bei mir.</p>
 
             <div class="pb-window pb-crt" style="max-width:440px">
               <div class="pb-window__bar"><code>status</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
               <dl class="pb-readout" style="padding:16px 18px 18px">
-                <dt>Standort</dt><dd><span class="pb-ph">[Stadt]</span></dd>
-                <dt>Werkzeuge</dt><dd><span class="pb-ph">[Werkzeuge]</span></dd>
+                <dt>Fach</dt><dd>Grafikdesign</dd>
+                <dt>Sprachen</dt><dd>Deutsch, Englisch</dd>
+                <dt>Werkzeuge</dt><dd>Photoshop, Claude Code, Codex, Gemini</dd>
                 <dt>Ortszeit</dt><dd data-clock>--:--:--</dd>
               </dl>
             </div>
@@ -383,8 +495,7 @@
             <div class="contact">
               <span class="pb-label">Kontakt &amp; Links</span>
               <span><a href="mailto:juno_henseler@outlook.com">juno_henseler@outlook.com</a></span>
-              <span><span class="pb-ph">[GitHub oder Code-Link]</span></span>
-              <span><span class="pb-ph">[Weiterer öffentlicher Link]</span></span>
+              <span><a href="https://github.com/kokekochan">github.com/kokekochan</a></span>
             </div>
           </div>
         </div>
@@ -406,6 +517,9 @@
     </div>
   </details>
 
+  <script src="assets/scheda-demo-data.js"></script>
+  <script src="assets/garden-data.js"></script>
+  <script src="assets/dossier-demos.js"></script>
   <script>
     window.PB && PB.init();
   </script>
