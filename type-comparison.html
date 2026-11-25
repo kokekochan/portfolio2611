@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Typografie-Vergleich — Variante A vs. Variante B</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="components/bundle.css">
+  <style>
+    :root { --gutter: clamp(16px, 4vw, 56px); --max: 1240px; }
+    html, body { margin: 0; overflow-x: clip; }
+    .wrap {
+      max-width: calc(var(--max) + 2 * var(--gutter));
+      margin: 0 auto;
+      padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+    }
+    .cmp-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-5);
+      padding-block: clamp(40px, 6vw, 72px);
+    }
+    .cmp-panel {
+      border: var(--stroke-heavy) solid var(--frame);
+      background: var(--panel);
+      padding: var(--space-4);
+      display: grid;
+      gap: var(--space-4);
+      align-content: start;
+      min-width: 0;
+    }
+    .cmp-tagrow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      min-height: 52px;
+      padding-bottom: var(--space-3);
+      border-bottom: var(--stroke-hair) solid var(--rule);
+    }
+    .cmp-note { margin: 0; color: var(--text-muted); font-size: 15px; line-height: 22px; max-width: 54ch; }
+    .cmp-sample { display: grid; gap: var(--space-3); padding-top: var(--space-2); }
+    .cmp-sample p { margin: 0; max-width: 54ch; }
+    .cmp-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: var(--stroke-frame) solid var(--frame);
+      background: var(--ground);
+    }
+    @media (max-width: 960px) {
+      .cmp-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body class="pb-page">
+  <header class="pb-toolbar">
+    <a class="pb-wordmark" href="index.html">Karaya</a>
+    <nav class="pb-tabs" aria-label="Vergleich">
+      <a href="index.html">Portfolio (DE)</a>
+      <a href="type-comparison.html" aria-current="page">Typo-Vergleich</a>
+      <a href="system.html">Design-System</a>
+    </nav>
+    <span class="pb-tally">Variante A / B</span>
+  </header>
+
+  <main class="wrap">
+    <div style="padding-top:40px;display:grid;gap:12px">
+      <p class="pb-label" style="margin:0">Entscheidungsvorlage · Typografie</p>
+      <h2 class="pb-h2">Fehldruck-Schatten vs. null Effekte</h2>
+      <p style="margin:0;max-width:62ch">Links der aktive Standard mit einem dezenten Fehldruck-Versatz auf der Hauptüberschrift und geprägter Plakette. Rechts komplett unveränderte Bahnschrift ohne Schattenversatz und mit flachem Etikett.</p>
+    </div>
+
+    <div class="cmp-grid">
+      <!-- VARIANTE A -->
+      <article class="cmp-panel">
+        <div class="cmp-tagrow">
+          <span class="pb-tag" style="transform:none">Variante A · Standard</span>
+          <span class="pb-label">Ghost + Plakette</span>
+        </div>
+        <div class="cmp-sample">
+          <p class="pb-label">Fig. 01 · Werkzeug / Software</p>
+          <h1 class="pb-h1">SCHEDA</h1>
+          <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was SCHEDA jemandem ermöglicht.]</span></p>
+          <p>Fließtext in Bahnschrift bleibt komplett gerade und ruhig. Nur die große Hauptüberschrift trägt den leichten violetten Versatz als Druck-Hinweis.</p>
+        </div>
+        <div class="cmp-bar">
+          <span class="pb-label">Plakette am Terminal</span>
+          <span class="pb-dymo">Fig. 01</span>
+        </div>
+        <p class="cmp-note">Erhält ein leichtes Druckfehler-Echo im Hero; alle weiteren Überschriften und Texte bleiben frei von Effekten.</p>
+      </article>
+
+      <!-- VARIANTE B -->
+      <article class="cmp-panel">
+        <div class="cmp-tagrow">
+          <span class="pb-plate-tag">Variante B · Null Effekte</span>
+          <span class="pb-label">Reine Typografie</span>
+        </div>
+        <div class="cmp-sample">
+          <p class="pb-label">Fig. 01 · Werkzeug / Software</p>
+          <h1 class="pb-h1 pb-h1--clean">SCHEDA</h1>
+          <p class="pb-lede"><span class="pb-ph">[Ein klarer Satz: Was SCHEDA jemandem ermöglicht.]</span></p>
+          <p>Fließtext und Hauptüberschrift bestehen zu 100 % aus reiner Bahnschrift ohne Schattenversatz. Kontrast kommt allein über Größe, Linien und Rot.</p>
+        </div>
+        <div class="cmp-bar">
+          <span class="pb-label">Flaches Etikett am Terminal</span>
+          <span class="pb-plate-tag">Fig. 01</span>
+        </div>
+        <p class="cmp-note">Maximal ruhig und sachlich; die Klasse <code>.pb-h1--clean</code> schaltet den Versatz sofort global um, falls du diese Richtung bevorzugst.</p>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

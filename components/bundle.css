@@ -15,6 +15,7 @@
 .pb-label { font-size: 13px; line-height: 18px; letter-spacing: .16em; text-transform: uppercase; font-weight: 400; color: var(--text-muted); }
 .pb-h1 { margin: 0; font-weight: 700; text-transform: uppercase; line-height: .98; letter-spacing: .005em; text-wrap: balance;
   font-size: clamp(44px, 8.6vw, 104px); text-shadow: .045em .03em 0 color-mix(in srgb, var(--second-ink) 55%, transparent); }
+.pb-h1--clean { text-shadow: none; }
 .pb-h2 { margin: 0; font-weight: 700; text-transform: uppercase; line-height: 1; letter-spacing: .02em; text-wrap: balance; font-size: clamp(30px, 4.4vw, 48px); }
 .pb-h3 { margin: 0; font-size: 14px; line-height: 18px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; }
 .pb-lede { margin: 0; font-size: clamp(19px, 2vw, 22px); line-height: 1.4; font-weight: 400; max-width: 46ch; }
@@ -39,7 +40,7 @@
 /* Window */
 .pb-window { border: var(--stroke-frame) solid var(--frame); background: var(--panel); box-shadow: var(--shadow-window); min-width: 0; }
 .pb-window__bar code, .pb-mono { font-family: var(--font-mono); letter-spacing: .02em; text-transform: none; }
-.pb-window__bar { display: flex; justify-content: space-between; align-items: center; gap: 12px;
+.pb-window__bar { position: relative; z-index: 4; display: flex; justify-content: space-between; align-items: center; gap: 12px;
   background: var(--frame); color: var(--ground); padding: 5px 10px 4px;
   font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
 .pb-window__controls { display: flex; gap: 5px; }
@@ -88,20 +89,17 @@
 .pb-todo b { display: block; letter-spacing: .16em; text-transform: uppercase; font-size: 13px; margin-bottom: 6px; }
 .pb-ph { color: var(--signal); border-bottom: 1px dashed currentColor; }
 
-/* Running band */
-.pb-band { position: relative; overflow: clip; padding-block: 10px; }
-.pb-band__run { display: flex; width: max-content; white-space: nowrap; margin-inline: -4vw;
-  background: var(--signal); color: var(--on-signal); transform: rotate(var(--tilt-band));
-  font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: clamp(15px, 1.6vw, 20px);
-  padding: 9px 0 8px; box-shadow: 0 0 0 2px var(--ground), 0 0 0 3px var(--signal);
-  animation: pb-run 60s linear infinite; }
+/* Print band: static, upright, full-bleed zine divider strip */
+.pb-band { position: relative; overflow: clip; padding-block: 4px; }
+.pb-band__run { display: flex; justify-content: center; align-items: center; width: max-content; min-width: 100%; white-space: nowrap;
+  background: var(--signal); color: var(--on-signal);
+  font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: clamp(14px, 1.5vw, 18px);
+  padding: 9px 0 8px; border-block: var(--stroke-frame) solid var(--ground);
+  box-shadow: 0 0 0 1px var(--signal); }
 .pb-band__run span { padding-inline: 18px; }
 .pb-band__run span::after { content: "\25A0"; margin-left: 36px; font-size: .6em; vertical-align: .2em; }
-.pb-band--alt .pb-band__run { background: var(--text); color: var(--ground); transform: rotate(var(--tilt-band-alt));
-  box-shadow: 0 0 0 2px var(--ground), 0 0 0 3px var(--text); animation-name: pb-run-alt; animation-direction: reverse; }
-@keyframes pb-run { to { transform: translateX(-33.333%) rotate(var(--tilt-band)); } }
-@keyframes pb-run-alt { to { transform: translateX(-33.333%) rotate(var(--tilt-band-alt)); } }
-@media (prefers-reduced-motion: reduce) { .pb-band__run { animation: none; } }
+.pb-band--alt .pb-band__run { background: var(--text); color: var(--ground);
+  border-block-color: var(--ground); box-shadow: 0 0 0 1px var(--text); }
 
 /* Repeated lines (texture block above a section's content) */
 .pb-repeat { display: grid; overflow: hidden; line-height: .92; font-weight: 700; text-transform: uppercase;
@@ -109,13 +107,27 @@
 .pb-repeat span:nth-child(even) { color: var(--signal); margin-left: -1.2em; }
 .pb-repeat span:nth-child(3n) { opacity: .35; }
 
-/* Artwork */
+/* Artwork & Exhibit frames: crisp 2-step two-plate registration snap on hover */
 .pb-art { columns: 3 300px; column-gap: clamp(22px, 3vw, 44px); }
 .pb-art figure { break-inside: avoid; margin: 0 0 clamp(32px, 4vw, 52px); display: grid; gap: 12px; }
 .pb-art-frame { border: var(--stroke-art) solid var(--frame); outline: var(--stroke-hair) solid var(--frame); outline-offset: 5px; background: var(--ground); margin: 6px; }
-.pb-art-frame img { display: block; width: 100%; height: auto; transition: filter .25s; }
-.pb-art-frame:hover img { filter: drop-shadow(3px 0 0 var(--signal)) drop-shadow(-3px 0 0 var(--second-ink)); }
-@media (prefers-reduced-motion: reduce) { .pb-art-frame img { transition: none; } }
+.pb-art-frame img { display: block; width: 100%; height: auto; }
+@keyframes pb-reg-snap {
+  0% { filter: drop-shadow(1px 0 0 var(--signal)) drop-shadow(-1px 0 0 var(--second-ink)); }
+  100% { filter: drop-shadow(3px 0 0 var(--signal)) drop-shadow(-3px 0 0 var(--second-ink)); }
+}
+.pb-art-frame:hover img,
+.pb-card:hover .pb-card__well img,
+.pb-card:hover .pb-card__well .pb-todo,
+.pb-plate:hover img,
+.pb-plate:hover .pb-todo { animation: pb-reg-snap .12s steps(2, end) forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .pb-art-frame:hover img,
+  .pb-card:hover .pb-card__well img,
+  .pb-card:hover .pb-card__well .pb-todo,
+  .pb-plate:hover img,
+  .pb-plate:hover .pb-todo { animation: none; filter: drop-shadow(3px 0 0 var(--signal)) drop-shadow(-3px 0 0 var(--second-ink)); }
+}
 .pb-caption { display: grid; gap: 4px; font-size: 15px; line-height: 22px; }
 .pb-caption__what { font-weight: 600; letter-spacing: .04em; }
 .pb-caption__how { color: var(--text-muted); }
@@ -186,59 +198,19 @@
   letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); }
 .pb-term__status b { color: var(--signal); font-weight: 500; }
 
-/* CRT overlay: scanlines, a slow rolling band, a rare flicker. Put it on a screen panel, never on page text. */
-.pb-crt { position: relative; isolation: isolate; overflow: hidden; }
-/* Worn tube: dark corners, fringed and blooming text, a sync tear every few seconds */
-.pb-crt { box-shadow: var(--shadow-window), inset 0 0 70px rgba(0, 0, 0, .75), inset 0 0 18px rgba(0, 0, 0, .6); }
-.pb-crt .pb-term__body, .pb-crt .pb-readout, .pb-crt .pb-console__log {
-  text-shadow: 0 0 2px currentColor, -1px 0 rgba(255, 31, 45, .5), 1px 0 rgba(90, 255, 240, .16); }
-.pb-crt > :not(.pb-window__bar):not(.pb-burn):not(.pb-tape):not(.pb-dymo) { animation: pb-sync 9.5s steps(1) infinite; }
-@keyframes pb-sync { 0%, 100% { transform: none; filter: none; }
-  71% { transform: translate(4px, -1px) skewX(-2deg); filter: brightness(1.35); }
-  71.6% { transform: translate(-2px, 0); }
-  72.2% { transform: none; filter: none; }
-  88% { filter: brightness(.82); } 88.5% { filter: none; } }
-/* Burn-in: the ghost of old text stuck in the phosphor, behind the live text */
-.pb-burn { position: absolute; inset: auto 18px 26px auto; z-index: 0; pointer-events: none; user-select: none;
-  font-family: var(--font-mono); font-weight: 700; text-transform: uppercase; letter-spacing: .1em; font-size: 46px; line-height: 1;
-  color: transparent; text-shadow: 0 0 6px var(--phosphor); opacity: .22; white-space: nowrap; }
+/* CRT overlay: crisp hardware terminal with subtle static scanlines and light inner vignette.
+   No sync-tear skew, no flicker, no rolling bar, no chromatic text blur. */
+.pb-crt { position: relative; isolation: isolate; overflow: hidden;
+  box-shadow: var(--shadow-window), inset 0 0 36px rgba(0, 0, 0, .42), inset 0 0 10px rgba(0, 0, 0, .28); }
+.pb-case > .pb-crt { box-shadow: inset 0 0 36px rgba(0, 0, 0, .42), inset 0 0 10px rgba(0, 0, 0, .28); }
+[data-theme="paper"] .pb-crt { box-shadow: var(--shadow-window), inset 0 0 24px rgba(26, 23, 20, .14); }
 .pb-crt .pb-term__body, .pb-crt .pb-readout { position: relative; z-index: 1; }
-.pb-crt::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
-  background: repeating-linear-gradient(to bottom, var(--scan) 0 1px, transparent 1px 3px);
-  animation: pb-flicker 7s steps(1) infinite; }
-.pb-crt::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 28%; z-index: 2; pointer-events: none;
-  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--phosphor) 22%, transparent) 50%, transparent);
-  transform: translateY(-100%); animation: pb-roll var(--pb-roll) linear infinite; }
-@keyframes pb-roll { to { transform: translateY(460%); } }
-@keyframes pb-flicker { 0%, 100% { opacity: 1; } 61% { opacity: .55; } 62% { opacity: 1; } 63.5% { opacity: .7; } 64% { opacity: 1; } }
+.pb-crt::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: .45;
+  background: repeating-linear-gradient(to bottom, var(--scan) 0 1px, transparent 1px 3px); }
 
-/* Glitch: short sliced bursts on one headline. JS adds .is-glitching for ~260ms at random gaps. */
-.pb-glitch { position: relative; }
-.pb-glitch::before, .pb-glitch::after { content: attr(data-text); position: absolute; inset: 0; pointer-events: none;
-  opacity: 0; text-shadow: none; }
-.pb-glitch.is-glitching::before { opacity: 1; color: var(--signal); animation: pb-slice-a .26s steps(1) both; }
-.pb-glitch.is-glitching::after { opacity: 1; color: var(--second-ink); animation: pb-slice-b .26s steps(1) both; }
-.pb-glitch.is-glitching { animation: pb-jolt .26s steps(1) both; }
-@keyframes pb-slice-a {
-  0% { clip-path: inset(12% 0 70% 0); transform: translateX(-.05em); }
-  25% { clip-path: inset(58% 0 22% 0); transform: translateX(.07em); }
-  50% { clip-path: inset(30% 0 52% 0); transform: translateX(-.03em); }
-  75% { clip-path: inset(80% 0 4% 0); transform: translateX(.05em); }
-  100% { clip-path: inset(0 0 100% 0); } }
-@keyframes pb-slice-b {
-  0% { clip-path: inset(66% 0 14% 0); transform: translateX(.05em); }
-  25% { clip-path: inset(4% 0 82% 0); transform: translateX(-.06em); }
-  50% { clip-path: inset(44% 0 36% 0); transform: translateX(.04em); }
-  75% { clip-path: inset(18% 0 64% 0); transform: translateX(-.04em); }
-  100% { clip-path: inset(0 0 100% 0); } }
-@keyframes pb-jolt { 0% { transform: translateX(0); } 40% { transform: translateX(.015em); } 60% { transform: translateX(-.01em); } 100% { transform: none; } }
-
-/* Decode: text resolves out of random characters. The real text keeps the layout; the scramble sits on top. */
-.pb-decode { position: relative; }
-.pb-decode__real { position: relative; }
-.pb-decode__real.is-hidden { visibility: hidden; }
-.pb-decode__fx { position: absolute; left: 0; top: 0; width: 100%; white-space: nowrap; visibility: visible; pointer-events: none; }
-.pb-decode__fx i { font-style: normal; color: var(--signal); }
+/* Retired sci-fi text/trace helpers kept neutral for clean zine typography */
+.pb-glitch, .pb-decode { position: relative; }
+.pb-trace { display: none; }
 
 /* Readout: label / value rows in mono */
 .pb-readout { display: grid; grid-template-columns: max-content 1fr; gap: 6px 20px; margin: 0;
@@ -250,22 +222,22 @@
 .pb-meter i { width: 7px; height: 13px; background: var(--trace-grid); display: block; }
 .pb-meter i.on { background: var(--signal); box-shadow: 0 0 5px var(--phosphor); }
 
-/* Signal trace: a canvas line sweeping over a grid */
-.pb-trace { display: block; width: 100%; height: 96px; }
+/* Signal trace removed in zine/terminal refinement */
 
 @media (prefers-reduced-motion: reduce) {
-  .pb-crt > *, .pb-cursor, .pb-crt::after, .pb-crt::before, .pb-glitch.is-glitching, .pb-glitch.is-glitching::before, .pb-glitch.is-glitching::after { animation: none; }
-  .pb-crt::before { display: none; }
-  .pb-glitch::before, .pb-glitch::after { display: none; }
+  .pb-cursor { animation: none; }
 }
 
 /* ===================== Dossier layer =====================
    The layout comes from a catalogue dossier: every piece is an index card with a Fig. number,
    crop-mark corners and a technical line; cards sit in a staggered grid, slightly out of true. */
 
-/* Index card */
+/* Index card: straight, aligned, crisp hard-snap stamp shift on hover */
 .pb-card { position: relative; display: grid; grid-template-rows: auto auto 1fr; background: var(--panel); color: var(--text);
-  border: var(--stroke-heavy) solid var(--frame); transform: rotate(var(--pb-card-tilt, 0deg)); min-width: 0; }
+  border: var(--stroke-heavy) solid var(--frame); min-width: 0; }
+.pb-card:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--frame); }
+.pb-card.is-selected:hover { box-shadow: 10px 10px 0 var(--signal); }
+@media (prefers-reduced-motion: reduce) { .pb-card:hover { transform: none; } }
 .pb-card__top { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 8px;
   border-bottom: var(--stroke-frame) solid var(--frame); }
 .pb-fig { font-family: var(--font-mono); font-size: 13px; line-height: 16px; letter-spacing: .08em; text-transform: uppercase;
@@ -299,33 +271,35 @@
 .pb-iconbtn { width: 32px; height: 32px; display: grid; place-items: center; padding: 0; background: transparent; color: var(--text);
   border: var(--stroke-frame) solid var(--frame); cursor: pointer; }
 .pb-iconbtn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
-.pb-iconbtn:hover { background: var(--signal); color: var(--on-signal); border-color: var(--signal); }
+.pb-iconbtn:hover { background: var(--signal); color: var(--on-signal); border-color: var(--signal); transform: translate(-1px, -1px); box-shadow: 2px 2px 0 var(--frame); }
+.pb-iconbtn:active { transform: translate(1px, 1px); box-shadow: none; }
 
-/* Catalogue: a staggered grid, each card a little out of true */
-.pb-catalogue { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 40px 32px; align-items: start; }
-.pb-catalogue > :nth-child(4n+1) { --pb-card-tilt: -.5deg; }
-.pb-catalogue > :nth-child(4n+2) { --pb-card-tilt: .35deg; margin-top: 28px; }
-.pb-catalogue > :nth-child(4n+3) { --pb-card-tilt: .6deg; }
-.pb-catalogue > :nth-child(4n+4) { --pb-card-tilt: -.25deg; margin-top: 52px; }
-@media (max-width: 760px) { .pb-catalogue > * { margin-top: 0 !important; } }
+/* Catalogue: structured, straight editorial grid (no staggered drops or card tilts) */
+.pb-catalogue { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: var(--space-4); align-items: start; }
 
-/* Toolbar: sticky strip in frame colour, with the name set huge and bleeding past its bottom edge */
-.pb-toolbar { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center;
-  padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+/* Toolbar: sticky strip in frame colour, with the wordmark cleanly framed inside */
+.pb-toolbar { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center;
+  padding: 12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left));
   background: var(--frame); color: var(--ground); border-bottom: var(--stroke-heavy) solid var(--signal); }
-.pb-wordmark { position: relative; z-index: 1; display: block; margin: .04em 8px -.2em 0; text-decoration: none; color: var(--ground);
-  font-weight: 700; text-transform: uppercase; font-size: clamp(64px, 10vw, 136px); line-height: .82; letter-spacing: -.01em;
-  font-stretch: 75%; white-space: nowrap; max-width: 100%; overflow: hidden; padding-top: .06em; }
-@media (max-width: 760px) { .pb-wordmark { flex-basis: 100%; margin: -4px 0 2px; } }
+.pb-wordmark { position: relative; z-index: 1; display: inline-flex; align-items: center; margin: 0 8px 0 0; text-decoration: none; color: var(--ground);
+  font-weight: 700; text-transform: uppercase; font-size: clamp(20px, 2.4vw, 28px); line-height: 1; letter-spacing: .1em;
+  white-space: nowrap; padding: 6px 12px 5px; border: var(--stroke-frame) solid var(--ground); }
+.pb-wordmark:hover { background: var(--signal); color: var(--on-signal); border-color: var(--signal); }
 .pb-toolbar .pb-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
-.pb-toolbar .pb-tabs a, .pb-toolbar .pb-btn { font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
-  border: var(--stroke-frame) solid var(--ground); padding: 7px 12px 6px; color: var(--ground); background: transparent; cursor: pointer; min-height: 36px; }
+.pb-toolbar .pb-tabs a, .pb-toolbar .pb-btn { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+  border: var(--stroke-frame) solid var(--ground); padding: 7px 12px 6px; color: var(--ground); background: transparent; cursor: pointer; min-height: 36px; display: inline-flex; align-items: center; }
 .pb-toolbar .pb-tabs a[aria-current], .pb-toolbar .pb-tabs a:hover { background: var(--ground); color: var(--frame); }
 .pb-toolbar .pb-btn--go { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
+.pb-toolbar .pb-btn--go:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ground); color: var(--on-signal); }
+.pb-toolbar .pb-btn--go:active { transform: translate(1px, 1px); box-shadow: none; }
 .pb-toolbar .pb-tally { margin-left: auto; font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
 .pb-toolbar .pb-field { font-family: var(--font-mono); font-size: 14px; border: var(--stroke-frame) solid var(--ground); background: var(--ground); color: var(--text);
   padding: 7px 10px; min-width: 0; width: min(280px, 100%); border-radius: 0; }
 .pb-toolbar :focus-visible { outline-color: var(--signal); }
+@media (max-width: 760px) {
+  .pb-toolbar { position: relative; }
+  .pb-toolbar .pb-tally { margin-left: 0; }
+}
 
 /* Section head: hairline, big name, mono status, tools pushed right */
 .pb-sectionhead { display: flex; flex-wrap: wrap; align-items: end; gap: 8px 20px; padding-block: 18px 14px;
@@ -335,10 +309,11 @@
   text-transform: uppercase; color: var(--text-muted); }
 .pb-sectionhead__tools { margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
-/* Console: a log panel docked to a corner, the terminal layer's home on a page */
+/* Console: a compact log tab docked bottom-left, collapsed by default until clicked */
 .pb-console { position: fixed; left: max(16px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 40;
-  width: min(440px, calc(100vw - 32px)); background: var(--ground); color: var(--text); border: var(--stroke-frame) solid var(--frame);
-  box-shadow: var(--shadow-window); font-family: var(--font-mono); font-size: 13px; line-height: 18px; }
+  width: auto; max-width: calc(100vw - 32px); background: var(--ground); color: var(--text); border: var(--stroke-frame) solid var(--frame);
+  box-shadow: 4px 4px 0 var(--signal); font-family: var(--font-mono); font-size: 13px; line-height: 18px; }
+.pb-console[open] { width: min(440px, calc(100vw - 32px)); box-shadow: var(--shadow-window); }
 .pb-console--inline { position: relative; left: auto; bottom: auto; }
 .pb-console > summary { display: flex; gap: 10px; align-items: center; padding: 6px 12px; cursor: pointer; list-style: none;
   background: var(--signal); color: var(--on-signal); text-transform: uppercase; letter-spacing: .08em; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -379,13 +354,17 @@
 .pb-tape--br { right: -24px; bottom: -8px; transform: rotate(-31deg); }
 .pb-tape--top { left: 50%; top: -14px; margin-left: -46px; transform: rotate(-3deg); }
 
-/* Label-maker tape: raised letters on a signal strip, each letter a little off its line */
+/* Label-maker strip: clean straight embossed plate, zero crooked letter jitter */
 .pb-dymo { display: inline-flex; align-items: center; gap: 0; padding: 4px 12px 3px; background: var(--signal); color: var(--on-signal);
-  font-family: var(--font-mono); font-weight: 700; font-size: 14px; line-height: 18px; letter-spacing: .22em; text-transform: uppercase;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .28), 0 -1px 0 rgba(0, 0, 0, .35);
+  font-family: var(--font-mono); font-weight: 700; font-size: 14px; line-height: 18px; letter-spacing: .2em; text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .22), 0 -1px 0 rgba(0, 0, 0, .28);
   clip-path: polygon(0 0, 100% 0, 100% 35%, calc(100% - 4px) 50%, 100% 65%, 100% 100%, 0 100%, 0 65%, 4px 50%, 0 35%);
-  transform: rotate(var(--pb-dymo-tilt, -1.2deg)); white-space: nowrap; }
+  white-space: nowrap; }
 .pb-dymo b { font-weight: inherit; display: inline-block; }
+
+/* Flat clean plate (Variant B zero-effect alternative to pb-dymo) */
+.pb-plate-tag { display: inline-block; padding: 4px 10px 3px; background: var(--signal); color: var(--on-signal);
+  font-family: var(--font-mono); font-weight: 700; font-size: 13px; line-height: 18px; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; }
 
 /* Rebuilt case: a thick panel bezel around a window, with a vent grille and a spot for the label */
 .pb-case { position: relative; background: var(--panel); padding: 14px 14px 40px; border: var(--stroke-frame) solid var(--frame);
@@ -394,51 +373,23 @@
 .pb-case__plate { position: absolute; left: 22px; right: 22px; bottom: 9px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .pb-case__vent { flex: 0 1 120px; height: 12px; background: repeating-linear-gradient(90deg, rgba(0, 0, 0, .75) 0 3px, transparent 3px 7px); }
 
-/* Relabel: an old label blacked out with marker, the new one stuck over it */
+/* Relabel: an old label blacked out with marker, the new straight strip over it */
 .pb-relabel { position: relative; display: inline-grid; align-items: center; justify-items: start; }
 .pb-relabel > * { grid-area: 1 / 1; }
 .pb-redact { display: block; width: calc(var(--len, 8) * 1ch + 24px); height: 1.7em; background: var(--redact);
   clip-path: polygon(0 18%, 4% 4%, 30% 9%, 58% 0, 86% 7%, 100% 14%, 98% 82%, 74% 96%, 46% 88%, 20% 100%, 2% 90%);
-  transform: rotate(-1.5deg) translateY(-3px); }
+  transform: translateY(-3px); }
 .pb-relabel > .pb-dymo { margin-left: 22px; margin-top: 26px; }
 
-/* Torn bottom edge for a paper card */
-.pb-torn { -webkit-mask: linear-gradient(#000 0 0) top / 100% calc(100% - 7px) no-repeat,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8'%3E%3Cpath d='M0 0h14v2l-3 4-2-3-3 5-3-4-3 3z'/%3E%3C/svg%3E") bottom / 14px 8px repeat-x;
-  mask: linear-gradient(#000 0 0) top / 100% calc(100% - 7px) no-repeat,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8'%3E%3Cpath d='M0 0h14v2l-3 4-2-3-3 5-3-4-3 3z'/%3E%3C/svg%3E") bottom / 14px 8px repeat-x; }
-
-/* Photocopy wear on a Paper section: toner speckle and the dark band where the lid did not close */
+/* Photocopy wear on a Paper section: restrained lid shadow at edges + subtle paper speckle */
 .pb-xerox { position: relative; }
 .pb-xerox::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(20, 18, 16, .22), transparent 5%, transparent 95%, rgba(20, 18, 16, .28)),
+    linear-gradient(90deg, rgba(20, 18, 16, .14), transparent 4%, transparent 96%, rgba(20, 18, 16, .18)),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='x'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -22 7.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23x)'/%3E%3C/svg%3E");
-  opacity: .6; mix-blend-mode: multiply; }
+  opacity: .12; mix-blend-mode: multiply; }
 .pb-xerox > * { position: relative; z-index: 1; }
 
-
-/* ===================== Dada layer =====================
-   A small dose of nonsense in the composition, never in the content: letters cut from different printed matter,
-   oversized stray type crossing edges, a word in a band upside down. The words are always the page's own. */
-
-/* Cut-up: a heading set like letters cut from different sources. One per page. */
-.pb-cutup { display: flex; flex-wrap: wrap; align-items: baseline; gap: .04em .02em; }
-.pb-cutup b { display: inline-block; font-weight: 700; line-height: .95; padding: .02em .06em; transform: translateY(var(--y, 0)) rotate(var(--r, 0deg)); font-size: var(--s, 1em); }
-.pb-cutup b.is-chip { background: var(--frame); color: var(--ground); }
-.pb-cutup b.is-sig { background: var(--signal); color: var(--on-signal); }
-.pb-cutup b.is-mono { font-family: var(--font-mono); font-weight: 500; text-transform: lowercase; }
-.pb-cutup b.is-line { color: transparent; -webkit-text-stroke: 1.5px var(--text); }
-.pb-cutup b.is-gap { width: .35em; padding: 0; }
-
-/* Stray type: one oversized glyph or word from the section itself, crossing edges behind the content */
+/* Retired Dada layer kept minimal/neutral */
 .pb-stray-host { position: relative; overflow: clip; }
-.pb-stray { position: absolute; z-index: 0; pointer-events: none; user-select: none; left: var(--x, -2%); top: var(--t, 0);
-  font-weight: 700; line-height: .78; font-size: var(--pb-stray-size, clamp(160px, 26vw, 360px)); letter-spacing: -.03em;
-  color: transparent; -webkit-text-stroke: 2px var(--second-ink); transform: rotate(var(--r, -7deg)); white-space: nowrap; }
-.pb-stray--v { writing-mode: vertical-rl; left: auto; right: var(--x, -1%); font-family: var(--font-mono); font-weight: 500; text-transform: uppercase;
-  font-size: var(--pb-stray-size, clamp(64px, 9vw, 120px)); -webkit-text-stroke: 1.5px var(--rule); transform: rotate(var(--r, 180deg)); }
-.pb-stray-host > :not(.pb-stray):not(.pb-crop) { position: relative; z-index: 1; }
-
-/* Bands: every fifth word is pasted in upside down */
-.pb-band__run span.is-flip { display: inline-block; transform: rotate(180deg); }
+.pb-stray { display: none; }

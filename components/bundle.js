@@ -3,14 +3,13 @@
 (function () {
   function tok(el, name) { return getComputedStyle(el).getPropertyValue(name).trim(); }
 
-  /* Fill a .pb-band__run from its data-words ("A|B|C"), repeated so the 60s loop is seamless. */
+  /* Fill a .pb-band__run from its data-words ("A|B|C") with upright words for a static zine print strip. */
   function runningBand(run) {
-    var words = String(run.getAttribute('data-words') || '').split('|');
-    var one = [];
-    for (var i = 0; i < 4; i++) one = one.concat(words);
-    var all = one.concat(one, one);
+    var words = String(run.getAttribute('data-words') || '').split('|').filter(Boolean);
+    if (!words.length) return;
+    var all = words.concat(words, words);
     run.textContent = '';
-    all.forEach(function (w, k) { var s = document.createElement('span'); s.textContent = w; if (k % 5 === 3) s.className = 'is-flip'; run.appendChild(s); });
+    all.forEach(function (w) { var s = document.createElement('span'); s.textContent = w; run.appendChild(s); });
   }
 
   /* Fill a .pb-mark with an 11x11 left-right mirrored stitch pattern seeded by a string (the display name). */
@@ -232,57 +231,21 @@
   }
 
 
-  /* ---------- Wear layer ---------- */
-  /* Split a .pb-dymo into letters, each pushed a pixel up or down like a hand-cranked label maker. Deterministic per text. */
-  function dymo(el) {
-    if (el.__pbDymo) return; el.__pbDymo = true;
-    var text = el.textContent, h = 0;
-    for (var i = 0; i < text.length; i++) h = (h * 31 + text.charCodeAt(i)) | 0;
-    el.setAttribute('aria-label', text); el.textContent = '';
-    for (var j = 0; j < text.length; j++) {
-      var b = document.createElement('b'); b.setAttribute('aria-hidden', 'true'); b.textContent = text[j] === ' ' ? '\u00a0' : text[j];
-      h = (h * 1103515245 + 12345) | 0; var off = ((h >>> 16) % 3) - 1;
-      b.style.transform = 'translateY(' + off + 'px)'; el.appendChild(b);
-    }
-  }
+  /* Retired sci-fi/Dada helpers kept as safe no-ops so plain typography stays straight and sharp. */
+  function decode() { return function () {}; }
+  function glitch() {}
+  function trace() {}
+  function dymo() {}
+  function cutup() {}
 
-
-  /* ---------- Dada layer ---------- */
-  /* Set a heading's letters as if cut from different printed matter: chips, signal, mono, outline; each a little off.
-     Deterministic per text, so the same word always gets the same cut. Screen readers read the plain word. */
-  function cutup(el) {
-    if (el.__pbCutup) return; el.__pbCutup = true;
-    var text = el.textContent.trim(), h = 7;
-    for (var i = 0; i < text.length; i++) h = (h * 31 + text.charCodeAt(i)) | 0;
-    function rnd() { h = (h * 1103515245 + 12345) | 0; return ((h >>> 8) & 0xffff) / 0xffff; }
-    var kinds = ['', '', 'is-chip', 'is-mono', 'is-line', '', 'is-chip', 'is-sig'], sig = 0;
-    el.setAttribute('aria-label', text); el.textContent = ''; el.classList.add('pb-cutup');
-    for (var j = 0; j < text.length; j++) {
-      var b = document.createElement('b'); b.setAttribute('aria-hidden', 'true');
-      if (text[j] === ' ') { b.className = 'is-gap'; el.appendChild(b); continue; }
-      var k = kinds[(rnd() * kinds.length) | 0];
-      if (k === 'is-sig' && sig++) k = 'is-chip';           /* one signal letter at most */
-      b.className = k; b.textContent = text[j];
-      b.style.setProperty('--r', ((rnd() - .5) * 10).toFixed(1) + 'deg');
-      b.style.setProperty('--y', ((rnd() - .5) * .12).toFixed(3) + 'em');
-      b.style.setProperty('--s', (.84 + rnd() * .3).toFixed(2) + 'em');
-      el.appendChild(b);
-    }
-  }
-
-  /* Wire up every helper found in a root. */
+  /* Wire up every active zine & terminal helper found in a root. */
   function init(root) {
     root = root || document;
     Array.prototype.forEach.call(root.querySelectorAll('.pb-band__run[data-words]'), runningBand);
     Array.prototype.forEach.call(root.querySelectorAll('.pb-mark[data-seed]'), function (m) { stitchMark(m); });
     Array.prototype.forEach.call(root.querySelectorAll('.pb-term'), function (t) { terminal(t); });
-    Array.prototype.forEach.call(root.querySelectorAll('[data-decode]'), function (d) { decode(d); });
-    Array.prototype.forEach.call(root.querySelectorAll('.pb-glitch'), function (d) { glitch(d); });
     Array.prototype.forEach.call(root.querySelectorAll('.pb-readout'), function (d) { readout(d); });
-    Array.prototype.forEach.call(root.querySelectorAll('canvas.pb-trace'), function (c) { trace(c); });
     Array.prototype.forEach.call(root.querySelectorAll('.pb-feed'), function (f) { feed(f); });
-    Array.prototype.forEach.call(root.querySelectorAll('.pb-dymo'), function (d) { dymo(d); });
-    Array.prototype.forEach.call(root.querySelectorAll('[data-cutup]'), function (d) { cutup(d); });
   }
 
   window.PB = { runningBand: runningBand, stitchMark: stitchMark, dymo: dymo, cutup: cutup,

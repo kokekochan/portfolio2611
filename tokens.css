@@ -26,6 +26,7 @@
   --text: #1a1714;
   --text-muted: #5e574e;
   --rule: #b9ae99;
+  --frame: var(--text);
   --signal: #b8001f;
   --on-signal: #ece4d3;
   --phosphor: rgba(184, 0, 31, 0.30);
