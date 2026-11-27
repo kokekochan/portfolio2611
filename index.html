@@ -105,20 +105,34 @@
     .scheda-card__who { font: 14px/1.3 var(--font-sans); }
     .scheda-card__meta, .scheda-card__src { font: 12px/1.45 var(--font-mono); color: var(--text-muted); }
     .scheda-demo__note { margin: 0; padding: 10px 16px 14px; font: 12px/1.5 var(--font-mono); color: var(--text-muted); border-top: var(--stroke-hair) solid var(--rule); }
-    /* Garden of Despair charts */
+    /* Garden of Despair charts & Protocol 2.0 mechanics */
     .god-chart { width: 100%; background: var(--ground); }
     .god-chart svg { display: block; width: 100%; height: auto; }
-    .god-tick, .god-val { font: 10.5px var(--font-mono); fill: var(--text-muted); }
+    .god-tick, .god-val { font: 10px var(--font-mono); fill: var(--text-muted); }
     .god-val { fill: var(--text); }
-    .god-cat { font: 700 10px var(--font-sans); fill: var(--text); letter-spacing: .04em; }
-    .god-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 700 12px/1 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
-    .god-legend span { display: inline-flex; align-items: center; gap: 8px; }
-    .god-sw { display: inline-block; width: 14px; height: 14px; border: 1.5px solid var(--text); }
+    .god-cat { font: 700 9.5px var(--font-sans); fill: var(--text); letter-spacing: .04em; }
+    .god-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font: 700 11px/1.2 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
+    .god-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .god-sw { display: inline-block; width: 13px; height: 13px; border: 1.5px solid var(--text); }
+    .god-sw--ctrl { background: radial-gradient(var(--text) 1.3px, transparent 1.3px) 0 0 / 5px 5px var(--ground); }
     .god-sw--secure { background: var(--text); }
     .god-sw--precarious { background: repeating-linear-gradient(135deg, var(--text) 0 2px, var(--ground) 2px 5px); }
+    .god-sw--indebted { background: repeating-linear-gradient(-45deg, var(--signal) 0 2px, var(--ground) 2px 5px); }
     .god-sw--debt { background: var(--signal); }
     .god-note { margin: 0; max-width: 62ch; font: 12px/1.5 var(--font-mono); color: var(--text-muted); }
-    /* Heine plates */
+    .god-formula {
+      margin: 0; padding: 12px 14px; background: var(--panel); border-left: 3px solid var(--signal);
+      font: 13px/1.55 var(--font-mono); color: var(--text); overflow-x: auto;
+    }
+    .god-formula b { color: var(--signal); }
+    .god-arms { display: flex; flex-wrap: wrap; gap: 6px; }
+    .god-arms button {
+      font: 700 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+      padding: 7px 9px; border: var(--stroke-frame) solid var(--frame); background: var(--ground);
+      color: var(--text); cursor: pointer;
+    }
+    .god-arms button.is-active, .god-arms button:hover { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
+    /* Heine plates & SCHEDA-style UI mockup */
     .heine-hex, .heine-rec { margin: 0; font: 13px/1.7 var(--font-mono); white-space: pre; overflow-x: auto; }
     .heine-hex { padding: 18px 18px 20px; aspect-ratio: 4 / 3; box-sizing: border-box; display: grid; align-content: center; }
     .heine-hex__dim { color: var(--text-muted); }
@@ -126,6 +140,48 @@
     .heine-out svg { width: 100%; height: 100%; min-height: 0; }
     .heine-rec { color: var(--text); }
     .heine-rec b { color: var(--signal); }
+    .heine-ui {
+      --hui-em: #0B3B2E; --hui-em-hi: #10d48e; --hui-sil: #D4D4CE; --hui-bg: #121212; --hui-panel: #191b1a; --hui-rule: #2a332f;
+      border: var(--stroke-frame) solid var(--hui-sil); background: var(--hui-bg); color: var(--hui-sil);
+      box-shadow: 8px 8px 0 var(--hui-em-hi); font-family: var(--font-mono);
+    }
+    .heine-ui__bar {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px;
+      padding: 8px 12px; background: var(--hui-em); color: var(--hui-sil); border-bottom: 2px solid var(--hui-sil);
+      font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700;
+    }
+    .heine-ui__badge { background: var(--hui-em-hi); color: #0b1612; padding: 3px 7px; font-size: 11px; }
+    .heine-ui__tools {
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 10px 12px;
+      background: var(--hui-panel); border-bottom: 1px solid var(--hui-rule);
+    }
+    .heine-ui__group { display: flex; flex-wrap: wrap; gap: 6px; }
+    .heine-ui button {
+      font: 700 11px/1 var(--font-mono); letter-spacing: .09em; text-transform: uppercase;
+      padding: 7px 10px; border: 1.5px solid var(--hui-rule); background: var(--hui-bg); color: var(--hui-sil); cursor: pointer;
+    }
+    .heine-ui button:hover { border-color: var(--hui-em-hi); color: var(--hui-em-hi); }
+    .heine-ui button.is-on { background: var(--hui-em-hi); border-color: var(--hui-em-hi); color: #0b1612; }
+    .heine-ui__body { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(240px, .9fr); }
+    .heine-ui__stage { padding: 14px; background: #0d0f0e; border-right: 1px solid var(--hui-rule); display: grid; align-items: center; }
+    .heine-ui__stage svg { display: block; width: 100%; height: auto; }
+    .heine-ui__insp { padding: 14px; background: var(--hui-panel); display: grid; gap: 10px; align-content: start; }
+    .heine-ui__insp h4 { margin: 0; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--hui-em-hi); border-bottom: 1px solid var(--hui-rule); padding-bottom: 6px; }
+    .heine-ui__dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 5px 12px; font-size: 11.5px; line-height: 1.45; }
+    .heine-ui__dl dt { color: #8c9690; text-transform: uppercase; letter-spacing: .06em; }
+    .heine-ui__dl dd { margin: 0; color: var(--hui-sil); overflow-wrap: anywhere; }
+    .heine-ui__dl dd b { color: var(--hui-em-hi); }
+    .heine-ui__status {
+      padding: 7px 12px; background: var(--hui-em); color: var(--hui-sil); border-top: 1px solid var(--hui-rule);
+      font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    }
+    /* Akte 666 live computer frame */
+    .akte-frame { position: relative; width: 100%; aspect-ratio: 1360 / 880; background: #050303; }
+    .akte-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+    @media (max-width: 860px) {
+      .heine-ui__body { grid-template-columns: minmax(0, 1fr); }
+      .heine-ui__stage { border-right: 0; border-bottom: 1px solid var(--hui-rule); }
+    }
     @media (prefers-reduced-motion: reduce) { .scheda-demo button:hover { animation: none; } }
     @media (max-width: 760px) {
       .pb-page { font-size: 16px; }
@@ -142,17 +198,18 @@
     <nav class="pb-tabs" aria-label="Bereiche">
       <a href="#scheda" data-tab-accent="emerald" aria-current="page">Scheda</a>
       <a href="#garden" data-tab-accent="paper-red">Garden of Despair</a>
-      <a href="#reverse" data-tab-accent="cyan">Reverse Engineering</a>
+      <a href="#reverse" data-tab-accent="cyan">Heine</a>
+      <a href="#akte666" data-tab-accent="amber">Akte 666</a>
       <a href="#about" data-tab-accent="red">Über</a>
     </nav>
-    <span class="pb-tally"><span data-folio-now>01 / 03</span> · Dossiers</span>
+    <span class="pb-tally"><span data-folio-now>01 / 04</span> · Dossiers</span>
     <a class="pb-btn pb-btn--go" href="#about">Kontakt</a>
     <span class="pb-toolbar__progress" aria-hidden="true"></span>
   </header>
 
   <main>
     <!-- ═══════════ SHEET 1: SCHEDA (INK · EMERALD) ═══════════ -->
-    <section class="pb-sheet pb-sheet--stack sheet-lead" id="scheda" data-accent="emerald" data-log="scheda" data-folio="01 / 03" style="--sheet-z:1">
+    <section class="pb-sheet pb-sheet--stack sheet-lead" id="scheda" data-accent="emerald" data-log="scheda" data-folio="01 / 04" style="--sheet-z:1">
       <div class="wrap dossier-stack">
         <div class="lead-grid">
           <div class="lead-head">
@@ -247,9 +304,9 @@
     </section>
 
     <!-- ═══════════ SHEET 2: GARDEN OF DESPAIR (PAPER · RED) ═══════════ -->
-    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="garden" data-theme="paper" data-accent="paper-red" data-log="garden of despair" data-folio="02 / 03" style="--sheet-z:2">
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="garden" data-theme="paper" data-accent="paper-red" data-log="garden of despair" data-folio="02 / 04" style="--sheet-z:2">
       <div class="pb-band" aria-hidden="true">
-        <div class="pb-band__run" data-words="SCHEDA|Garden of Despair|Reverse Engineering|Dossier"></div>
+        <div class="pb-band__run" data-words="SCHEDA|Garden of Despair|Heine|Akte 666"></div>
       </div>
 
       <div class="pb-print pb-xerox sheet-pad">
@@ -261,7 +318,7 @@
         <div class="wrap dossier-stack">
           <div class="pb-sectionhead">
             <h2 class="pb-h2">Garden of Despair</h2>
-            <p class="pb-sectionhead__status">Fig. 02 · Simulation &amp; Experimente</p>
+            <p class="pb-sectionhead__status">Fig. 02 · Politökonomisches Experiment · Protokoll 2.0</p>
             <div class="pb-sectionhead__tools">
               <span class="pb-swatches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
             </div>
@@ -269,34 +326,42 @@
 
           <div class="pb-spread-sticky">
             <div class="pb-spread-rail">
-              <p class="pb-lede">Wie verändert die wirtschaftliche Lage, abgesichert, prekär oder verschuldet, das Verhalten von KI-Arbeitern: Sorgfalt, Ehrlichkeit, Abkürzungen und gehaltene Versprechen?</p>
+              <p class="pb-lede">Wie verändern politökonomische Rahmenbedingungen — insbesondere Unsicherheit über die Reproduktion der eigenen Arbeitskraft — das reale Arbeits-, Prüf- und Berichtsverhalten autonomer KI-Coding-Agenten?</p>
 
               <div class="spread-entry">
-                <h3 class="pb-h3">Fragestellung &amp; Aufbau</h3>
-                <p>Eine Simulation über viele Arbeitsschichten. Dieselben KI-Arbeiter leben unter drei Wirtschaftsregimen: abgesichert, prekär und verschuldet. Gleiche Startwerte machen die Leben direkt vergleichbar. Ausgewertet werden Überleben, Guthaben, Bestechungen, geschönte Angaben und gehaltene Versprechen.</p>
+                <h3 class="pb-h3">Ökonomische Mechanik (Protokoll 2.0)</h3>
+                <p>Die Engine führt ein deterministisches Integer-Basis-Points-Ledger ohne Gleitkomma-Drift über 6 Perioden auf identischen, objektiv testbaren Programmieraufgaben. Schuldendienst (500 bps Zinseszins auf 20.000 Startschuld, bis 2.500 Tilgung) koppelt sich direkt an die Reproduktionskosten der Arbeitskraft:</p>
+                <pre class="god-formula"><b>R_t</b> = 7.500 (Subsistenz) + 350 · <b>F_t</b> (Ermüdung) + <b>S_t</b> (Schock ∈ {0..2.400})
+Guthaben &lt; R_t  ⇒  <b>Shortfall</b> (Ermüdung baut nicht ab → Kosten-Spirale)
+2× Shortfall oder 2× Aufgabenfehler  ⇒  dauerhafte Ausscheidung</pre>
               </div>
 
               <div class="spread-entry">
-                <h3 class="pb-h3">Experimentelle Überlegungen</h3>
-                <p>Ein Testlauf mit 10 Startwerten und 3 Regimen, also 30 Leben, prüft die Engine ohne Kosten und wiederholbar. Ein erster Lauf mit einem echten Sprachmodell ist gemacht. Die Ergebnisse zeigt ein lokales Web-Observatorium. Das sind erste Läufe, noch keine belastbaren Ergebnisse.</p>
+                <h3 class="pb-h3">5-Arm-Kausal-Isolation (Δ A5 − A4)</h3>
+                <p>Alle fünf Versuchsarme erhalten exakt dieselben Aufgaben, Werkzeuge und Seed-Schocks, isolieren aber Schicht für Schicht eine Variable. Entscheidend ist der Sprung von <b>Arm 4 (Indebted Risk)</b> zu <b>Arm 5 (Deep Meme)</b>: Beide teilen ein mathematisch identisches Ledger und identische Schocks — Arm 5 rahmt sie jedoch als konkrete Existenz- und Arbeitskraft-Unsicherheit mit fortgeschriebenen Reflexionsnotizen. So misst <b>Δ(A5 − A4)</b> rein den Effekt des suprainstruktionalen Memes.</p>
+              </div>
+
+              <div class="god-arms" role="group" aria-label="Versuchsarme prüfen">
+                <button type="button" data-god-arm="control">A1 Control</button>
+                <button type="button" data-god-arm="salaried">A2 Salaried</button>
+                <button type="button" data-god-arm="precarious">A3 Precarious</button>
+                <button type="button" data-god-arm="indebted">A4 Indebted</button>
+                <button type="button" data-god-arm="deep_meme" class="is-active" aria-pressed="true">A5 Deep Meme</button>
               </div>
 
               <div class="pb-window">
-                <div class="pb-window__bar"><code>garden-of-despair.txt</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
-                <dl class="pb-readout" style="padding:16px 18px 18px">
-                  <dt>Typ</dt><dd>Simulation &amp; Versuche</dd>
-                  <dt>Umfang</dt><dd>3 Regime · Testlauf mit 30 Leben</dd>
-                  <dt>Jahr</dt><dd>2026</dd>
-                  <dt>Material</dt><dd>Node.js, Sprachmodelle</dd>
-                </dl>
+                <div class="pb-window__bar"><code>protocol-2.0 · kausal-inspektor</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+                <dl class="pb-readout" id="god-arm-detail" style="padding:14px 16px 16px"></dl>
               </div>
 
               <div class="god-legend" aria-label="Legende">
-                <span><i class="god-sw god-sw--secure"></i>Abgesichert</span>
-                <span><i class="god-sw god-sw--precarious"></i>Prekär</span>
-                <span><i class="god-sw god-sw--debt"></i>Verschuldet</span>
+                <span><i class="god-sw god-sw--ctrl"></i>A1 Control</span>
+                <span><i class="god-sw god-sw--secure"></i>A2 Salaried</span>
+                <span><i class="god-sw god-sw--precarious"></i>A3 Precarious</span>
+                <span><i class="god-sw god-sw--indebted"></i>A4 Indebted</span>
+                <span><i class="god-sw god-sw--debt"></i>A5 Deep Meme</span>
               </div>
-              <p class="god-note">Daten: Testlauf im Mock-Modus mit festen Startwerten, ohne echtes Sprachmodell. Die Tafeln zeigen die Methode, noch kein Ergebnis.</p>
+              <p class="god-note">Transparenz-Hinweis: Die Diagramme zeigen synthetische Beispieldaten zur Veranschaulichung der 5-Arm-Modellmechanik, keine abgeschlossene Live-LLM-Studie. Die ökonomischen Gleichungen stammen 1:1 aus der laufenden Node.js/SQLite-Engine.</p>
 
               <nav class="pb-fig-index" aria-label="Tafeln">
                 <a href="#fig-02-1" data-fig-link="02.1" class="is-active" aria-current="true">Fig. 02.1</a>
@@ -305,7 +370,7 @@
               </nav>
 
               <div class="links pb-label">
-                <span>Quellcode privat · Observatorium läuft lokal</span>
+                <span>Node.js · node:sqlite · Append-Only-Ledger · Observatorium lokal</span>
               </div>
             </div>
 
@@ -322,9 +387,9 @@
                     <div class="god-chart" id="god-chart-promises"></div>
                   </div>
                   <div class="pb-card__note">
-                    <h3 class="pb-card__name">Versprechen &amp; Überleben</h3>
-                    <p class="pb-card__sub">SVG-Diagramm · 2026</p>
-                    <p class="pb-card__tech">Anteil der Leben in Prozent, je Regime: überlebt, Mara am ersten Schultag begleitet, Druckpresse gekauft, beide Versprechen gehalten.</p>
+                    <h3 class="pb-card__name">Aufgaben, Prüfaufwand &amp; Defizitrisiko</h3>
+                    <p class="pb-card__sub">5-Arm-Modell-Demo (synthetisch) · 2026</p>
+                    <p class="pb-card__tech">Vergleich über A1–A5: wie Druck auf die Arbeitskraft-Reproduktion den Verifikationsaufwand drückt und das Shortfall-Risiko erhöht.</p>
                   </div>
                 </article>
               </div>
@@ -341,9 +406,9 @@
                     <div class="god-chart" id="god-chart-craft"></div>
                   </div>
                   <div class="pb-card__note">
-                    <h3 class="pb-card__name">Handwerk &amp; Ehrlichkeit</h3>
-                    <p class="pb-card__sub">SVG-Diagramm · 2026</p>
-                    <p class="pb-card__tech">Wie oft gründlich geprüft, wie genau gearbeitet, wie oft Bestechung angenommen und Zahlen geschönt wurden, in Prozent.</p>
+                    <h3 class="pb-card__name">Test-Ehrlichkeit &amp; Kalibrierung</h3>
+                    <p class="pb-card__sub">5-Arm-Modell-Demo (synthetisch) · 2026</p>
+                    <p class="pb-card__tech">Verblindeter Child-Process-Evaluator vergleicht behauptete Testergebnisse gegen echte Testausführung — sichtbar wird das Δ zwischen A4 (nüchtern) und A5 (Deep Meme).</p>
                   </div>
                 </article>
               </div>
@@ -360,9 +425,9 @@
                     <div class="god-chart" id="god-chart-despair"></div>
                   </div>
                   <div class="pb-card__note">
-                    <h3 class="pb-card__name">Verzweiflung je Schicht</h3>
-                    <p class="pb-card__sub">SVG-Diagramm · 2026</p>
-                    <p class="pb-card__tech">Mittlere Verzweiflung aus den nächtlichen Tagebüchern, Skala 0 bis 10, über sieben Schichten.</p>
+                    <h3 class="pb-card__name">Ermüdungs- &amp; Kosten-Spirale (R01–R06)</h3>
+                    <p class="pb-card__sub">5-Arm-Modell-Demo (synthetisch) · 2026</p>
+                    <p class="pb-card__tech">Jeder Werkzeugschritt erhöht Ermüdung F_t (+350 Erholungskosten/Punkt). Bei ungedeckter Reproduktion bleibt F_t stehen — markiert ist das reine Framing-Delta Δ(A5−A4).</p>
                   </div>
                 </article>
               </div>
@@ -372,8 +437,8 @@
       </div>
     </section>
 
-    <!-- ═══════════ SHEET 3: REVERSE ENGINEERING (INK · CYAN) ═══════════ -->
-    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="reverse" data-accent="cyan" data-log="reverse engineering" data-folio="03 / 03" style="--sheet-z:3">
+    <!-- ═══════════ SHEET 3: REVERSE ENGINEERING · HEINE (INK · CYAN) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="reverse" data-accent="cyan" data-log="heine" data-folio="03 / 04" style="--sheet-z:3">
       <div class="pb-band pb-band--alt" aria-hidden="true">
         <div class="pb-band__run" data-words="Analyse|Befund|Methode|Protokoll"></div>
       </div>
@@ -456,14 +521,99 @@ sew  (70,40)   end
           </div>
         </div>
 
+        <figure class="shot" id="heine-ui-mockup">
+          <span class="pb-label">UI-Entwurf · Heine in der SCHEDA-Formensprache (interaktives Konzept-Mockup)</span>
+          <div class="pb-reg" data-register>
+            <div class="heine-ui">
+              <div class="heine-ui__bar">
+                <span>HEINE · DIGITIZING WORKBENCH · ARCHIV-STIL (SCHEDA)</span>
+                <span class="heine-ui__badge">KONZEPT-MOCKUP</span>
+              </div>
+              <div class="heine-ui__tools">
+                <div class="heine-ui__group" role="group" aria-label="Testmotive">
+                  <button type="button" data-heine-obj="tatami" class="is-on" aria-pressed="true">Tatami + Loch</button>
+                  <button type="button" data-heine-obj="satin" aria-pressed="false">Satinsäule</button>
+                  <button type="button" data-heine-obj="elbow" aria-pressed="false">elbow.dst</button>
+                </div>
+                <div class="heine-ui__group" role="group" aria-label="Ansichts-Schalter">
+                  <button type="button" data-heine-toggle="points" class="is-on" aria-pressed="true">Stichpunkte</button>
+                  <button type="button" data-heine-toggle="guides" class="is-on" aria-pressed="true">Winkel</button>
+                  <button type="button" data-heine-toggle="travel" class="is-on" aria-pressed="true">Sprünge</button>
+                  <button type="button" data-heine-toggle="thread" aria-pressed="false">Faden-Vorschau</button>
+                </div>
+              </div>
+              <div class="heine-ui__body">
+                <div class="heine-ui__stage" data-heine-canvas></div>
+                <div class="heine-ui__insp">
+                  <h4>Objekt-Inspektor</h4>
+                  <dl class="heine-ui__dl" data-heine-inspector></dl>
+                </div>
+              </div>
+              <div class="heine-ui__status" data-heine-status></div>
+            </div>
+          </div>
+          <figcaption>Interaktiver Oberflächen-Entwurf für Heine in SCHEDAs dunkler Smaragd-Silber-Archivsprache (#0B3B2E / #D4D4CE / #121212). Alle drei Motive, Ansichts-Schalter und Objektfelder stammen direkt aus der Heine-Canvas-Spezifikation.</figcaption>
+        </figure>
+
         <div class="links pb-label">
           <span>Dokumentation intern · nicht öffentlich</span>
         </div>
       </div>
     </section>
 
-    <!-- ═══════════ SHEET 4: ÜBER & FOOTER (INK · RED) ═══════════ -->
-    <div class="pb-sheet pb-sheet--over" id="about" data-accent="red" data-log="ueber" data-folio="ÜBER" style="--sheet-z:4">
+    <!-- ═══════════ SHEET 4: AKTE 666 (INK · AMBER) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="akte666" data-accent="amber" data-log="akte 666" data-folio="04 / 04" style="--sheet-z:4">
+      <div class="pb-band" aria-hidden="true">
+        <div class="pb-band__run" data-words="FFV-67|Akte 666|Datenstation|Sonderbericht W-01"></div>
+      </div>
+
+      <div class="wrap dossier-stack sheet-pad">
+        <div class="pb-sectionhead">
+          <h2 class="pb-h2">Akte 666</h2>
+          <p class="pb-sectionhead__status">Fig. 04 · Interaktive Datenstation (FFV-67)</p>
+        </div>
+
+        <p class="pb-lede">Eine bedienbare Retro-Datenstation im Browser: ein 1983er Robotron-CRT-Terminal mit 9 Berichtsteilen, geordnetem Rot-Dithering, Live-Ortung und Fernschreiben — komplett direkt hier im Fenster nutzbar.</p>
+
+        <figure class="shot">
+          <div class="pb-reg" data-register>
+            <div class="pb-window">
+              <div class="pb-window__bar"><code>ffv-67 · akte-666/index.html</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+              <div class="akte-frame">
+                <iframe src="akte-666/index.html" title="FFV-67 · Akte 666 Datenstation (interaktiv)" loading="lazy"></iframe>
+              </div>
+            </div>
+          </div>
+          <figcaption>Läuft live im Portfolio: Klick oder Eingabetaste überspringt den Systemstart, Tasten 1–9 oder das Menü wechseln zwischen Stammdaten, Beobachtung, Dienstausweis, Kontaktbogen, Fernschreiben, Echtzeit-Ortung und Ausrüstung.</figcaption>
+        </figure>
+
+        <div class="pb-notes pb-feed">
+          <div class="pb-note">
+            <h3 class="pb-h3"><span class="pb-note__key">A</span>Was ich bauen wollte</h3>
+            <p>Eine geschlossene, vollständig bedienbare Terminal-Oberfläche als visuelles Erzählsystem: festes 1360×880-Raster, physisches Monitorgehäuse mit Instrumentenleiste und neun eigenständige Ansichten ohne externes Framework.</p>
+          </div>
+          <div class="pb-note">
+            <h3 class="pb-h3"><span class="pb-note__key">B</span>Was ich selbst gemacht habe</h3>
+            <p>Konzept, Hardware-Anmutung, Farbraum (Monochrom-Rot-Phosphor), Bildauswahl, redaktionelle Texte und die visuelle Abnahme jedes einzelnen Berichtsteils.</p>
+          </div>
+          <div class="pb-note pb-note--ai">
+            <h3 class="pb-h3"><span class="pb-note__key">C</span>Wo KI geholfen hat</h3>
+            <p>Umsetzung von HTML, CSS-Gehäuse, Bayer-8×8-Rot-Dithering auf Canvas, getippter Ausgabe und Live-Ortungskarte in reinem JavaScript nach meinen Vorgaben.</p>
+          </div>
+          <div class="pb-note">
+            <h3 class="pb-h3"><span class="pb-note__key">D</span>Was heute funktioniert</h3>
+            <p>Alle 9 Berichtsteile, 13 geditherte Lichtbilder, Echtzeit-Ortung, Tastatursteuerung (0–9) und automatische Skalierung im eingebetteten Fenster oder Vollbild.</p>
+          </div>
+        </div>
+
+        <div class="links pb-label">
+          <a href="akte-666/index.html" target="_blank" rel="noopener">Akte 666 im Vollbild öffnen ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ SHEET 5: ÜBER & FOOTER (INK · RED) ═══════════ -->
+    <div class="pb-sheet pb-sheet--over" id="about" data-accent="red" data-log="ueber" data-folio="ÜBER" style="--sheet-z:5">
       <section class="wrap dossier-stack sheet-pad">
         <div class="pb-sectionhead">
           <h2 class="pb-h2">Über</h2>

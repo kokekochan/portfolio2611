@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FFV-67 · Sonderbericht W-01</title>
+<link rel="stylesheet" href="assets/station.css">
+<style>
+  /* View layouts (design size 1360×880) */
+  #v-boot { align-content: start; gap: 0; font-size: 15px; line-height: 1.7; }
+  #v-akte { grid-template-columns: 250px minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 14px 18px; }
+  #v-akte .pic { grid-row: 1 / 3; display: grid; grid-template-rows: 333px auto; gap: 8px; align-content: start; }
+  #v-beob { grid-template-rows: auto minmax(0, 1fr) auto; gap: 12px; }
+  #v-beob .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; min-height: 0; }
+  #v-beob .cell { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 6px; min-height: 0; }
+  #v-ausweis { place-items: center; }
+  #v-ausweis .card { width: 760px; height: 480px; display: grid; grid-template-rows: 44px minmax(0, 1fr) 38px; border: 2px solid var(--crt); }
+  #v-ausweis .card__band { background: var(--crt); color: var(--bg); text-shadow: none; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; font: 700 15px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; }
+  #v-ausweis .card__mid { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 22px; padding: 18px; min-height: 0; }
+  #v-ausweis .card__foot { display: flex; justify-content: space-between; align-items: center; padding: 0 16px; border-top: 1px solid var(--dim); }
+  .barcode { height: 46px; background: repeating-linear-gradient(90deg, var(--crt) 0 2px, transparent 2px 4px, var(--crt) 4px 7px, transparent 7px 9px, var(--crt) 9px 10px, transparent 10px 14px); opacity: .85; }
+  #v-kanal { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 16px; }
+  #v-kanal .feed { position: relative; }
+  #v-kanal .feed .slot { position: absolute; inset: 0; }
+  .reticle { position: absolute; inset: 32% 40%; border: 1px solid rgba(255,58,46,.75); z-index: 3; pointer-events: none; }
+  .reticle::before, .reticle::after { content: ""; position: absolute; background: rgba(255,58,46,.75); }
+  .reticle::before { left: 50%; top: -16px; bottom: -16px; width: 1px; }
+  .reticle::after { top: 50%; left: -16px; right: -16px; height: 1px; }
+  #v-film { grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr) auto; gap: 10px; }
+  #v-film .strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; min-height: 0; padding: 12px 10px; border-top: 4px dotted var(--dim); border-bottom: 4px dotted var(--dim); }
+  #v-film .fr { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 4px; min-height: 0; }
+  #v-film .fr > div { position: relative; min-height: 0; }
+  #v-film .fr .slot { position: absolute; inset: 0; }
+  #v-telex { grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; }
+  #v-telex .telex { font-size: 16px; line-height: 1.75; letter-spacing: .04em; }
+  #v-ortung { grid-template-columns: minmax(0, 1fr) 330px; gap: 16px; }
+  #v-ortung .map { position: relative; }
+  #v-ortung canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  #v-bio { grid-template-rows: auto auto minmax(0, 1fr); gap: 10px; }
+  #v-bio .bio-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; }
+  #v-bio .bio-tabs { display: flex; gap: 8px; }
+  #v-bio .bio-tab { all: unset; box-sizing: border-box; padding: 4px 12px; border: 1px solid var(--dim); color: var(--dim); font: 700 11px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+  #v-bio .bio-tab:hover, #v-bio .bio-tab:focus-visible { border-color: var(--crt); color: var(--crt); }
+  #v-bio .bio-tab.is-on { background: var(--crt); border-color: var(--crt); color: var(--bg); text-shadow: none; }
+  #v-bio .bio-pane { display: none; min-height: 0; }
+  #v-bio .bio-pane.is-on { display: grid; gap: 12px; }
+  #v-bio .bio-col { display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 0; }
+  #v-bio .bio-list { display: grid; gap: 10px; align-content: start; font-size: 12px; line-height: 1.45; }
+  #v-bio .bio-item { border-left: 2px solid var(--dim); padding-left: 10px; display: grid; gap: 3px; }
+  #v-bio .bio-item strong { color: var(--crt-hi); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; }
+  #v-bio .hyp { display: grid; gap: 8px; align-content: start; font-size: 11.5px; line-height: 1.4; }
+  #v-bio .hyp-row { display: grid; gap: 2px; padding-bottom: 6px; border-bottom: 1px dashed var(--faint); }
+  #v-bio .hyp-row:last-child { border-bottom: 0; padding-bottom: 0; }
+  #v-bio .hyp-top { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; }
+  #v-tsf { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; }
+  #v-tsf .wire { position: relative; display: grid; grid-template-rows: auto minmax(0, 1fr); }
+  #v-tsf .diag { position: relative; min-height: 0; }
+  #v-tsf .diag .slot { position: absolute; inset: 0; cursor: default; }
+  #v-tsf .diag svg { position: relative; z-index: 3; width: 100%; height: 100%; display: block; pointer-events: none; }
+  #v-tsf .sysbars { display: grid; gap: 6px; font: 11.5px/1.2 var(--mono); }
+  #v-tsf .sysbars .meter { grid-template-columns: 7.5em 1fr 3.5em; }
+  #trk-log p { margin: 0; font-size: 12.5px; line-height: 1.65; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .split { display: grid; gap: 14px; min-height: 0; }
+</style>
+</head>
+<body>
+<div class="stage">
+ <div class="monitor">
+  <span class="monitor__latch monitor__latch--l" aria-hidden="true"></span>
+  <span class="monitor__latch monitor__latch--r" aria-hidden="true"></span>
+  <span class="monitor__screw monitor__screw--tl" aria-hidden="true"></span>
+  <span class="monitor__screw monitor__screw--tr" aria-hidden="true"></span>
+  <span class="monitor__screw monitor__screw--bl" aria-hidden="true"></span>
+  <span class="monitor__screw monitor__screw--br" aria-hidden="true"></span>
+  <span class="monitor__plate" aria-hidden="true">VEB Kombinat Robotron Neu-Potsdam Fernfunkvisualisierapparat Ausf. 67</span>
+  <img class="monitor__logo" src="assets/robotron-logo.png" alt="robotron" aria-hidden="true">
+  <div class="monitor__face">
+   <div class="monitor__hood">
+   <div class="screen">
+
+   <div class="gate" id="gate" aria-live="polite">
+    <div class="gate__box">
+     <div class="gate__head"><span>SONDERBERICHT W-01 · AUSF. 67</span><span>HA I / 4</span></div>
+     <div class="gate__body" id="gate-log"></div>
+     <div class="gate__foot"><span>[EINGABE / KLICK] UEBERSPRINGEN</span><span id="gate-stat">ANMELDUNG ...</span></div>
+    </div>
+   </div>
+
+   <div class="bar"><span>SONDERBERICHT W-01 · HA I / 4 · FFV-67</span><span class="bar__right"><span data-now>Systemstart</span><span data-date>--.--.1983</span><span data-clock>--:--:--</span></span></div>
+
+   <div class="ticker"><div class="ticker__run" style="--dur:70s">
+     <span><b>+++</b> SONDERBERICHT W-01 GEOEFFNET · ZUGRIFF STUFE II</span>
+     <span>OBJEKT W-01 UNTER STAENDIGER BEOBACHTUNG</span>
+     <span><b>+++</b> STAFFEL 666 · EINSATZBEREITSCHAFT HERGESTELLT</span>
+     <span>FUNKVERKEHR WIRD AUFGEZEICHNET</span>
+     <span><b>+++</b> RELAISSTATION NORD · VERBINDUNG STABIL</span>
+     <span>SEKTOR NORD · LUFTRAUMUEBERWACHUNG AKTIV</span>
+     <span><b>+++</b> FREQUENZ 142,8 MHZ · VERSCHLUESSELT</span>
+   </div></div>
+
+   <div class="main">
+    <aside class="side">
+     <nav class="nav" aria-label="Sonderbericht W-01">
+      <h2>Sonderbericht W-01</h2>
+      <button data-view="v-akte"><span>01</span>Stammdaten</button>
+      <button data-view="v-beob"><span>02</span>Beobachtungsbericht</button>
+      <button data-view="v-ausweis"><span>03</span>Dienstausweis</button>
+      <button data-view="v-kanal"><span>04</span>Bildaufzeichnung</button>
+      <button data-view="v-film"><span>05</span>Kontaktbogen</button>
+      <button data-view="v-telex"><span>06</span>Fernschreiben</button>
+      <button data-view="v-ortung"><span>07</span>Echtzeit-Standord</button>
+      <button data-view="v-bio"><span>08</span>Biografie &amp; Motive</button>
+      <button data-view="v-tsf"><span>09</span>Ueberlassene Ausruestung</button>
+     </nav>
+     <div class="mini">
+      <span class="label">Ortung · W-01 · <span class="blink">Echtzeit</span></span>
+      <canvas id="trk-mini"></canvas>
+      <dl class="mini__read">
+       <dt>BREITE</dt><dd data-trk="lat">--</dd>
+       <dt>LAENGE</dt><dd data-trk="lon">--</dd>
+       <dt>TEMPO</dt><dd data-trk="kmh">--</dd>
+       <dt>KURS</dt><dd data-trk="hdg">--</dd>
+      </dl>
+     </div>
+     <div class="sys">
+      <div class="meter" data-meter="sig"><span>SIGNAL</span><i></i><span>--</span></div>
+      <div class="meter" data-meter="cpu"><span>RECHNER</span><i></i><span>--</span></div>
+      <div class="meter" data-meter="band"><span>BAND</span><i></i><span>--</span></div>
+     </div>
+    </aside>
+
+    <div class="views">
+     <!-- NVA emblem watermark (bottom-right) -->
+     <img class="nva-emblem" src="assets/nva-emblem.svg" alt="" aria-hidden="true">
+
+     <!-- 00 · BOOT -->
+     <section class="view" id="v-boot" data-title="Systemstart">
+      <div class="log" data-type>
+       <p>FERNFUNKVISUALISIERAPPARAT AUSF. 67 · SPEICHERTEST 640K ... BEREIT</p>
+       <p>LAUFWERK A: ... BEREIT   LAUFWERK B: ... BEREIT</p>
+       <p>VERBINDUNG ZUR ZENTRALE ... HERGESTELLT</p>
+       <p> </p>
+       <p>BENUTZER: HA I / 4      KENNWORT: ********</p>
+       <p>ZUGRIFF GEWAEHRT · STUFE II</p>
+       <p> </p>
+       <p><span class="inv">VERTRAULICH</span>  SONDERBERICHT W-01 · GESAMTAUSWERTUNG WALDHEIM, K.</p>
+       <p>9 BERICHTSTEILE · 13 LICHTBILDER · 1 ORTUNG AKTIV</p>
+       <p> </p>
+       <p class="dimt">BERICHTSTEIL WAEHLEN [1-9] · ZURUECK [0] · HINWEISE [H]</p>
+       <p class="cmd"><span class="cursor"></span></p>
+      </div>
+     </section>
+
+     <!-- 01 · STAMMDATEN -->
+     <section class="view" id="v-akte" data-title="Stammdaten">
+      <div class="pic">
+       <div class="slot" data-img="katia-01" data-label="Lichtbild 3:4"></div>
+       <span class="dimt" style="font-size:11px">LICHTBILD BEI ZUFUEHRUNG · 1983</span>
+      </div>
+      <div style="display:grid;gap:8px;align-content:start">
+       <span class="label">Sonderbericht W-01 · Teil 1</span>
+       <h1 class="big glow">Stammdaten</h1>
+       <dl class="rec-row" style="font-size:13px;line-height:1.42;gap:2px 14px">
+        <dt>Name</dt><dd class="hi">WALDHEIM, KATIA</dd>
+        <dt>Geburtsdatum</dt><dd>07.01.1968 · ALTER: 15 JAHRE</dd>
+        <dt>Groesse / Gew.</dt><dd>155 CM · CA. 44 KG (NVA-VERMESSUNG)</dd>
+        <dt>Augen / Haar</dt><dd>BERNSTEIN · BLOND</dd>
+        <dt>Zufuehrung</dt><dd>1983 · UEBERTRITT AUS DER BRD</dd>
+        <dt>Einheit</dt><dd>HEERESGRUPPE OST · 666. TSF-STAFFEL</dd>
+        <dt>Rufname</dt><dd>'SCHWARZESMARKEN'</dd>
+        <dt>Verwendung</dt><dd>PILOTIN, TSF</dd>
+        <dt>Dienstgrad</dt><dd>VORLAEUFIG · EINSTUFUNG AUSSTEHEND</dd>
+        <dt>Vorgesetzte</dt><dd>HPTM. I. BERNHARD</dd>
+        <dt>Herkunft</dt><dd><span class="redact" style="width:15em"></span></dd>
+        <dt>Angehoerige</dt><dd><span class="redact" style="width:8em"></span> · SIEHE BLATT 3</dd>
+       </dl>
+      </div>
+      <div class="box">
+       <div class="box__h"><span>Vermerk der Staffelfuehrung</span><span>Blatt 1 / 4</span></div>
+       <div class="box__b log" data-type>
+        <p>FLIEGERISCH HOCHBEGABT. MOEGLICHKEIT DER OFFIZIERSSCHULE ERKUNDEN.</p>
+        <p>IMMER WIEDER POLITISCH AUFFAELLIG. IM GEISTE VERMUTLICH DER NAIVITAET VERSCHULDET.</p>
+        <p>GENOSSIN WALDHEIM WIRD VORLÄUFIG DER 666. UNTERSTELLT. SIE IST VORALLEM UND NICHT ZUGUTERLETZT UNTER STRENGE BEOBACHTUNG ZU STELLEN; STRATEGISCHER WERT UEBERWIEGT POLITISCHEM RISIKO, POLITISCHES RISIKO BLEIBT NICHT AUS.</p>
+        <p class="dimt">RUECKSPRACHE HA I · MITTWOCH</p>
+       </div>
+      </div>
+      <span class="badge badge--solid blink" style="top:18px;right:20px">Geheime Verschlusssache</span>
+     </section>
+
+     <!-- 02 · BEOBACHTUNG -->
+     <section class="view" id="v-beob" data-title="Beobachtung">
+      <div style="display:flex;justify-content:space-between;align-items:end;gap:12px">
+       <div style="display:grid;gap:6px"><span class="label">Ministerium fuer Staatssicherheit · Operative Beobachtung</span><h1 class="big glow">Beobachtungsbericht</h1></div>
+       <span class="dimt" style="text-align:right;font-size:12px">BERICHT B-0666/83<br>DECKNAME „FLUECHTLING“</span>
+      </div>
+      <div class="row">
+       <div class="cell"><div class="slot" data-img="katia-02" data-label="Aufnahme 1"><div class="osd osd--t"><span>06:40</span><span>POSTEN 1</span></div></div><span>OBJEKT VERLAESST UNTERKUNFT ALLEIN. GEHT ZUM HANGAR. FRUEHER ALS BEFOHLEN.</span></div>
+       <div class="cell"><div class="slot" data-img="katia-03" data-label="Aufnahme 2"><div class="osd osd--t"><span>13:15</span><span>POSTEN 3</span></div></div><span>GESPRAECH MIT LTN. EBERBACH, CA. 10 MIN. INHALT <span class="redact" style="width:6em"></span></span></div>
+       <div class="cell"><div class="slot" data-img="katia-04" data-label="Aufnahme 3"><div class="osd osd--t"><span>22:05</span><span>POSTEN 2</span></div></div><span>NAHAUFNAHME AUS PERSÖNLICHEN GESPRÄCH MIT INFORMANTEN.</span></div>
+      </div>
+      <div class="box"><div class="box__b log" data-type style="padding:8px 12px">
+       <p class="cmd">auswertung --objekt W-01 --tag heute</p>
+       <p>3 SICHTUNGEN · 1 KONTAKT · 0 VERSTOESSE · <span class="inv">BEOBACHTUNG FORTSETZEN</span></p>
+      </div></div>
+     </section>
+
+     <!-- 03 · AUSWEIS -->
+     <section class="view" id="v-ausweis" data-title="Dienstausweis">
+      <div class="card">
+       <div class="card__band"><span>Dienstausweis</span><span>NVA · LSK/LV</span></div>
+       <div class="card__mid">
+        <div class="slot" data-img="katia-05" data-label="Lichtbild"></div>
+        <div style="display:grid;gap:14px;align-content:start">
+         <dl class="rec-row" style="grid-template-columns:7.5em 1fr">
+          <dt>Name</dt><dd class="hi">WALDHEIM</dd>
+          <dt>Vorname</dt><dd class="hi">KATIA</dd>
+          <dt>Einheit</dt><dd>666. TSF-STAFFEL</dd>
+          <dt>Verwendung</dt><dd>PILOTIN</dd>
+          <dt>Gueltig</dt><dd>10. November 1991</dd>
+          <dt>Zutritt</dt><dd>MILITAERFLUGPLATZ 'FELIX DSCHERSCHINSKI' · HANGAR 2</dd>
+         </dl>
+         <div class="barcode" aria-hidden="true"></div>
+        </div>
+       </div>
+       <div class="card__foot"><span>NR. 666 0183 W</span><span class="inv blink">VORLAEUFIG</span></div>
+      </div>
+     </section>
+
+     <!-- 04 · KANAL 2 -->
+     <section class="view" id="v-kanal" data-title="Kanal 2">
+      <div class="box feed">
+       <div class="slot" data-img="katia-06" data-label="Cockpit-Kamera" data-px="3">
+        <div class="reticle" aria-hidden="true"></div>
+        <div class="osd osd--t"><span class="rec">AUFN</span><span>K2 · TSF 08</span></div>
+        <div class="osd osd--b"><span>ALT 0120 · KURS 274</span><span data-clock>--:--:--</span></div>
+       </div>
+      </div>
+      <div class="split" style="grid-template-rows:auto minmax(0,1fr)">
+       <div class="box"><div class="box__h"><span>Bildaufzeichnung</span><span>Band 0666-B</span></div>
+        <div class="box__b log" data-type>
+         <p class="cmd">abspielen --band 0666-B --kanal 2</p>
+         <p class="dimt">QUELLE: BORDKAMERA, RUECKFLUG</p>
+         <p>PILOTIN ........ WALDHEIM, K.</p>
+         <p>FUNKVERKEHR .... GESTOERT</p>
+         <p class="hi">! ABWEICHUNG VOM RUECKFLUGKURS</p>
+         <p>DAUER .......... 00:02:14</p>
+         <p>BEGRUENDUNG .... KEINE GEMELDET</p>
+         <p class="dimt">WEITERLEITUNG AN STAFFELFUEHRUNG</p>
+         <p class="cmd">band anhalten<span class="cursor"></span></p>
+        </div>
+       </div>
+       <div class="box"><div class="box__h"><span>Funk · Mitschrift</span><span class="blink">●</span></div>
+        <div class="ticker" style="border:0;height:100%;align-items:center"><div class="ticker__run" style="--dur:38s">
+         <span>... 08 AN 01 ... SICHT SCHLECHT ...</span><span>... KURS HALTEN ...</span><span>... 08 VERSTANDEN ... <b>[RAUSCHEN]</b> ...</span><span>... WIEDERHOLEN ...</span>
+        </div></div>
+       </div>
+      </div>
+     </section>
+
+     <!-- 05 · FILM -->
+     <section class="view" id="v-film" data-title="Kontaktbogen">
+      <div style="display:flex;justify-content:space-between"><span class="label">ORWO NP 22 · Film 0666/83 · Labor HA VIII</span><span class="label">Objekt Waldheim</span></div>
+      <div class="strip">
+       <div class="fr"><div><div class="slot" data-img="katia-07" data-label="Bild 1"></div><span class="xmark"></span></div><span class="dimt">01 · VERWORFEN</span></div>
+       <div class="fr"><div><div class="slot" data-img="katia-08" data-label="Bild 2"></div><span class="pickmark"></span></div><span class="hi">02 · AUSWAHL</span></div>
+       <div class="fr"><div><div class="slot" data-img="katia-09" data-label="Bild 3"></div></div><span class="dimt">03</span></div>
+      </div>
+      <div class="strip">
+       <div class="fr"><div><div class="slot" data-img="katia-10" data-label="Bild 4"></div><span class="xmark"></span></div><span class="dimt">04 · VERWORFEN</span></div>
+       <div class="fr"><div><div class="slot" data-img="katia-11" data-label="Bild 5"></div></div><span class="dimt">05</span></div>
+       <div class="fr"><div><div class="slot" data-img="katia-12" data-label="Bild 6"></div><span class="pickmark"></span></div><span class="hi">06 · AUSWAHL</span></div>
+      </div>
+      <span class="hi">> 02 UND 06 VERGROESSERN. REST VERNICHTEN.</span>
+     </section>
+
+     <!-- 06 · FERNSCHREIBEN -->
+     <section class="view" id="v-telex" data-title="Fernschreiben">
+      <div class="box"><div class="box__h"><span>Fernschreiben · Dringend</span><span>FS-NR 0666/83</span></div>
+       <div class="box__b log telex" data-type>
+        <p>VON: STAFFELFUEHRUNG 666</p>
+        <p>AN:  HA I / ABT. AUFKLAERUNG</p>
+        <p>BETR: WALDHEIM K</p>
+        <p> </p>
+        <p>1. PILOTIN HAT EINSATZ UEBERSTANDEN</p>
+        <p>2. VERHALTEN IM GEFECHT EINWANDFREI</p>
+        <p>3. POLITISCHE AEUSSERUNGEN DAUERN AN</p>
+        <p>4. EMPFEHLUNG: IN DER STAFFEL BELASSEN</p>
+        <p>5. WEITERE BEOBACHTUNG <span class="redact" style="width:9em"></span></p>
+        <p> </p>
+        <p>GEZ. BERNHARD, HPTM</p>
+        <p class="hi">+++ ENDE +++ ENDE +++<span class="cursor"></span></p>
+       </div>
+      </div>
+      <div class="split" style="grid-template-rows:400px auto">
+       <div class="slot" data-img="katia-13" data-label="Beilage Foto"></div>
+       <div class="box"><div class="box__b" style="display:grid;gap:4px;font-size:12px">
+        <span>EINGANG ........ HA I · 22:40</span><span>STATUS ......... <span class="inv">ZUR AKTE</span></span><span class="dimt">ABLAGE 666-W / BLATT 4</span>
+       </div></div>
+      </div>
+     </section>
+
+     <!-- 07 · ORTUNG -->
+     <section class="view" id="v-ortung" data-title="Echtzeit-Standord">
+      <div class="box map"><canvas id="trk-big"></canvas><span class="badge" style="left:12px;bottom:12px"><span class="rec">Echtzeit · Objekt W-01</span></span></div>
+      <div class="split" style="grid-template-rows:auto auto minmax(0,1fr)">
+       <div class="box"><div class="box__h"><span>Position</span><span class="blink">●</span></div>
+        <div class="box__b"><dl class="rec-row" style="grid-template-columns:7em 1fr;font-size:14px">
+         <dt>Breite</dt><dd class="hi" data-trk="lat">--</dd>
+         <dt>Laenge</dt><dd class="hi" data-trk="lon">--</dd>
+         <dt>Tempo</dt><dd data-trk="kmh">--</dd>
+         <dt>Kurs</dt><dd data-trk="hdg">--</dd>
+         <dt>Signal</dt><dd data-trk="sig">--</dd>
+        </dl></div></div>
+       <div class="box"><div class="box__b" style="font-size:12px">QUELLE: PEILSTATIONEN 1-3 · RELAIS NORD<br><span class="dimt">NACHFUEHRUNG ALLE 0,5 S</span></div></div>
+       <div class="box" style="display:grid;grid-template-rows:auto minmax(0,1fr)"><div class="box__h"><span>Ereignisse</span><span>Echtzeit</span></div><div class="box__b log" id="trk-log" style="overflow:hidden"></div></div>
+      </div>
+     </section>
+
+     <!-- 08 · BIOGRAFIE & MOTIVE -->
+     <section class="view" id="v-bio" data-title="Biografie">
+      <div class="bio-head">
+       <div style="display:grid;gap:6px"><span class="label">Ministerium fuer Staatssicherheit · HA I / Abt. Aufklaerung</span><h1 class="big glow">Biografie &amp; Motivanalyse</h1></div>
+       <span class="dimt" style="text-align:right;font-size:12px">AKTE 666-W · BLATT 3 / 4<br>QUELLENLAGE: UNGESICHERT</span>
+      </div>
+      <div class="bio-tabs" role="tablist">
+       <button class="bio-tab is-on" data-bio-tab="bio-life" type="button">Blatt 3a · Lebenslauf</button>
+       <button class="bio-tab" data-bio-tab="bio-motive" type="button">Blatt 3b · Motivanalyse</button>
+      </div>
+      <div class="bio-pane is-on" id="bio-life" style="grid-template-rows:minmax(0,1fr)">
+       <div class="box bio-col">
+        <div class="box__h"><span>Lebenslauf · Rekonstruktion</span><span>Stand 1983</span></div>
+        <div class="box__b bio-list">
+         <div class="bio-item">
+          <strong>1 · Herkunft &amp; Zivilakte (ca. 1967–1982)</strong>
+          <span>Laut Eigenangaben aufgewachsen in der Bundesrepublik (Raum Waterkant/ West-Berlin). Zivile Geburts- und Schulunterlagen liegen auch nach laengerer Recherche nicht vor. Abgleich ueber bundesrepublikanische Quellen ergab <span class="hi">keinen eindeutigen Treffer</span> auf eine Person namens 'Katia Waldheim'. Ob es sich hier um ein Missverständnis handelt, oder eine gezielte Täuschung, ist umgehend zu klären.</span>
+         </div>
+         <div class="bio-item">
+          <strong>2 · Militaerische Vorbildung (BRD)</strong>
+          <span>Gibt an, eine vorgezogene TSF-Kadettenausbildung durchlaufen zu haben. Fuer ihr Alter (ca. 15–16 Jahre) auffaellig hohe fliegerische Reife und schnelle Umstellung auf die MiG-21 'Balalaika' ohne laengere Einweisungszeit. Herkunft dieser Praxis ungeklaert. Spitzenreiter spekulativer Anstrengungen sind angehörige in der Bundeswehr. Selbst das sollte jedoch nicht die Vertrautheit mit der Gerätschaft unserer sozialistischen Waffenbruderschaft mit sich bringen. Auch dieser Sachverhalt muss umgehend geklärt werden.</span>
+         </div>
+         <div class="bio-item">
+          <strong>3 · Grenzvorfall &amp; Uebertritt (1983)</strong>
+          <span>Waehrend eines BETA-Gefechts im Grenzsektor durch Einheiten der 666. TSF-Staffel ('Schwarzesmarken') aufgenommen. Beantragte unmittelbar danach politisches Asyl in der Deutschen Demokratischen Republik, sowie ausdruecklich die Zuteilung zur 666. Staffel. Es kommt vorallem seit dem Angriff auf unsere Gattung sehr viel seltener vor, dass unsere Klassengenossen die DDR als ihren Staat verstehen. Auch hier muss geklärt werden, wieso Waldheim tatsächlich darauf bestand, der Nationalen Volksarmee beizutreten.</span>
+         </div>
+         <div class="bio-item">
+          <strong>4 · Aktuelles Verhalten in der Truppe</strong>
+          <span>Im Gefecht auffaellig diszipliniert und belastbar. Aeussert sich vor Mannschaften offen fuer eine deutsche Wiedervereinigung, wirkt dabei politisch ungeschult statt subversiv; scheint vorallem einen naiven und kindischen Blick auf innerdeutsche Geopolitik und überhaupt den Charakter der deutschen Spaltung zu haben. Stellt vereinzelt unauffaellige Fragen zu aelteren NVA-Personalien vor 1980; Vorgaenge werden protokolliert.</span>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="bio-pane" id="bio-motive" style="grid-template-rows:minmax(0,1fr) auto">
+       <div class="box bio-col">
+        <div class="box__h"><span>Motivanalyse · Hypothesen</span><span>HA I</span></div>
+        <div class="box__b hyp">
+         <div class="hyp-row">
+          <div class="hyp-top"><span class="hi">A · Ideologische Naivitaet</span><span class="inv">WAHRSCHEINLICH</span></div>
+          <span>Ueberzeugung, nur ein gemeinsames Deutschland koenne die BETA-Front halten; Neugier auf 'das rote Deutschland'. Deckt sich mit ihrem offenen Auftreten. Diese Neugier ist mit keinerlei intellektueller Verliebtheit in marxistischen oder anderwertig sozialistischen Ideen geschuldet. Es kann außerdem keinesfalls von völkisch-nationalistischen oder gar revanchistischen Bestrebungen die Rede sein.</span>
+         </div>
+         <div class="hyp-row">
+          <div class="hyp-top"><span class="hi">B · West-Aufklaerung (BND / MAD)</span><span class="dimt">OFFEN</span></div>
+          <span>Einschleusung zur Ausspaehung der 666. Staffel. Gegenindiz: Sucht aktiv Konfrontation und faellt auf, statt sich unauffaellig einzufuegen. Ja, selbst wenn die Einschleusung in die 666. Teil irgendeines Planes ist, dann ist sicher zu vermuten es ist ein persönlicher Waldheims, und nicht im Auftrage der imperialistischen Hyänen.</span>
+         </div>
+         <div class="hyp-row">
+          <div class="hyp-top"><span class="hi">C · Persoenliche Spur in der DDR</span><span class="dimt">PRUEFUNG</span></div>
+          <span>Moegliche Suche nach verschollenen Angehoerigen oder frueheren Bindungen im Raum Berlin/Brandenburg. Wuerde die gezielte Wahl der Frontstaffel erklaeren. Dies ist unser stärkster Ansatzpunkt. Was jedoch dagegen spricht, ist dass wir hierzu keine Akten vorfinden. Hier muss dringend weitergeforscht werden.</span>
+         </div>
+         <div class="hyp-row">
+          <div class="hyp-top"><span class="hi">D · Kriegstrauma / Entwurzelung</span><span class="dimt">MOEGLICH</span></div>
+          <span>Verlust der eigenen Einheit im Grenzgefecht; emotionale Bindung an die rettende Staffel als Ersatzfamilie. Dagegen spricht dass Waldheim organische Beziehungsmuster zu ihren Genossen pflegt. Es gibt keinerlei Anzeichen einer dysphorischen Sozialentwicklung, selbst Liebeserfahrung macht sie mit Gleichaltrigen.</span>
+         </div>
+        </div>
+       </div>
+       <div class="box">
+        <div class="box__h"><span>Vorlaeufige Bewertung</span><span>Blatt 3</span></div>
+        <div class="box__b log" data-type style="padding:8px 12px;font-size:12px">
+         <p class="cmd">bewertung --objekt W-01 --quelle HA1</p>
+         <p>HERKUNFT UNGEKLAERT · GEFECHTSWERT HOCH.</p>
+         <p><span class="inv">IN DER STAFFEL BELASSEN</span> · WEITERE BEOBACHTUNG DURCH HA I.<span class="cursor"></span></p>
+        </div>
+       </div>
+      </div>
+     </section>
+
+     <!-- 09 · UEBERLASSENE AUSRUESTUNG -->
+     <section class="view" id="v-tsf" data-title="Ueberlassene Ausruestung">
+      <div class="box wire">
+       <div class="box__h"><span>Schadens- &amp; Systemschema · MiG-21PF „Balalaika“</span><span>TSF-08</span></div>
+       <div class="diag">
+        <div class="slot" data-img="tsf-08" data-label="MiG-21PF Balalaika" data-px="2" data-contrast="1.3"></div>
+        <svg viewBox="0 0 520 460" aria-label="Systemschema MiG-21PF Balalaika" fill="none" stroke="currentColor">
+         <!-- Callout leader lines & subsystem status -->
+         <g font-family="Consolas, monospace" font-size="10.5" fill="#ff3a2e" stroke="none">
+          <!-- Head sensor -->
+          <polyline points="248,74 316,52 346,52" fill="none" stroke="#ff3a2e" stroke-width="1.2"/>
+          <rect x="346" y="38" width="156" height="30" fill="rgba(10,3,3,.86)" stroke="#8f1d17" stroke-width="1"/>
+          <text x="354" y="51" font-weight="700">OPTIK / SENSOR</text>
+          <text x="354" y="63" fill="#ffd0c2">INTAKT · 98%</text>
+
+          <!-- Left shoulder (666 marking, damaged) -->
+          <polyline points="338,108 362,120 346,120" fill="none" stroke="#ffd0c2" stroke-width="1.2"/>
+          <rect x="346" y="102" width="156" height="32" fill="rgba(10,3,3,.90)" stroke="#ff3a2e" stroke-width="1.2"/>
+          <rect x="346" y="102" width="156" height="15" fill="#ff3a2e"/>
+          <text x="352" y="113" fill="#0a0303" font-weight="700">SCHULTERSCHILD L</text>
+          <text x="352" y="128" fill="#ffd0c2">STREIFSCHUSS · 72%</text>
+
+          <!-- Coolant (torso) -->
+          <polyline points="236,154 176,120 156,120" fill="none" stroke="#ff3a2e" stroke-width="1.2"/>
+          <rect x="14" y="104" width="142" height="30" fill="rgba(10,3,3,.86)" stroke="#8f1d17" stroke-width="1"/>
+          <text x="20" y="117" font-weight="700">KUEHLKREISLAUF</text>
+          <text x="20" y="129" fill="#ffd0c2">94% · 68°C · DICHT</text>
+
+          <!-- Weapons (left side gun) -->
+          <polyline points="122,224 156,224" fill="none" stroke="#ff3a2e" stroke-width="1.2"/>
+          <rect x="14" y="208" width="142" height="30" fill="rgba(10,3,3,.86)" stroke="#8f1d17" stroke-width="1"/>
+          <text x="20" y="221" font-weight="700">36MM MK / 120MM</text>
+          <text x="20" y="233" fill="#ffd0c2">MUNITION 84% · BEREIT</text>
+
+          <!-- Shield / Jump unit (right side) -->
+          <polyline points="376,246 346,246" fill="none" stroke="#ff3a2e" stroke-width="1.2"/>
+          <rect x="346" y="230" width="156" height="30" fill="rgba(10,3,3,.86)" stroke="#8f1d17" stroke-width="1"/>
+          <text x="354" y="243" font-weight="700">SPRUNGAGGREGAT</text>
+          <text x="354" y="255" fill="#ffd0c2">INTAKT · 100% SCHUB</text>
+
+          <!-- Hydraulics -->
+          <polyline points="196,296 156,312" fill="none" stroke="#ff3a2e" stroke-width="1.2"/>
+          <rect x="14" y="296" width="142" height="30" fill="rgba(10,3,3,.86)" stroke="#8f1d17" stroke-width="1"/>
+          <text x="20" y="309" font-weight="700">HYDRAULIK</text>
+          <text x="20" y="321" fill="#ffd0c2">210 BAR · NOMINAL</text>
+
+          <!-- Leg servos -->
+          <polyline points="338,348 346,348" fill="none" stroke="#ff3a2e" stroke-width="1.2"/>
+          <rect x="346" y="332" width="156" height="30" fill="rgba(10,3,3,.86)" stroke="#8f1d17" stroke-width="1"/>
+          <text x="354" y="345" font-weight="700">BEIN-SERVOS L/R</text>
+          <text x="354" y="357" fill="#ffd0c2">INTAKT · 95% (NOMINAL)</text>
+         </g>
+        </svg>
+        <div class="osd osd--t"><span>SCHEMA: TSF-08</span><span>STATUS: BEDINGT KLAR</span></div>
+        <div class="osd osd--b"><span>WARTUNG HANGAR 2</span><span>LETZTE PRUEFUNG: HEUTE</span></div>
+       </div>
+      </div>
+      <div class="split" style="grid-template-rows:auto auto minmax(0,1fr)">
+       <div class="box">
+        <div class="box__h"><span>Taktische Daten · Einsatzgeraet</span><span>NVA LSK/LV</span></div>
+        <div class="box__b">
+         <dl class="rec-row" style="grid-template-columns:8.5em 1fr;font-size:12.5px;line-height:1.45">
+          <dt>Muster</dt><dd class="hi">MiG-21PF „BALALAIKA“</dd>
+          <dt>Kennung</dt><dd>TSF-08 · HEERESGRUPPE OST</dd>
+          <dt>Pilotin</dt><dd>WALDHEIM, KATIA</dd>
+          <dt>Triebwerk</dt><dd>2× R-11F2-300 SPRUNGAGGREGAT</dd>
+          <dt>Bewaffnung</dt><dd>36MM MK · 120MM GLATTROHR</dd>
+          <dt>Zustand</dt><dd><span class="inv">EINSATZBEREIT</span></dd>
+         </dl>
+        </div>
+       </div>
+       <div class="box">
+        <div class="box__h"><span>Systemwerte · Telemetrie</span><span>Hangar 2</span></div>
+        <div class="box__b sysbars">
+         <div class="meter"><span>KUEHLMITTEL</span><i style="--v:94%"></i><span>94%</span></div>
+         <div class="meter"><span>HYDRAULIK</span><i style="--v:96%"></i><span>96%</span></div>
+         <div class="meter"><span>PANZERUNG</span><i style="--v:82%"></i><span>82%</span></div>
+         <div class="meter"><span>MUNITION</span><i style="--v:84%"></i><span>84%</span></div>
+         <div class="meter"><span>TREIBSTOFF</span><i style="--v:100%"></i><span>100%</span></div>
+        </div>
+       </div>
+       <div class="box">
+        <div class="box__h"><span>Technischer Vermerk</span><span>Wartung</span></div>
+        <div class="box__b log" data-type style="font-size:12px">
+         <p class="cmd">pruefung --geraet TSF-08 --system balalaika</p>
+         <p>SCHULTERSCHILD LINKS: LEICHTER STREIFSCHUSS, AUSTAUSCH VORGEMERKT.</p>
+         <p>KUEHLUNG &amp; HYDRAULIK DICHT · SCHUBVEKTOR OHNE BEANSTANDUNG.<span class="cursor"></span></p>
+        </div>
+       </div>
+      </div>
+     </section>
+
+    </div>
+   </div>
+
+   <div class="ticker ticker--low ticker--rev"><div class="ticker__run" style="--dur:95s">
+     <span>PEILSTATION 1 · BEREIT</span><span>PEILSTATION 2 · BEREIT</span><span>PEILSTATION 3 · STOERUNG BEHOBEN</span>
+     <span>BANDARCHIV 0666 · 87% BELEGT</span><span>NAECHSTE UEBERMITTLUNG 23:00</span>
+     <span>TAKTBASIS QUARZ · 4,000 MHZ</span><span>LEITUNG GESICHERT · KANAL 2 UND 4</span>
+   </div></div>
+
+   <div class="foot"><span>[1-9] Oeffnen · [0] Systemstart · [H] Hinweise aus</span><span>Staffel 666 · Beobachtung aktiv</span></div>
+  </div>
+  </div>
+  <aside class="monitor__panel" aria-label="Geraetebedienung">
+   <div class="hw-mod hw-mod--top">
+    <i class="hw-sc hw-sc--tl"></i><i class="hw-sc hw-sc--tr"></i><i class="hw-sc hw-sc--bl"></i><i class="hw-sc hw-sc--br"></i>
+    <div class="hw-top-row">
+     <div class="hw-meter" title="Signalpegel">
+      <svg viewBox="0 0 64 42" aria-hidden="true">
+       <rect x="2" y="2" width="60" height="38" rx="2" fill="#d8d4c5" stroke="#181917" stroke-width="2"/>
+       <path d="M12 31 A22 22 0 0 1 52 31" fill="none" stroke="#222" stroke-width="1.4"/>
+       <path d="M40 16 A22 22 0 0 1 52 31" fill="none" stroke="#9e1e18" stroke-width="2.4"/>
+       <g stroke="#222" stroke-width="1">
+        <line x1="14" y1="28" x2="17" y2="25"/><line x1="22" y1="19" x2="24" y2="22"/>
+        <line x1="32" y1="15" x2="32" y2="19"/><line x1="42" y1="19" x2="40" y2="22"/>
+        <line x1="50" y1="28" x2="47" y2="25"/>
+       </g>
+       <line id="hw-needle" x1="32" y1="36" x2="44" y2="17" stroke="#9e1e18" stroke-width="1.6" stroke-linecap="round"/>
+       <circle cx="32" cy="36" r="3.5" fill="#181917"/>
+      </svg>
+     </div>
+     <div class="hw-power">
+      <span class="hw-lbl">NETZ</span>
+      <span class="hw-toggle" aria-hidden="true"><i></i></span>
+      <span class="hw-jewel" aria-hidden="true"></span>
+     </div>
+    </div>
+    <div class="hw-sub">PEGEL / STROM</div>
+   </div>
+
+   <div class="hw-mod hw-mod--mid">
+    <i class="hw-sc hw-sc--tl"></i><i class="hw-sc hw-sc--tr"></i><i class="hw-sc hw-sc--bl"></i><i class="hw-sc hw-sc--br"></i>
+    <div class="hw-card-frame">
+     <div class="hw-card">
+      <div class="hw-card__h">FERNSPRECH-VERZ.</div>
+      <div class="hw-card__rows">
+       <div><span>ZENTRALE HA I</span><span>401</span></div>
+       <div><span>STAFFEL 666</span><span>612</span></div>
+       <div><span>RELAIS NORD</span><span>208</span></div>
+       <div><span>HANGAR 2</span><span>315</span></div>
+       <div><span>PEILSTELLE 1</span><span>114</span></div>
+       <div><span>PEILSTELLE 2</span><span>115</span></div>
+       <div><span>PEILSTELLE 3</span><span><s>116</s> <b>119</b></span></div>
+       <div><span>BEREITSCHAFT</span><span>900</span></div>
+       <div><span>STOERUNG</span><span>011</span></div>
+      </div>
+      <div class="hw-card__note">NUR DIENSTGEBRAUCH</div>
+     </div>
+    </div>
+    <div class="hw-sub" style="margin-top:6px">ANSCHLUESSE</div>
+   </div>
+
+   <div class="hw-mod hw-mod--keys">
+    <i class="hw-sc hw-sc--tl"></i><i class="hw-sc hw-sc--tr"></i><i class="hw-sc hw-sc--bl"></i><i class="hw-sc hw-sc--br"></i>
+    <div class="hw-sub" style="margin-bottom:5px">BERUEHRUNGSSCHIRM</div>
+    <div class="hw-touch">
+     <div class="monitor__keys">
+      <button class="monitor__key" data-view="v-akte" type="button">1</button>
+      <button class="monitor__key" data-view="v-beob" type="button">2</button>
+      <button class="monitor__key" data-view="v-ausweis" type="button">3</button>
+      <button class="monitor__key" data-view="v-kanal" type="button">4</button>
+      <button class="monitor__key" data-view="v-film" type="button">5</button>
+      <button class="monitor__key" data-view="v-telex" type="button">6</button>
+      <button class="monitor__key" data-view="v-ortung" type="button">7</button>
+      <button class="monitor__key" data-view="v-bio" type="button">8</button>
+      <button class="monitor__key" data-view="v-tsf" type="button">9</button>
+      <button class="monitor__key monitor__key--red" data-view="v-boot" type="button" title="Systemstart">0</button>
+      <button class="monitor__key monitor__key--yel" id="btn-clean" type="button" title="Hinweise ein/aus">H</button>
+      <button class="monitor__key monitor__key--dim" id="btn-gate" type="button" title="Anmeldung wiederholen">P</button>
+     </div>
+    </div>
+    <div class="hw-fuse"><span>SICHERUNG 5A</span><i></i></div>
+   </div>
+  </aside>
+  </div>
+ </div>
+</div>
+<script src="assets/station.js"></script>
+</body></html>

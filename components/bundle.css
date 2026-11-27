@@ -30,6 +30,12 @@
   --phosphor: rgba(184, 0, 31, 0.30);
   --shadow-window: 8px 8px 0 #b8001f;
 }
+[data-accent="amber"] {
+  --signal: #f59e0b;
+  --on-signal: #0d0c0b;
+  --phosphor: rgba(245, 158, 11, 0.55);
+  --shadow-window: 8px 8px 0 #f59e0b;
+}
 [data-accent="red"] {
   --signal: #ff1f2d;
   --on-signal: #0d0c0b;
@@ -322,6 +328,7 @@
 .pb-toolbar .pb-tabs a[data-tab-accent="emerald"] { --tab-dot: #10d48e; }
 .pb-toolbar .pb-tabs a[data-tab-accent="paper-red"] { --tab-dot: #b8001f; }
 .pb-toolbar .pb-tabs a[data-tab-accent="cyan"] { --tab-dot: #38bdf8; }
+.pb-toolbar .pb-tabs a[data-tab-accent="amber"] { --tab-dot: #f59e0b; }
 .pb-toolbar .pb-tabs a[data-tab-accent="red"] { --tab-dot: #ff1f2d; }
 .pb-toolbar .pb-btn--go { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
 .pb-toolbar .pb-btn--go:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ground); color: var(--on-signal); }
