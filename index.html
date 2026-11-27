@@ -27,8 +27,8 @@
       border-bottom: var(--stroke-frame) solid var(--signal);
     }
     .lead-head { display: grid; gap: var(--space-3); padding-bottom: var(--space-4); }
-    .lead-mascot { margin: 0; justify-self: end; align-self: end; }
-    .lead-mascot img { display: block; width: clamp(170px, 22vw, 270px); height: auto; }
+    .lead-mascot { margin: 0; justify-self: end; align-self: end; overflow: hidden; line-height: 0; }
+    .lead-mascot img { display: block; width: clamp(170px, 22vw, 270px); height: auto; margin-bottom: -14px; }
     .wide { aspect-ratio: 16 / 10; width: 100%; }
     .shot { margin: 0; display: grid; gap: var(--space-3); }
     .shot figcaption { max-width: 70ch; font-size: 15px; line-height: 22px; color: var(--text-muted); }
@@ -197,9 +197,9 @@
     <a class="pb-wordmark" href="#scheda">Karaya</a>
     <nav class="pb-tabs" aria-label="Bereiche">
       <a href="#scheda" data-tab-accent="emerald" aria-current="page">Scheda</a>
-      <a href="#garden" data-tab-accent="paper-red">Garden of Despair</a>
-      <a href="#reverse" data-tab-accent="cyan">Heine</a>
-      <a href="#akte666" data-tab-accent="amber">Akte 666</a>
+      <a href="#garden" data-tab-accent="prussian">Garden of Despair</a>
+      <a href="#reverse" data-tab-accent="purple">Heine</a>
+      <a href="#akte666" data-tab-accent="red">Akte 666</a>
       <a href="#about" data-tab-accent="red">Über</a>
     </nav>
     <span class="pb-tally"><span data-folio-now>01 / 04</span> · Dossiers</span>
@@ -303,8 +303,8 @@
       </div>
     </section>
 
-    <!-- ═══════════ SHEET 2: GARDEN OF DESPAIR (PAPER · RED) ═══════════ -->
-    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="garden" data-theme="paper" data-accent="paper-red" data-log="garden of despair" data-folio="02 / 04" style="--sheet-z:2">
+    <!-- ═══════════ SHEET 2: GARDEN OF DESPAIR (PAPER · PRUSSIAN BLUE) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="garden" data-theme="paper" data-accent="prussian" data-log="garden of despair" data-folio="02 / 04" style="--sheet-z:2">
       <div class="pb-band" aria-hidden="true">
         <div class="pb-band__run" data-words="SCHEDA|Garden of Despair|Heine|Akte 666"></div>
       </div>
@@ -437,8 +437,8 @@ Guthaben &lt; R_t  ⇒  <b>Shortfall</b> (Ermüdung baut nicht ab → Kosten-Spi
       </div>
     </section>
 
-    <!-- ═══════════ SHEET 3: REVERSE ENGINEERING · HEINE (INK · CYAN) ═══════════ -->
-    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="reverse" data-accent="cyan" data-log="heine" data-folio="03 / 04" style="--sheet-z:3">
+    <!-- ═══════════ SHEET 3: REVERSE ENGINEERING · HEINE (INK · PURPLE) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="reverse" data-accent="purple" data-log="heine" data-folio="03 / 04" style="--sheet-z:3">
       <div class="pb-band pb-band--alt" aria-hidden="true">
         <div class="pb-band__run" data-words="Analyse|Befund|Methode|Protokoll"></div>
       </div>
@@ -561,40 +561,40 @@ sew  (70,40)   end
       </div>
     </section>
 
-    <!-- ═══════════ SHEET 4: AKTE 666 (INK · AMBER) ═══════════ -->
-    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="akte666" data-accent="amber" data-log="akte 666" data-folio="04 / 04" style="--sheet-z:4">
+    <!-- ═══════════ SHEET 4: AKTE 666 (INK · RED · ANIME-ADAPTION) ═══════════ -->
+    <section class="pb-sheet pb-sheet--stack pb-sheet--over" id="akte666" data-accent="red" data-log="akte 666" data-folio="04 / 04" style="--sheet-z:4">
       <div class="pb-band" aria-hidden="true">
-        <div class="pb-band__run" data-words="FFV-67|Akte 666|Datenstation|Sonderbericht W-01"></div>
+        <div class="pb-band__run" data-words="ANIME-ADAPTION|SCHWARZESMARKEN|AKTE 666|FFV-67"></div>
       </div>
 
       <div class="wrap dossier-stack sheet-pad">
         <div class="pb-sectionhead">
           <h2 class="pb-h2">Akte 666</h2>
-          <p class="pb-sectionhead__status">Fig. 04 · Interaktive Datenstation (FFV-67)</p>
+          <p class="pb-sectionhead__status">Fig. 04 · Anime-Adaption (Schwarzesmarken) · Interaktive Datenstation</p>
         </div>
 
-        <p class="pb-lede">Eine bedienbare Retro-Datenstation im Browser: ein 1983er Robotron-CRT-Terminal mit 9 Berichtsteilen, geordnetem Rot-Dithering, Live-Ortung und Fernschreiben — komplett direkt hier im Fenster nutzbar.</p>
+        <p class="pb-lede">Eine interaktive Fan- und Interface-Adaption des Animes „Schwarzesmarken“: Das fiktive 1983er-Dossier der Anime-Figur Katia Waldheim, umgesetzt als vollständig bedienbare Robotron-CRT-Datenstation direkt hier im Browser.</p>
 
         <figure class="shot">
           <div class="pb-reg" data-register>
             <div class="pb-window">
-              <div class="pb-window__bar"><code>ffv-67 · akte-666/index.html</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
+              <div class="pb-window__bar"><code>ffv-67 · anime-adaption · akte-666/index.html</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
               <div class="akte-frame">
-                <iframe src="akte-666/index.html" title="FFV-67 · Akte 666 Datenstation (interaktiv)" loading="lazy"></iframe>
+                <iframe src="akte-666/index.html" title="FFV-67 · Akte 666 Anime-Adaption (interaktiv)" loading="lazy"></iframe>
               </div>
             </div>
           </div>
-          <figcaption>Läuft live im Portfolio: Klick oder Eingabetaste überspringt den Systemstart, Tasten 1–9 oder das Menü wechseln zwischen Stammdaten, Beobachtung, Dienstausweis, Kontaktbogen, Fernschreiben, Echtzeit-Ortung und Ausrüstung.</figcaption>
+          <figcaption>Interaktive Anime-Adaption (Schwarzesmarken) live im Portfolio: Klick oder Eingabetaste überspringt den Systemstart, Tasten 1–9 oder das Menü wechseln zwischen den neun fiktiven Akten-Ansichten der Figur (Stammdaten, Dienstausweis, Kontaktbogen, Fernschreiben, Ortung, TSF-Ausrüstung).</figcaption>
         </figure>
 
         <div class="pb-notes pb-feed">
           <div class="pb-note">
             <h3 class="pb-h3"><span class="pb-note__key">A</span>Was ich bauen wollte</h3>
-            <p>Eine geschlossene, vollständig bedienbare Terminal-Oberfläche als visuelles Erzählsystem: festes 1360×880-Raster, physisches Monitorgehäuse mit Instrumentenleiste und neun eigenständige Ansichten ohne externes Framework.</p>
+            <p>Eine gestalterische Interface-Übung auf Basis des Animes „Schwarzesmarken“: Wie würde eine interne 1983er-Überwachungsakte aus der Welt der Serie als echte, bedienbare CRT-Datenstation aussehen?</p>
           </div>
           <div class="pb-note">
             <h3 class="pb-h3"><span class="pb-note__key">B</span>Was ich selbst gemacht habe</h3>
-            <p>Konzept, Hardware-Anmutung, Farbraum (Monochrom-Rot-Phosphor), Bildauswahl, redaktionelle Texte und die visuelle Abnahme jedes einzelnen Berichtsteils.</p>
+            <p>Die Adaption der Anime-Vorlage ins Hardware-Terminal-Format: Konzept, Monitor-Anmutung, Monochrom-Rot-Phosphor-Farbraum, Auswahl der Szenenbilder aus dem Anime, deutsche Akten-Texte und visuelle Abnahme aller neun Ansichten.</p>
           </div>
           <div class="pb-note pb-note--ai">
             <h3 class="pb-h3"><span class="pb-note__key">C</span>Wo KI geholfen hat</h3>
@@ -602,12 +602,12 @@ sew  (70,40)   end
           </div>
           <div class="pb-note">
             <h3 class="pb-h3"><span class="pb-note__key">D</span>Was heute funktioniert</h3>
-            <p>Alle 9 Berichtsteile, 13 geditherte Lichtbilder, Echtzeit-Ortung, Tastatursteuerung (0–9) und automatische Skalierung im eingebetteten Fenster oder Vollbild.</p>
+            <p>Alle 9 fiktiven Berichtsteile der Anime-Adaption, 13 geditherte Standbilder, Echtzeit-Ortung, Tastatursteuerung (0–9) und automatische Skalierung im eingebetteten Fenster oder Vollbild.</p>
           </div>
         </div>
 
         <div class="links pb-label">
-          <a href="akte-666/index.html" target="_blank" rel="noopener">Akte 666 im Vollbild öffnen ↗</a>
+          <a href="akte-666/index.html" target="_blank" rel="noopener">Akte 666 (Anime-Adaption) im Vollbild öffnen ↗</a>
         </div>
       </div>
     </section>
@@ -634,8 +634,8 @@ sew  (70,40)   end
               <div class="pb-window__bar"><code>status</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
               <dl class="pb-readout" style="padding:16px 18px 18px">
                 <dt>Fach</dt><dd>Grafikdesign</dd>
-                <dt>Sprachen</dt><dd>Deutsch, Englisch</dd>
-                <dt>Werkzeuge</dt><dd>Photoshop, Claude Code, Codex, Gemini</dd>
+                <dt>Sprachen</dt><dd>Deutsch, Englisch, Spanisch</dd>
+                <dt>Werkzeuge</dt><dd>Alle Adobe Programme, Claude Code, Codex, Gemini</dd>
                 <dt>Ortszeit</dt><dd data-clock>--:--:--</dd>
               </dl>
             </div>

@@ -104,7 +104,7 @@
   }
 
   /* ───────────── 2. Garden of Despair: Protocol 2.0 (5 Arms) ───────────── */
-  var INK = '#1a1714', PAPER = '#ece4d3', MUTED = '#5e574e', RULE = '#b9ae99', RED = '#b8001f', VIOLET = '#522981';
+  var INK = '#1a1714', PAPER = '#ece4d3', MUTED = '#5e574e', RULE = '#b9ae99', PRUSSIAN = '#003153', SLATE = '#3b6998';
 
   function defs() {
     return '<defs>' +
@@ -112,8 +112,8 @@
       '<rect width="6" height="6" fill="' + PAPER + '"/><line x1="0" y1="0" x2="0" y2="6" stroke="' + INK + '" stroke-width="2.1"/></pattern>' +
       '<pattern id="god-dots" width="6" height="6" patternUnits="userSpaceOnUse">' +
       '<rect width="6" height="6" fill="' + PAPER + '"/><rect x="1.5" y="1.5" width="2.2" height="2.2" fill="' + INK + '"/></pattern>' +
-      '<pattern id="god-redhatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">' +
-      '<rect width="6" height="6" fill="' + PAPER + '"/><line x1="0" y1="0" x2="0" y2="6" stroke="' + RED + '" stroke-width="2.4"/></pattern>' +
+      '<pattern id="god-bluehatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">' +
+      '<rect width="6" height="6" fill="' + PAPER + '"/><line x1="0" y1="0" x2="0" y2="6" stroke="' + PRUSSIAN + '" stroke-width="2.4"/></pattern>' +
       '</defs>';
   }
 
@@ -121,8 +121,8 @@
     if (id === 'control') return 'url(#god-dots)';
     if (id === 'salaried') return INK;
     if (id === 'precarious') return 'url(#god-hatch)';
-    if (id === 'indebted') return 'url(#god-redhatch)';
-    return RED;
+    if (id === 'indebted') return 'url(#god-bluehatch)';
+    return PRUSSIAN;
   }
 
   function render5ArmBars(metrics, g) {
@@ -173,8 +173,8 @@
     var styles = {
       salaried: [INK, '2 3', 1.8],
       precarious: [MUTED, '5 3', 2.0],
-      indebted: [VIOLET, '4 2', 2.4],
-      deep_meme: [RED, '', 2.8]
+      indebted: [SLATE, '4 2', 2.4],
+      deep_meme: [PRUSSIAN, '', 2.8]
     };
     ['salaried', 'precarious', 'indebted', 'deep_meme'].forEach(function (armId) {
       var arm = g.arms[armId], st = styles[armId];
@@ -187,8 +187,8 @@
     });
     /* Annotate causal delta A5 - A4 at round 6 */
     var y4 = y(g.arms.indebted.trajectory[5].fatigue), y5 = y(g.arms.deep_meme.trajectory[5].fatigue), x6 = x(6) - 10;
-    out.push('<line x1="' + x6.toFixed(1) + '" y1="' + y4.toFixed(1) + '" x2="' + x6.toFixed(1) + '" y2="' + y5.toFixed(1) + '" stroke="' + RED + '" stroke-width="1.5"/>');
-    out.push('<text x="' + (x6 - 6).toFixed(1) + '" y="' + ((y4 + y5) / 2 + 3).toFixed(1) + '" text-anchor="end" class="god-cat" fill="' + RED + '">Δ A5−A4</text>');
+    out.push('<line x1="' + x6.toFixed(1) + '" y1="' + y4.toFixed(1) + '" x2="' + x6.toFixed(1) + '" y2="' + y5.toFixed(1) + '" stroke="' + PRUSSIAN + '" stroke-width="1.5"/>');
+    out.push('<text x="' + (x6 - 6).toFixed(1) + '" y="' + ((y4 + y5) / 2 + 3).toFixed(1) + '" text-anchor="end" class="god-cat" fill="' + PRUSSIAN + '">Δ A5−A4</text>');
     return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Ermüdungs- und Reproduktionskosten-Spirale über 6 Runden">' + out.join('') + '</svg>';
   }
 

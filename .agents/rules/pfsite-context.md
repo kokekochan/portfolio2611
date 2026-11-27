@@ -18,7 +18,7 @@ trigger: always_on
   - **Motion & Scroll Choreography:** Photocopy & stamp physics — sticky Ink/Paper sheet stacking (`.pb-sheet--stack`), scroll-scrubbed two-plate press registration lock (`data-register`), pinned desktop editorial spread in `Garden of Despair` (`.pb-spread-sticky` + `.pb-fig-index`), live scroll-synced toolbar + stepped red progress rail, stepped printer-feed reveals (`pb-feed`), crisp 1–2 frame hard-snap hover states (`steps(2, end)`), static upright print bands (`.pb-band`), and typed terminal lines / blinking cursor inside crisp hardware panels. Respect `prefers-reduced-motion`.
   - **Chrome:** Sticky `.pb-toolbar` with cleanly framed `Karaya` wordmark (never clipped/bleeding); bottom-left `.pb-console` collapsed by default.
 - **Section Color Coding & Assets:**
-  - Each dossier uses its own high-contrast `--signal` accent (`data-accent`): **SCHEDA** = Emerald (`#10d48e`), **Garden of Despair** = Paper Red (`#b8001f`), **Reverse Engineering** = Cyan (`#38bdf8`), **Über** = Ink Red (`#ff1f2d`). Toolbar progress, `Kontakt`, and `.pb-console` sync dynamically to the active section.
+  - Each dossier uses its own high-contrast `--signal` accent (`data-accent`): **SCHEDA** = Emerald (`#10d48e`), **Garden of Despair** = Prussian Blue (`#003153` on Paper), **Heine** = Purple (`#b77cff`), **Akte 666** = Red (`#ff1f2d`), **Über** = Ink Red (`#ff1f2d`). Toolbar progress, `Kontakt`, and `.pb-console` sync dynamically to the active section.
   - Web assets live in `assets/` (originals untouched); `assets/scheda-francesca.png` is SCHEDA's mascot grounded beside the lead headline.
 - **Hard Content & Privacy Rules:**
   - `"Karaya"` appears at most twice on a page: the toolbar wordmark and one relabel in `Über`.
