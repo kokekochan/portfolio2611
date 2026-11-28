@@ -1,7 +1,7 @@
 /* Dossier demos:
    1. SCHEDA offline search (Fig. 01)
    2. Garden of Despair Protocol 2.0 — 5-arm synthetic showcase & causal arm inspector (Fig. 02)
-   3. Heine UI mockup in SCHEDA's archival style (Fig. 03)
+   3. Heine software preview in the section purple (Fig. 03)
    Plain JS, no framework. */
 (function () {
   'use strict';
@@ -235,13 +235,13 @@
     showArm('deep_meme');
   }
 
-  /* ───────────── 3. Heine UI Mockup in SCHEDA style ───────────── */
+  /* ───────────── 3. Heine software preview (section purple) ───────────── */
   var HEINE_OBJECTS = {
     tatami: {
       id: 'obj_014_tatami_hole',
       name: 'Tatami mit Loch (12 × 8 mm)',
       tool: 'TATAMI',
-      thread: 'T-02 · EMERALD #10D48E',
+      thread: 'T-02 · VIOLETT #B77CFF',
       spacing: '0,40 mm (2,5 Reihen/mm)',
       length: '3,00 mm',
       angle: '0° (horizontal)',
@@ -255,7 +255,7 @@
       id: 'obj_009_satin_col_a',
       name: 'Satinsäule Column A (4 × 8 mm)',
       tool: 'SATIN',
-      thread: 'T-01 · SILVER #D4D4CE',
+      thread: 'T-01 · SILBER #D4D4CE',
       spacing: '0,40 mm',
       length: 'variabel (4,0–5,2 mm)',
       angle: 'dynamisch aus Rail-Paaren',
@@ -269,7 +269,7 @@
       id: 'fix_001_elbow_dst',
       name: 'Referenzmotiv elbow.dst',
       tool: 'RUN',
-      thread: 'T-03 · CYAN #38BDF8',
+      thread: 'T-03 · FLIEDER #D9BFFF',
       spacing: '— (Laufstich)',
       length: '2,00 mm (Raster 0,1 mm)',
       angle: 'folgt Pfad',
@@ -291,7 +291,7 @@
     for (var gy = 0; gy <= 152; gy += 16) out.push('<line x1="0" y1="' + gy + '" x2="240" y2="' + gy + '" stroke="rgba(212,212,206,.08)" stroke-width="1"/>');
 
     if (key === 'tatami') {
-      var strokeCol = state.thread ? '#10d48e' : '#38bdf8';
+      var strokeCol = state.thread ? '#b77cff' : '#d9bfff';
       /* Outer 12x8 rect: x 24..216, y 16..136; Hole: x 88..152, y 48..104 */
       for (var y = 20; y <= 132; y += 6) {
         if (y >= 48 && y <= 104) {
@@ -303,15 +303,15 @@
       }
       if (!state.thread) {
         out.push('<rect x="24" y="16" width="192" height="120" fill="none" stroke="#d4d4ce" stroke-width="1.5"/>');
-        out.push('<rect x="88" y="48" width="64" height="56" fill="#121212" stroke="#10d48e" stroke-width="1.5" stroke-dasharray="4 3"/>');
+        out.push('<rect x="88" y="48" width="64" height="56" fill="#121212" stroke="#b77cff" stroke-width="1.5" stroke-dasharray="4 3"/>');
       }
       if (showTravel) {
-        out.push('<line x1="86" y1="76" x2="154" y2="76" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5 4"/>');
-        out.push('<text x="120" y="71" text-anchor="middle" fill="#f59e0b" font-family="var(--font-mono)" font-size="9">SPRUNG / TRIM</text>');
+        out.push('<line x1="86" y1="76" x2="154" y2="76" stroke="#8f8aa0" stroke-width="1.5" stroke-dasharray="5 4"/>');
+        out.push('<text x="120" y="71" text-anchor="middle" fill="#8f8aa0" font-family="var(--font-mono)" font-size="9">SPRUNG / TRIM</text>');
       }
       if (showGuides) {
-        out.push('<line x1="18" y1="142" x2="222" y2="142" stroke="#10d48e" stroke-width="1.4"/>');
-        out.push('<text x="120" y="149" text-anchor="middle" fill="#10d48e" font-family="var(--font-mono)" font-size="8.5">WINKEL 0° · LOCH FREI (X=4..8 MM)</text>');
+        out.push('<line x1="18" y1="142" x2="222" y2="142" stroke="#b77cff" stroke-width="1.4"/>');
+        out.push('<text x="120" y="149" text-anchor="middle" fill="#b77cff" font-family="var(--font-mono)" font-size="8.5">WINKEL 0° · LOCH FREI (X=4..8 MM)</text>');
       }
       if (showPoints) {
         [[26,20],[86,54],[154,54],[214,20],[26,132],[214,132],[86,96],[154,96]].forEach(function (p) {
@@ -319,7 +319,7 @@
         });
       }
     } else if (key === 'satin') {
-      var colS = state.thread ? '#d4d4ce' : '#10d48e';
+      var colS = state.thread ? '#d4d4ce' : '#b77cff';
       /* Left rail: (76,128)->(76,28); Right rail: (148,128)->(172,20) */
       var steps = 16, pts = [];
       for (var i = 0; i <= steps; i++) {
@@ -334,9 +334,9 @@
         out.push('<line x1="148" y1="128" x2="172" y2="20" stroke="#d4d4ce" stroke-width="1.5"/>');
       }
       if (showGuides) {
-        out.push('<line x1="76" y1="128" x2="148" y2="128" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="3 3"/>');
-        out.push('<line x1="76" y1="28" x2="172" y2="20" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="3 3"/>');
-        out.push('<line x1="112" y1="128" x2="124" y2="24" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4 3"/>');
+        out.push('<line x1="76" y1="128" x2="148" y2="128" stroke="#8f8aa0" stroke-width="1.4" stroke-dasharray="3 3"/>');
+        out.push('<line x1="76" y1="28" x2="172" y2="20" stroke="#8f8aa0" stroke-width="1.4" stroke-dasharray="3 3"/>');
+        out.push('<line x1="112" y1="128" x2="124" y2="24" stroke="#d9bfff" stroke-width="1.2" stroke-dasharray="4 3"/>');
       }
       if (showPoints) {
         pts.forEach(function (pair) {
@@ -345,15 +345,15 @@
         });
       }
     } else {
-      var colE = state.thread ? '#38bdf8' : '#38bdf8';
+      var colE = state.thread ? '#d9bfff' : '#d9bfff';
       out.push('<polyline points="36,122 84,122 132,122 132,74" fill="none" stroke="' + colE + '" stroke-width="' + (state.thread ? '3.2' : '2.4') + '"/>');
       if (showTravel) {
-        out.push('<line x1="132" y1="74" x2="204" y2="74" stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="6 4"/>');
-        out.push('<text x="168" y="66" text-anchor="middle" fill="#f59e0b" font-family="var(--font-mono)" font-size="9">JUMP</text>');
+        out.push('<line x1="132" y1="74" x2="204" y2="74" stroke="#8f8aa0" stroke-width="1.6" stroke-dasharray="6 4"/>');
+        out.push('<text x="168" y="66" text-anchor="middle" fill="#8f8aa0" font-family="var(--font-mono)" font-size="9">JUMP</text>');
       }
       out.push('<line x1="204" y1="74" x2="204" y2="26" stroke="' + colE + '" stroke-width="' + (state.thread ? '3.2' : '2.4') + '"/>');
       if (showGuides) {
-        out.push('<text x="84" y="138" text-anchor="middle" fill="#10d48e" font-family="var(--font-mono)" font-size="8.5">RUN 2,0 MM · ECKE EXAKT</text>');
+        out.push('<text x="84" y="138" text-anchor="middle" fill="#b77cff" font-family="var(--font-mono)" font-size="8.5">RUN 2,0 MM · ECKE EXAKT</text>');
       }
       if (showPoints) {
         [[36,122],[84,122],[132,122],[132,74],[204,74],[204,26]].forEach(function (p) {
