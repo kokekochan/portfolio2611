@@ -181,26 +181,19 @@
     .heine-case__img img { display: block; width: 100%; height: auto; }
     .heine-case__main .heine-case__img img { max-height: 82vh; object-fit: contain; }
     @media (max-width: 760px) { .heine-case { grid-template-columns: minmax(0, 1fr); } }
-    /* Akte 666 intro: lede + vertical Japanese title plate */
-    .akte-intro { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; }
-    .akte-jp { margin: 0; }
-    .akte-jp__plate {
-      display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(16px, 2.4vw, 32px);
-      padding: clamp(18px, 2.4vw, 28px); border: var(--stroke-frame) solid var(--frame); background: var(--ground);
-    }
-    .akte-jp__kana {
+    /* Akte 666: Japanese title as a spine along the live station */
+    .akte-stage { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(14px, 1.8vw, 24px); align-items: stretch; }
+    .akte-spine {
       margin: 0; writing-mode: vertical-rl; text-orientation: upright;
-      font: 700 clamp(28px, 3.1vw, 44px)/1 "Yu Gothic UI", "Yu Gothic", "Meiryo", "Hiragino Sans", "Noto Sans JP", sans-serif;
-      letter-spacing: .06em; color: var(--signal);
-      padding-left: clamp(14px, 2vw, 24px); border-left: 2px solid var(--signal);
+      display: flex; align-items: center; justify-content: flex-start; letter-spacing: .08em;
+      padding: 6px clamp(10px, 1.2vw, 16px) 6px 0; border-right: 2px solid var(--signal);
+      font: 700 clamp(22px, 3vw, 46px)/1 "Yu Gothic UI", "Yu Gothic", "Meiryo", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      color: var(--signal);
     }
-    .akte-jp__meta { display: grid; align-content: end; gap: 10px; min-width: 0; }
-    .akte-jp__latin { margin: 0; font: 700 clamp(18px, 1.9vw, 26px)/1.1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text); overflow-wrap: anywhere; }
-    .akte-jp__romaji { margin: 0; font: 13px/1.4 var(--font-mono); color: var(--text-muted); padding-bottom: 12px; border-bottom: 1px solid var(--frame); }
-    .akte-jp__dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; font: 12px/1.45 var(--font-mono); }
-    .akte-jp__dl dt { color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; }
-    .akte-jp__dl dd { margin: 0; color: var(--text); }
-    @media (max-width: 860px) { .akte-intro { grid-template-columns: minmax(0, 1fr); } .akte-jp { max-width: 440px; } }
+    @media (max-width: 760px) {
+      .akte-stage { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+      .akte-spine { writing-mode: horizontal-tb; justify-content: flex-start; padding: 0 0 10px; border-right: 0; border-bottom: 2px solid var(--signal); font-size: clamp(20px, 6.2vw, 28px); letter-spacing: .04em; }
+    }
     /* Akte 666 live computer frame */
     .akte-frame { position: relative; width: 100%; aspect-ratio: 1360 / 880; background: #050303; }
     .akte-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
@@ -617,29 +610,11 @@ sew  (70,40)   end
           <p class="pb-sectionhead__status">Fig. 04 · Anime-Adaption (Schwarzesmarken) · Interaktive Datenstation</p>
         </div>
 
-        <div class="akte-intro">
-          <p class="pb-lede">Eine interaktive Fan- und Interface-Adaption des Animes „<a href="https://de.wikipedia.org/wiki/Schwarzesmarken" target="_blank" rel="noopener">Schwarzesmarken</a>“: Das fiktive 1983er-Dossier der Anime-Figur Katia Waldheim, umgesetzt als vollständig bedienbare Robotron-CRT-Datenstation direkt hier im Browser.</p>
-
-          <figure class="pb-plate akte-jp">
-            <span class="pb-label">Typografie · Originaltitel</span>
-            <div class="pb-reg" data-register>
-              <div class="akte-jp__plate">
-                <p class="akte-jp__kana" lang="ja" aria-label="Schwarzesmarken, japanischer Originaltitel">シュヴァルツェスマーケン</p>
-                <div class="akte-jp__meta">
-                  <p class="akte-jp__latin">Schwarzesmarken</p>
-                  <p class="akte-jp__romaji" lang="ja-Latn">Shuvarutsesumāken</p>
-                  <dl class="akte-jp__dl">
-                    <dt>Vorlage</dt><dd>Light-Novel-Reihe</dd>
-                    <dt>Anime</dt><dd>2016 · 12 Folgen</dd>
-                    <dt>Hier</dt><dd>Grundlage für Akte 666</dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-          </figure>
-        </div>
+        <p class="pb-lede">Eine interaktive Fan- und Interface-Adaption des Animes „<a href="https://de.wikipedia.org/wiki/Schwarzesmarken" target="_blank" rel="noopener">Schwarzesmarken</a>“: Das fiktive 1983er-Dossier der Anime-Figur Katia Waldheim, umgesetzt als vollständig bedienbare Robotron-CRT-Datenstation direkt hier im Browser.</p>
 
         <figure class="shot">
+          <div class="akte-stage">
+          <p class="akte-spine" lang="ja" title="Schwarzesmarken (Shuvarutsesumāken)">シュヴァルツェスマーケン</p>
           <div class="pb-reg" data-register>
             <div class="pb-window">
               <div class="pb-window__bar"><code>ffv-67 · anime-adaption · akte-666/index.html</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
@@ -648,7 +623,8 @@ sew  (70,40)   end
               </div>
             </div>
           </div>
-          <figcaption>Interaktive Anime-Adaption (Schwarzesmarken) live im Portfolio: Klick oder Eingabetaste überspringt den Systemstart, Tasten 1–9 oder das Menü wechseln zwischen den neun fiktiven Akten-Ansichten der Figur (Stammdaten, Dienstausweis, Kontaktbogen, Fernschreiben, Ortung, TSF-Ausrüstung).</figcaption>
+          </div>
+          <figcaption>Vorlage ist die Light-Novel-Reihe „Schwarzesmarken“, 2016 als Anime in 12 Folgen verfilmt. Interaktive Anime-Adaption live im Portfolio: Klick oder Eingabetaste überspringt den Systemstart, Tasten 1–9 oder das Menü wechseln zwischen den neun fiktiven Akten-Ansichten der Figur (Stammdaten, Dienstausweis, Kontaktbogen, Fernschreiben, Ortung, TSF-Ausrüstung).</figcaption>
         </figure>
 
         <div class="pb-notes pb-feed">
