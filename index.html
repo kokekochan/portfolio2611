@@ -132,7 +132,7 @@
       color: var(--text); cursor: pointer;
     }
     .god-arms button.is-active, .god-arms button:hover { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
-    /* Heine plates & SCHEDA-style UI mockup */
+    /* Heine plates, snake case study & software preview (section purple) */
     .heine-hex, .heine-rec { margin: 0; font: 13px/1.7 var(--font-mono); white-space: pre; overflow-x: auto; }
     .heine-hex { padding: 18px 18px 20px; aspect-ratio: 4 / 3; box-sizing: border-box; display: grid; align-content: center; }
     .heine-hex__dim { color: var(--text-muted); }
@@ -141,7 +141,7 @@
     .heine-rec { color: var(--text); }
     .heine-rec b { color: var(--signal); }
     .heine-ui {
-      --hui-em: #0B3B2E; --hui-em-hi: #10d48e; --hui-sil: #D4D4CE; --hui-bg: #121212; --hui-panel: #191b1a; --hui-rule: #2a332f;
+      --hui-em: #2a1d3d; --hui-em-hi: var(--signal, #b77cff); --hui-sil: #D4D4CE; --hui-bg: #121114; --hui-panel: #1a181d; --hui-rule: #332d3b;
       border: var(--stroke-frame) solid var(--hui-sil); background: var(--hui-bg); color: var(--hui-sil);
       box-shadow: 8px 8px 0 var(--hui-em-hi); font-family: var(--font-mono);
     }
@@ -150,7 +150,6 @@
       padding: 8px 12px; background: var(--hui-em); color: var(--hui-sil); border-bottom: 2px solid var(--hui-sil);
       font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700;
     }
-    .heine-ui__badge { background: var(--hui-em-hi); color: #0b1612; padding: 3px 7px; font-size: 11px; }
     .heine-ui__tools {
       display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 10px 12px;
       background: var(--hui-panel); border-bottom: 1px solid var(--hui-rule);
@@ -161,20 +160,25 @@
       padding: 7px 10px; border: 1.5px solid var(--hui-rule); background: var(--hui-bg); color: var(--hui-sil); cursor: pointer;
     }
     .heine-ui button:hover { border-color: var(--hui-em-hi); color: var(--hui-em-hi); }
-    .heine-ui button.is-on { background: var(--hui-em-hi); border-color: var(--hui-em-hi); color: #0b1612; }
+    .heine-ui button.is-on { background: var(--hui-em-hi); border-color: var(--hui-em-hi); color: #140d1f; }
     .heine-ui__body { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(240px, .9fr); }
-    .heine-ui__stage { padding: 14px; background: #0d0f0e; border-right: 1px solid var(--hui-rule); display: grid; align-items: center; }
+    .heine-ui__stage { padding: 14px; background: #0e0d10; border-right: 1px solid var(--hui-rule); display: grid; align-items: center; }
     .heine-ui__stage svg { display: block; width: 100%; height: auto; }
     .heine-ui__insp { padding: 14px; background: var(--hui-panel); display: grid; gap: 10px; align-content: start; }
     .heine-ui__insp h4 { margin: 0; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--hui-em-hi); border-bottom: 1px solid var(--hui-rule); padding-bottom: 6px; }
     .heine-ui__dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 5px 12px; font-size: 11.5px; line-height: 1.45; }
-    .heine-ui__dl dt { color: #8c9690; text-transform: uppercase; letter-spacing: .06em; }
+    .heine-ui__dl dt { color: #948da0; text-transform: uppercase; letter-spacing: .06em; }
     .heine-ui__dl dd { margin: 0; color: var(--hui-sil); overflow-wrap: anywhere; }
     .heine-ui__dl dd b { color: var(--hui-em-hi); }
     .heine-ui__status {
       padding: 7px 12px; background: var(--hui-em); color: var(--hui-sil); border-top: 1px solid var(--hui-rule);
       font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
     }
+    .heine-case { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--space-5, 32px); align-items: start; }
+    .heine-case__img { background: #111; border: var(--stroke-frame) solid var(--frame); padding: clamp(12px, 3vw, 28px); }
+    .heine-case__img img { display: block; width: 100%; height: auto; }
+    .heine-case__main .heine-case__img img { max-height: 82vh; object-fit: contain; }
+    @media (max-width: 760px) { .heine-case { grid-template-columns: minmax(0, 1fr); } }
     /* Akte 666 live computer frame */
     .akte-frame { position: relative; width: 100%; aspect-ratio: 1360 / 880; background: #050303; }
     .akte-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
@@ -449,7 +453,24 @@ Guthaben &lt; R_t  ⇒  <b>Shortfall</b> (Ermüdung baut nicht ab → Kosten-Spi
           <p class="pb-sectionhead__status">Fig. 03 · Analyse / Zerlegung</p>
         </div>
 
-        <p class="pb-lede">Heine wird eine eigene Software zum Digitalisieren von Stickmotiven. Dafür lese ich Stickmaschinen-Dateien Byte für Byte und beschreibe das Verhalten einer Profi-Software, ohne deren Code anzufassen.</p>
+        <p class="pb-lede">Ich digitalisiere Stickmotive selbst, zum Beispiel diese Schlange mit Rose. Aus dieser Arbeit entsteht Heine, eine eigene Software zum Digitalisieren. Dafür lese ich Stickmaschinen-Dateien Byte für Byte und beschreibe das Verhalten einer Profi-Software, ohne deren Code anzufassen.</p>
+
+        <div class="heine-case">
+          <figure class="shot pb-plate heine-case__main">
+            <span class="pb-label">Artwork · Stickmotiv</span>
+            <div class="heine-case__img">
+              <img src="assets/heine-schlange.png" alt="Stickmotiv: eine weiße Schlange windet sich um den Stiel einer roten Rose mit grünen Blättern, das Maul weit offen" width="1400" height="1898" loading="lazy">
+            </div>
+            <figcaption>„Dieses Schlangenmotiv habe ich in Inkscape mit Ink/Stitch für die Stickmaschine digitalisiert.“</figcaption>
+          </figure>
+          <figure class="shot pb-plate heine-case__detail">
+            <span class="pb-label">Artwork · Detail</span>
+            <div class="heine-case__img">
+              <img src="assets/heine-schlange-detail.png" alt="Ausschnitt: Kopf der Schlange mit offenem Maul und roter Zunge" width="1200" height="1200" loading="lazy">
+            </div>
+            <figcaption>Kopf der Schlange. Die Flächen sind als Füllstich mit Unterlage angelegt, meist mit 0,35 mm Reihenabstand. Die Stickdatei hat 45.305 Stiche in drei Farben.</figcaption>
+          </figure>
+        </div>
 
         <div class="pb-window pb-crt" style="max-width:640px">
           <div class="pb-window__bar"><code>reverse-spec</code><span class="pb-window__controls" aria-hidden="true"><i></i><i></i></span></div>
@@ -522,12 +543,11 @@ sew  (70,40)   end
         </div>
 
         <figure class="shot" id="heine-ui-mockup">
-          <span class="pb-label">UI-Entwurf · Heine in der SCHEDA-Formensprache (interaktives Konzept-Mockup)</span>
+          <span class="pb-label">Software-Vorschau · Heine</span>
           <div class="pb-reg" data-register>
             <div class="heine-ui">
               <div class="heine-ui__bar">
-                <span>HEINE · DIGITIZING WORKBENCH · ARCHIV-STIL (SCHEDA)</span>
-                <span class="heine-ui__badge">KONZEPT-MOCKUP</span>
+                <span>HEINE · DIGITIZING WORKBENCH</span>
               </div>
               <div class="heine-ui__tools">
                 <div class="heine-ui__group" role="group" aria-label="Testmotive">
@@ -552,7 +572,7 @@ sew  (70,40)   end
               <div class="heine-ui__status" data-heine-status></div>
             </div>
           </div>
-          <figcaption>Interaktiver Oberflächen-Entwurf für Heine in SCHEDAs dunkler Smaragd-Silber-Archivsprache (#0B3B2E / #D4D4CE / #121212). Alle drei Motive, Ansichts-Schalter und Objektfelder stammen direkt aus der Heine-Canvas-Spezifikation.</figcaption>
+          <figcaption>So soll Heine aussehen. Die Schalter funktionieren: Motiv wählen, Stichpunkte, Winkel, Sprünge und Faden-Vorschau ein- oder ausblenden. Motive und Objektfelder stammen aus der Heine-Spezifikation. Die Software selbst ist noch nicht gebaut.</figcaption>
         </figure>
 
         <div class="links pb-label">
