@@ -281,6 +281,107 @@
     }
   };
 
+  /* ── Snake motif: SCHLANGENFRIST.dst as decoded by Heine's own DST decoder (assets/heine-snake-data.js) ── */
+  var SNAKE = window.HEINE_SNAKE || null;
+  var SNAKE_TONES = ['#b77cff', '#d4d4ce', '#d9bfff'];   /* one accent family: purple / silver / lilac */
+  var SNAKE_TYPE_FRAMES = 10, SNAKE_SEW_FRAMES = 66, SNAKE_FRAME_MS = 83;   /* ≈ 12 fps, stepped */
+  var SNAKE_FRAMES = SNAKE_TYPE_FRAMES + SNAKE_SEW_FRAMES;
+  var snakeRuns = [], snakeTotalPts = 0;
+  if (SNAKE) {
+    SNAKE.segs.forEach(function (s) {
+      var pts = [[s[3], s[4]]];
+      for (var i = 5; i < s.length; i += 2) {
+        var p = pts[pts.length - 1];
+        pts.push([p[0] + s[i], p[1] + s[i + 1]]);
+      }
+      snakeRuns.push({ thread: s[0], jumps: s[1], sews: s[2], pts: pts, start: snakeTotalPts });
+      snakeTotalPts += pts.length;
+    });
+    HEINE_OBJECTS.snake = {
+      name: 'Stickdatei SCHLANGENFRIST.dst',
+      hint: ''
+    };
+  }
+  function fmtDe(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function mmDe(units) { return (units / 10).toFixed(1).replace('.', ','); }
+
+  /* Progress for a frame: points drawn, live counters, current thread. */
+  function snakeProgress(frame) {
+    var f = Math.max(0, frame - SNAKE_TYPE_FRAMES);
+    var upto = Math.round(snakeTotalPts * Math.min(1, f / SNAKE_SEW_FRAMES));
+    var sews = 0, jumps = 0, thread = 0, last = null;
+    for (var r = 0; r < snakeRuns.length; r++) {
+      var run = snakeRuns[r];
+      if (upto <= run.start) break;
+      var n = Math.min(run.pts.length, upto - run.start);
+      jumps += run.jumps;
+      sews += n === run.pts.length ? run.sews : Math.round(run.sews * (n - 1) / Math.max(1, run.pts.length - 1));
+      thread = run.thread;
+      last = run.pts[n - 1];
+    }
+    if (upto >= snakeTotalPts) { sews = SNAKE.counts.sew; jumps = SNAKE.counts.jump; }
+    return { upto: upto, sews: sews, jumps: jumps, thread: thread, last: last, done: upto >= snakeTotalPts };
+  }
+
+  function renderSnakeSvg(state, prog) {
+    var w = SNAKE.w, h = SNAKE.h, pad = 70, out = [];
+    for (var gx = 0; gx <= w; gx += 100) out.push('<line x1="' + gx + '" y1="-' + pad + '" x2="' + gx + '" y2="' + (h + pad) + '" stroke="rgba(212,212,206,.07)" stroke-width="3"/>');
+    for (var gy = 0; gy <= h; gy += 100) out.push('<line x1="-' + pad + '" y1="' + gy + '" x2="' + (w + pad) + '" y2="' + gy + '" stroke="rgba(212,212,206,.07)" stroke-width="3"/>');
+    var prevEnd = null;
+    for (var r = 0; r < snakeRuns.length; r++) {
+      var run = snakeRuns[r];
+      if (prog.upto <= run.start) break;
+      var n = Math.min(run.pts.length, prog.upto - run.start);
+      if (run.jumps && prevEnd && state.travel && !state.thread) {
+        out.push('<line x1="' + prevEnd[0] + '" y1="' + prevEnd[1] + '" x2="' + run.pts[0][0] + '" y2="' + run.pts[0][1] + '" stroke="#8f8aa0" stroke-width="4" stroke-dasharray="22 14"/>');
+      }
+      var d = 'M' + run.pts[0][0] + ' ' + run.pts[0][1];
+      for (var i = 1; i < n; i++) d += 'L' + run.pts[i][0] + ' ' + run.pts[i][1];
+      var col = state.thread ? SNAKE.threads[run.thread].real : SNAKE_TONES[run.thread % SNAKE_TONES.length];
+      out.push('<path d="' + d + '" fill="none" stroke="' + col + '" stroke-width="' + (state.thread ? 4.4 : 2.2) + '" stroke-linejoin="round"/>');
+      prevEnd = run.pts[n - 1];
+    }
+    if (state.guides && !state.thread) {
+      out.push('<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="none" stroke="#b77cff" stroke-width="4" stroke-dasharray="26 16"/>');
+      out.push('<text x="' + (w / 2) + '" y="' + (h + 56) + '" text-anchor="middle" fill="#b77cff" font-family="Cascadia Mono, Consolas, monospace" font-size="52">' + mmDe(w) + ' × ' + mmDe(h) + ' MM</text>');
+    }
+    if (state.points && !state.thread && prog.last) {
+      out.push('<rect x="' + (prog.last[0] - 16) + '" y="' + (prog.last[1] - 16) + '" width="32" height="32" fill="#d4d4ce"/>');
+    }
+    return '<svg class="is-portrait" viewBox="' + (-pad) + ' ' + (-pad) + ' ' + (w + 2 * pad) + ' ' + (h + 2 * pad) + '" role="img" aria-label="Heine liest SCHLANGENFRIST.dst: decodierte Stichfolge der Schlange mit Rose, ' + fmtDe(prog.sews) + ' von ' + fmtDe(SNAKE.counts.sew) + ' Stichen">' + out.join('') + '</svg>';
+  }
+
+  function snakeStatus(frame, prog, flash) {
+    var hdr = 'LA:' + SNAKE.header.LA + '  ST:' + SNAKE.header.ST + '  CO:' + SNAKE.header.CO;
+    if (frame < SNAKE_TYPE_FRAMES) {
+      return 'HEINE LIEST ' + SNAKE.source.toUpperCase() + ' · ' + hdr.slice(0, Math.ceil(hdr.length * (frame + 1) / SNAKE_TYPE_FRAMES)) + '█';
+    }
+    if (flash) return '■ FARBWECHSEL ' + flash + ' → ' + (flash + 1) + ' ■';
+    if (!prog.done) return 'NADEL LÄUFT · FADEN ' + (prog.thread + 1) + '/' + SNAKE.counts.threads + ' · SEW ' + fmtDe(prog.sews) + ' · JUMP ' + fmtDe(prog.jumps);
+    return 'ENDE · KOPF SAGT ST ' + fmtDe(SNAKE.header.ST) + ' · DECODIERT ' + fmtDe(SNAKE.counts.sew) + ' STICHE + ' + fmtDe(SNAKE.counts.jump) + ' SPRÜNGE · KOPF NICHT VERWENDET';
+  }
+
+  function snakeInspector(state, prog) {
+    var t = SNAKE.threads[prog.thread];
+    var tone = state.thread ? t.name.toUpperCase() + ' ' + t.real.toUpperCase() : 'TON ' + SNAKE_TONES[prog.thread % SNAKE_TONES.length].toUpperCase();
+    return [
+      ['Objekt-ID', SNAKE.source],
+      ['Werkzeug', '<b>DST-LESER (HEINE)</b>'],
+      ['Faden', (prog.thread + 1) + '/' + SNAKE.counts.threads + ' · ' + tone],
+      ['Größe', mmDe(SNAKE.w) + ' × ' + mmDe(SNAKE.h) + ' mm'],
+      ['Stichlänge', 'max. ' + String(SNAKE.maxStitchMm).replace('.', ',') + ' mm (decodiert)'],
+      ['Abstand', 'meist 0,35 mm (Ink/Stitch)'],
+      ['Kompensation', 'pull 0,15 mm (Ink/Stitch)'],
+      ['Kopf', 'ST ' + fmtDe(SNAKE.header.ST) + ' · nicht verwendet'],
+      ['Stiche', '<b>' + fmtDe(prog.sews) + ' / ' + fmtDe(SNAKE.counts.sew) + '</b>'],
+      ['Sprünge', '<b>' + fmtDe(prog.jumps) + ' / ' + fmtDe(SNAKE.counts.jump) + '</b>']
+    ].map(function (row) {
+      /* values are built from local numbers/strings only; escape all but the intended <b> wrapper */
+      var v = row[1].indexOf('<b>') === 0 ? '<b>' + esc(row[1].slice(3, -4)) + '</b>' : esc(row[1]);
+      return '<dt>' + esc(row[0]) + '</dt><dd>' + v + '</dd>';
+    }).join('');
+  }
+
   function renderHeineSvg(key, state) {
     var showPoints = !state.thread && state.points;
     var showGuides = !state.thread && state.guides;
@@ -372,10 +473,57 @@
     var status = root.querySelector('[data-heine-status]');
     var objBtns = Array.prototype.slice.call(root.querySelectorAll('[data-heine-obj]'));
     var togBtns = Array.prototype.slice.call(root.querySelectorAll('[data-heine-toggle]'));
-    var state = { key: 'tatami', points: true, guides: true, travel: true, thread: false };
+    var replayBtn = root.querySelector('[data-heine-replay]');
+    if (!SNAKE) {   /* data file missing: drop the snake motif, keep the panel working */
+      objBtns = objBtns.filter(function (b) {
+        if (b.getAttribute('data-heine-obj') !== 'snake') return true;
+        b.parentNode.removeChild(b); return false;
+      });
+      if (replayBtn) replayBtn.parentNode.removeChild(replayBtn);
+      replayBtn = null;
+    }
+    var state = { key: SNAKE ? 'snake' : 'tatami', points: true, guides: true, travel: true, thread: false };
+    /* Snake player: frame 0 = not started; SNAKE_FRAMES = finished. Reduced motion shows the end at once. */
+    var snake = { frame: reduce ? SNAKE_FRAMES : 0, timer: null, flash: 0, flashLeft: 0, lastThread: 0, started: reduce };
+
+    function playSnake() {
+      if (!SNAKE) return;
+      clearInterval(snake.timer);
+      snake.started = true;
+      if (reduce) { snake.frame = SNAKE_FRAMES; render(); return; }
+      snake.frame = 0; snake.flash = 0; snake.flashLeft = 0; snake.lastThread = 0;
+      render();
+      snake.timer = setInterval(function () {
+        if (state.key !== 'snake') { clearInterval(snake.timer); snake.frame = SNAKE_FRAMES; return; }
+        snake.frame++;
+        var prog = snakeProgress(snake.frame);
+        if (prog.thread !== snake.lastThread) { snake.flash = snake.lastThread + 1; snake.flashLeft = 2; snake.lastThread = prog.thread; }
+        else if (snake.flashLeft > 0 && --snake.flashLeft === 0) snake.flash = 0;
+        if (snake.frame >= SNAKE_FRAMES) { clearInterval(snake.timer); snake.flash = 0; }
+        render();
+      }, SNAKE_FRAME_MS);
+    }
 
     function render() {
       var o = HEINE_OBJECTS[state.key];
+      if (replayBtn) replayBtn.hidden = state.key !== 'snake';
+      if (state.key === 'snake') {
+        var prog = snakeProgress(snake.frame);
+        objBtns.forEach(function (b) {
+          var on = b.getAttribute('data-heine-obj') === 'snake';
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        togBtns.forEach(function (b) {
+          var on = !!state[b.getAttribute('data-heine-toggle')];
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        if (canvas) canvas.innerHTML = renderSnakeSvg(state, prog);
+        if (inspector) inspector.innerHTML = snakeInspector(state, prog);
+        if (status) status.textContent = (state.thread ? 'FADEN-VORSCHAU · ECHTE GARNFARBEN · ' : '') + snakeStatus(snake.frame, prog, snake.flash);
+        return;
+      }
       objBtns.forEach(function (b) {
         var on = b.getAttribute('data-heine-obj') === state.key;
         b.classList.toggle('is-on', on);
@@ -407,7 +555,10 @@
     }
 
     objBtns.forEach(function (b) {
-      b.addEventListener('click', function () { state.key = b.getAttribute('data-heine-obj'); render(); });
+      b.addEventListener('click', function () {
+        state.key = b.getAttribute('data-heine-obj');
+        if (state.key === 'snake' && !snake.started) playSnake(); else render();
+      });
     });
     togBtns.forEach(function (b) {
       b.addEventListener('click', function () {
@@ -416,7 +567,21 @@
         render();
       });
     });
+    if (replayBtn) replayBtn.addEventListener('click', function () { state.key = 'snake'; playSnake(); });
     render();
+    /* Start sewing once the panel is properly in view. */
+    if (SNAKE && !snake.started) {
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting) { io.disconnect(); if (state.key === 'snake' && !snake.started) playSnake(); }
+          });
+        }, { threshold: 0.35 });
+        io.observe(root);
+      } else {
+        playSnake();
+      }
+    }
   }
 
   function boot() { initScheda(); initGarden(); initHeineMockup(); }

@@ -164,6 +164,8 @@
     .heine-ui__body { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(240px, .9fr); }
     .heine-ui__stage { padding: 14px; background: #0e0d10; border-right: 1px solid var(--hui-rule); display: grid; align-items: center; }
     .heine-ui__stage svg { display: block; width: 100%; height: auto; }
+    .heine-ui__stage svg.is-portrait { width: auto; max-width: 100%; height: min(460px, 68vh); margin: 0 auto; }
+    .heine-ui button[hidden] { display: none; }
     .heine-ui__insp { padding: 14px; background: var(--hui-panel); display: grid; gap: 10px; align-content: start; }
     .heine-ui__insp h4 { margin: 0; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--hui-em-hi); border-bottom: 1px solid var(--hui-rule); padding-bottom: 6px; }
     .heine-ui__dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 5px 12px; font-size: 11.5px; line-height: 1.45; }
@@ -488,7 +490,7 @@ Guthaben &lt; R_t  ⇒  <b>Shortfall</b> (Ermüdung baut nicht ab → Kosten-Spi
             <div class="heine-case__img">
               <img src="assets/heine-schlange-detail.png" alt="Ausschnitt: Kopf der Schlange mit offenem Maul und roter Zunge" width="1200" height="1200" loading="lazy">
             </div>
-            <figcaption>Kopf der Schlange. Die Flächen sind als Füllstich mit Unterlage angelegt, meist mit 0,35 mm Reihenabstand. Die Stickdatei hat 45.305 Stiche in drei Farben.</figcaption>
+            <figcaption>Kopf der Schlange. Die Flächen sind als Füllstich mit Unterlage angelegt, meist mit 0,35 mm Reihenabstand. Die Stickdatei hat 45.148 Stiche und 238 Sprünge in drei Farben.</figcaption>
           </figure>
         </div>
 
@@ -571,9 +573,11 @@ sew  (70,40)   end
               </div>
               <div class="heine-ui__tools">
                 <div class="heine-ui__group" role="group" aria-label="Testmotive">
-                  <button type="button" data-heine-obj="tatami" class="is-on" aria-pressed="true">Tatami + Loch</button>
+                  <button type="button" data-heine-obj="snake" class="is-on" aria-pressed="true">SCHLANGENFRIST.dst</button>
+                  <button type="button" data-heine-obj="tatami" aria-pressed="false">Tatami + Loch</button>
                   <button type="button" data-heine-obj="satin" aria-pressed="false">Satinsäule</button>
                   <button type="button" data-heine-obj="elbow" aria-pressed="false">elbow.dst</button>
+                  <button type="button" data-heine-replay hidden aria-label="Stichfolge noch einmal abspielen">↻ Nochmal</button>
                 </div>
                 <div class="heine-ui__group" role="group" aria-label="Ansichts-Schalter">
                   <button type="button" data-heine-toggle="points" class="is-on" aria-pressed="true">Stichpunkte</button>
@@ -592,7 +596,7 @@ sew  (70,40)   end
               <div class="heine-ui__status" data-heine-status></div>
             </div>
           </div>
-          <figcaption>So soll Heine aussehen. Die Schalter funktionieren: Motiv wählen, Stichpunkte, Winkel, Sprünge und Faden-Vorschau ein- oder ausblenden. Motive und Objektfelder stammen aus der Heine-Spezifikation. Die Software selbst ist noch nicht gebaut.</figcaption>
+          <figcaption>So soll Heine aussehen. Die Schalter funktionieren: Motiv wählen, Stichpunkte, Winkel, Sprünge und Faden-Vorschau ein- oder ausblenden. Das erste Motiv ist meine Stickdatei SCHLANGENFRIST.dst, gelesen mit Heines eigenem DST-Decoder. Die Animation zeigt die decodierte Stichfolge. Die anderen Motive und Objektfelder stammen aus der Heine-Spezifikation. Die Software selbst ist noch nicht gebaut.</figcaption>
         </figure>
 
         <div class="links pb-label">
@@ -730,6 +734,7 @@ sew  (70,40)   end
 
   <script src="assets/scheda-demo-data.js"></script>
   <script src="assets/garden-data.js"></script>
+  <script src="assets/heine-snake-data.js"></script>
   <script src="assets/dossier-demos.js"></script>
   <script>
     window.PB && PB.init();
